@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("PoeSuite")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("CodeWizards")]
 [assembly: AssemblyProduct("PoeSuite")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]

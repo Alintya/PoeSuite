@@ -14,6 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Hardcodet.Wpf.TaskbarNotification;
+using System.IO;
+
 namespace PoeSuite
 {
     /// <summary>
@@ -27,7 +30,19 @@ namespace PoeSuite
         {
             InitializeComponent();
 
-            _logListener = new LogListener("E:\\Games\\Standalone\\Path of Exile\\logs", "Client.txt");
+            TaskbarIcon trayIcon = new TaskbarIcon();
+            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/Icon1.ico")).Stream;
+            trayIcon.Icon = new System.Drawing.Icon(iconStream);
+        }
+
+        
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (WindowState == WindowState.Minimized)
+                this.Hide();
+
+            base.OnStateChanged(e);
         }
     }
 }
