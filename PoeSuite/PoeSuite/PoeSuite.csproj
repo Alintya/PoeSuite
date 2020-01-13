@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{75A5893E-9542-4F78-82A9-49BAED38A7C7}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>PoeSuite</RootNamespace>
     <AssemblyName>PoeSuite</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -38,9 +38,13 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -61,6 +65,8 @@
     </ApplicationDefinition>
     <Compile Include="Game.cs" />
     <Compile Include="HotKeyManager.cs" />
+    <Compile Include="Models\GameSettings.cs" />
+    <Compile Include="Models\TradeRequest.cs" />
     <Compile Include="Utility\ConsoleExtension.cs" />
     <Compile Include="Utility\Discord.cs" />
     <Compile Include="Utility\Logger.cs" />
