@@ -1,82 +1,122 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Security.Permissions;
+using System.Text;
+using System.Linq;
+using System.Threading;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace PoeSuite
 {
-    class LogListener
+    public class LogListener : IDisposable
     {
-        private string _logFilePath;
-        private FileSystemWatcher _watcher = new FileSystemWatcher();
+        private readonly StreamReader _logFileStream;
+        private readonly int _interval;
+        private readonly Dictionary<Regex, Action<string, Match>> _listeners;
+        private Thread _workerThread;
+        private bool _stopThread;
+        private bool _disposed;
 
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public LogListener(string path)
+        public LogListener(string filePath, int checkInterval = 1000)
         {
+            if (!File.Exists(filePath))
+                throw new ArgumentException("File doesnt exist");
 
-            // TODO: check for file
-            _logFilePath = path;
+            _logFileStream = new StreamReader(
+                File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.UTF8, false, 1024);
 
-            _watcher.Path = _logFilePath;
-            // Watch for changes in LastAccess and LastWrite times, and
-            // the renaming of files or directories.
-            _watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
-
-            _watcher.Filter = "Client.txt";
-
-            // Add event handlers.
-            _watcher.Changed += OnChanged;
-
-            // Begin watching.
-            _watcher.EnableRaisingEvents = true;
-            Debug.WriteLine("Watching Client log.");
+            _interval = checkInterval;
+            _listeners = new Dictionary<Regex, Action<string, Match>>();
         }
 
-        // Define the event handlers.
-        private void OnChanged(object source, FileSystemEventArgs e) =>
-            // Specify what is done when a file is changed, created, or deleted.
-            Debug.WriteLine($"File: {e.FullPath} {e.ChangeType}\nline: {ReadLastLineFromUTF8EncodedFile(Path.Combine(_logFilePath, "Client.txt"))}");
-
-        public static string ReadLastLineFromUTF8EncodedFile(string path)
+        public void Dispose()
         {
-            using (Stream fs = File.OpenRead(path))
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public void AddListener(string regex, Action<string, Match> action)
+        {
+            if (_listeners.Any(x => x.Key.ToString() == regex))
+                throw new ArgumentException("Listener for this regex already exists");
+
+            _listeners.Add(new Regex(regex), action);
+        }
+
+        public void StartListening()
+        {
+            if (_workerThread != null)
+                return;
+
+            _workerThread = new Thread(DoWork)
             {
-                if (fs.Length == 0)
-                    return null;
+                IsBackground = true,
+                Priority = ThreadPriority.BelowNormal
+            };
 
-                // start at end of file
-                fs.Position = fs.Length - 1;
+            _stopThread = false;
+            _workerThread.Start();
+        }
 
-                // the file must end with a '\n' char, if not a partial line write is in progress
-                int byteFromFile = fs.ReadByte();
+        public void StopListening()
+        {
+            if (_workerThread == null || _stopThread)
+                return;
 
-                if (byteFromFile != '\n')
+            _stopThread = true;
+            _workerThread.Join();
+            _workerThread = null;
+        }
+
+        private void DoWork()
+        {
+            var lineCache = new List<string>();
+
+            _logFileStream.BaseStream.Seek(0, SeekOrigin.End);
+
+            while (!_stopThread)
+            {
+                while (!_logFileStream.EndOfStream)
                 {
-                    // partial line write in progress, do not return the line yet
-                    return null;
+                    var currLine = _logFileStream.ReadLine();
+                    if (currLine.Length == 0)
+                        continue;
+
+                    lineCache.Add(currLine);
                 }
 
-                fs.Position--;
-
-                // read bytes backwards until '\n' byte is hit
-                while (fs.Position > 0)
+                if (lineCache.Count > 0)
                 {
-                    fs.Position--;
+                    lineCache.Reverse();
 
-                    byteFromFile = fs.ReadByte();
+                    foreach (var listener in _listeners)
+                    {
+                        foreach (var line in lineCache)
+                        {
+                            var match = listener.Key.Match(line);
+                            if (match.Success)
+                            {
+                                listener.Value(line, match);
+                                break;
+                            }
+                        }
+                    }
 
-                    if (byteFromFile < 0)
-                        throw new IOException("Error reading from file at " + path);
-                    else if (byteFromFile == '\n')
-                        break;
-
-                    fs.Position--;
+                    lineCache.Clear();
                 }
 
-                // fs.Position will be right after the '\n' char or position 0 if no '\n' char
-                byte[] bytes = new BinaryReader(fs).ReadBytes((int)(fs.Length - fs.Position));
-                return System.Text.Encoding.UTF8.GetString(bytes);
+                Thread.Sleep(_interval);
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+            if (disposing)
+                this.StopListening();
+
+            _disposed = true;
         }
     }
 }
