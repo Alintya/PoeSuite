@@ -21,14 +21,13 @@ namespace PoeSuite
     /// </summary>
     public partial class MainWindow : Window
     {
+        private LogListener _logListener;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            //var test = new LogListener("C:\\Users\\myste\\OneDrive\\Desktop");
-        var test = new LogListener("E:\\Games\\SteamLibrary\\steamapps\\common\\Path of Exile\\logs");
-        
-            while (true) ;
+            _logListener = new LogListener("E:\\Games\\Standalone\\Path of Exile\\logs", "Client.txt");
         }
     }
 }
