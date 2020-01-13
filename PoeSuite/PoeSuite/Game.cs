@@ -7,20 +7,27 @@ using System.Threading.Tasks;
 
 namespace PoeSuite
 {
-    class Game
+    public class Game
     {
-        public static readonly string[] ExecutableNames = { "PathOfExile.exe", "PathOfExile_x64.exe", "PathOfExileSteam.exe", "PathOfExile_x64Steam.exe", "PathOfExile_KG.exe", "PathOfExile_x64_KG.exe" };
-
-        static Process[] GetRunningInstances()
+        private static readonly string[] _executableNames =
         {
-            var instances = new Process[] { };
-
-            return instances;
-        }
+            "PathOfExile.exe",
+            "PathOfExile_x64.exe",
+            "PathOfExileSteam.exe",
+            "PathOfExile_x64Steam.exe",
+            "PathOfExile_KG.exe",
+            "PathOfExile_x64_KG.exe"
+        };
 
         public Game()
         {
 
+        }
+
+        public static IEnumerable<Process> GetRunningInstances()
+        {
+            return Process.GetProcesses()
+                .Where(x => _executableNames.Contains(x.ProcessName));
         }
     }
 }
