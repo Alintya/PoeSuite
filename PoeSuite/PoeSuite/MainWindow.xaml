@@ -4,10 +4,67 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PoeSuite"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
         Icon="Icon1.ico"
         Title="MainWindow" Height="450" Width="800">
+
     <Grid>
+        <tb:TaskbarIcon x:Name="myNotifyIcon"
+                    Visibility="Visible"
+                    ToolTipText="Fallback ToolTip for Windows xp"
+                    IconSource="Icon1.ico"
+                    MenuActivation="RightClick"
+                    PopupActivation="LeftClick">
+            
+            <tb:TaskbarIcon.TrayToolTip>
+                <Border
+                    Background="White"
+                    BorderBrush="Orange"
+                    BorderThickness="2"
+                    CornerRadius="4"
+                    Opacity="0.8"
+                    Width="160"
+                    Height="40">
+                    <TextBlock
+                        Text="hello world"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                    />
+                </Border>
+            </tb:TaskbarIcon.TrayToolTip>
+
+            <tb:TaskbarIcon.TrayPopup>
+                <Border
+                    Background="White"
+                    BorderBrush="Orange"
+                    BorderThickness="2"
+                    CornerRadius="4"
+                    Width="160"
+                    Height="40">
+                    <Button
+                        Content="Click Me!"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                </Border>
+            </tb:TaskbarIcon.TrayPopup>
+
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu
+                    Background="LightCoral">
+                    <MenuItem Header="First Menu Item" />
+                    <MenuItem Header="Second Menu Item" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+
+        </tb:TaskbarIcon>
+                    <!--
+                    ContextMenu="{StaticResource TrayMenu}"
+                    
+                    TrayPopup="{StaticResoure TrayStatusPopup}"
+                    PopupActivation="DoubleClick"
+                    TrayToolTip="{StaticResource TrayToolTip}"
+                    -->
         
     </Grid>
 </Window>

@@ -29,10 +29,16 @@ namespace PoeSuite
         public MainWindow()
         {
             InitializeComponent();
-
+            /*
             TaskbarIcon trayIcon = new TaskbarIcon();
             Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/Icon1.ico")).Stream;
             trayIcon.Icon = new System.Drawing.Icon(iconStream);
+            */
+            myNotifyIcon.TrayMouseDoubleClick += (object x, RoutedEventArgs y) =>
+                {
+                    this.Show();
+                    this.WindowState = WindowState.Normal;
+                };
         }
 
         
