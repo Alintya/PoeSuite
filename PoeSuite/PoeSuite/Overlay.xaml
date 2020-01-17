@@ -6,9 +6,11 @@
         xmlns:local="clr-namespace:PoeSuite"
         mc:Ignorable="d"
         Title="Overlay" Height="450" Width="800"
-        WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" Activated="Window_Activated" Deactivated="Window_Deactivated">
+        WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" Activated="Window_Activated" Deactivated="Window_Deactivated" ShowInTaskbar="False" WindowState="Maximized" SourceInitialized="Window_SourceInitialized">
+
+    <!-- IsHitTestVisible="False" -->
     <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="341,247,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="341,247,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
 
     </Grid>
 </Window>
