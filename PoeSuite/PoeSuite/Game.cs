@@ -18,7 +18,7 @@ namespace PoeSuite
             "PathOfExileSteam.exe",
             "PathOfExile_x64Steam.exe",
             "PathOfExile_KG.exe",
-            "PathOfExile_x64_KG.exe"
+            "PathOfExile_x64_KG.exe" 
         };
 
         public Game()
