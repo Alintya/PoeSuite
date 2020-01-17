@@ -9,7 +9,7 @@ using static PoeSuite.Imports.Iphlpapi;
 
 namespace PoeSuite
 {
-    public class Game
+    internal class Game
     {
         private static readonly string[] _executableNames =
         {
@@ -18,13 +18,38 @@ namespace PoeSuite
             "PathOfExileSteam.exe",
             "PathOfExile_x64Steam.exe",
             "PathOfExile_KG.exe",
-            "PathOfExile_x64_KG.exe" 
+            "PathOfExile_x64_KG.exe"
         };
+
+        private static readonly object _padlock = new object();
+        private static Game _instance = null;
+
+        private Process _proc = default;
+
+
+        public bool IsValid => _proc != null && !_proc.HasExited;
 
         public Game()
         {
 
         }
+
+        public static Game Get
+        {
+            get
+            {
+                lock (_padlock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new Game();
+                    }
+                    return _instance;
+                }
+            }
+        }
+
+        
 
         public static IEnumerable<Process> GetRunningInstances()
         {
@@ -32,7 +57,7 @@ namespace PoeSuite
                 .Where(x => _executableNames.Contains(x.ProcessName));
         }
 
-        public static bool CloseTcpConnections(Process proc, IpVersion ipVersion)
+        public bool CloseTcpConnections(IpVersion ipVersion)
         {
             var connections = TcpHelper.GetTcpConnections(ipVersion, TcpTableClass.OwnerPidAll);
             if (connections.Count == 0)
@@ -40,9 +65,12 @@ namespace PoeSuite
 
             foreach(var connection in connections)
             {
-                if (!TcpHelper.CloseConnection(connection))
+                if (connection.OwningPid == _proc.Id)
                 {
-                    // TODO
+                    if (!TcpHelper.CloseConnection(connection))
+                    {
+                        // TODO
+                    }
                 }
             }
 
