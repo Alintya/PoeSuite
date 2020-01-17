@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:PoeSuite"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
-        Icon="Icon1.ico"
+        Icon="Resources/Icon1.ico"
         Title="MainWindow" Height="450" Width="800">
 
     <Grid>
         <tb:TaskbarIcon x:Name="myNotifyIcon"
                     Visibility="Visible"
                     ToolTipText="Fallback ToolTip for Windows xp"
-                    IconSource="Icon1.ico"
+                    IconSource="Resources/Icon1.ico"
                     MenuActivation="RightClick"
                     PopupActivation="LeftClick">
             
