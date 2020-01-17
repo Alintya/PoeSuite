@@ -73,7 +73,6 @@
     </ApplicationDefinition>
     <Compile Include="Game.cs" />
     <Compile Include="HotKeyManager.cs" />
-    <Compile Include="Imports\Advapi32.cs" />
     <Compile Include="Imports\IpHelper.cs" />
     <Compile Include="Imports\Kernel32.cs" />
     <Compile Include="Imports\User32.cs" />
@@ -86,8 +85,7 @@
     <Compile Include="Utility\Discord.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\PoeApi.cs" />
-    <Compile Include="Utility\PrivilegeHelper.cs" />
-    <Compile Include="Utility\TcpDisconnect.cs" />
+    <Compile Include="Utility\TcpHelper.cs" />
     <Compile Include="ViewModels\OverlayViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using PoeSuite.Utility;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static PoeSuite.Imports.Iphlpapi;
 
 namespace PoeSuite
 {
@@ -28,6 +30,23 @@ namespace PoeSuite
         {
             return Process.GetProcesses()
                 .Where(x => _executableNames.Contains(x.ProcessName));
+        }
+
+        public static bool CloseTcpConnections(Process proc, IpVersion ipVersion)
+        {
+            var connections = TcpHelper.GetTcpConnections(ipVersion, TcpTableClass.OwnerPidAll);
+            if (connections.Count == 0)
+                return false;
+
+            foreach(var connection in connections)
+            {
+                if (!TcpHelper.CloseConnection(connection))
+                {
+                    // TODO
+                }
+            }
+
+            return true;
         }
     }
 }
