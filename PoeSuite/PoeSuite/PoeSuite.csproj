@@ -70,6 +70,10 @@
     </ApplicationDefinition>
     <Compile Include="Game.cs" />
     <Compile Include="HotKeyManager.cs" />
+    <Compile Include="Imports\Advapi32.cs" />
+    <Compile Include="Imports\IpHelper.cs" />
+    <Compile Include="Imports\Kernel32.cs" />
+    <Compile Include="Imports\User32.cs" />
     <Compile Include="Models\GameSettings.cs" />
     <Compile Include="Models\TradeRequest.cs" />
     <Compile Include="Overlay.xaml.cs">
