@@ -83,6 +83,7 @@
     <Compile Include="Utility\Discord.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\PoeApi.cs" />
+    <Compile Include="Utility\PrivilegeHelper.cs" />
     <Compile Include="Utility\TcpDisconnect.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

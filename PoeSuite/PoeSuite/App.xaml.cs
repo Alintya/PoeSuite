@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PoeSuite.Utility;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -16,6 +17,12 @@ namespace PoeSuite
     {
 		private void Application_Startup(object sender, StartupEventArgs e)
 		{
+			// Elevate process
+			if (!PrivilegeHelper.EnableDebugPrivileges(Process.GetCurrentProcess()))
+			{
+				Logger.Log("Failed to set debug privileges", ConsoleColor.Red, true);
+				return;
+			}
 
 			//EventManager.RegisterClassHandler(typeof(UIElement), UIElement.PreviewKeyUpEvent, new RoutedEventHandler(OnPreviewKeyUp));
 
