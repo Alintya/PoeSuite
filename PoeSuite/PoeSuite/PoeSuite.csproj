@@ -137,6 +137,9 @@
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf">
       <Version>1.0.8</Version>
     </PackageReference>
+    <PackageReference Include="LowLevelInput.Net">
+      <Version>1.36.6</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icon1.ico" />

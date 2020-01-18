@@ -22,7 +22,7 @@ namespace PoeSuite
 
 			MainWindow wnd = new MainWindow();
 
-			wnd.Title = "Something else";
+			wnd.Title = "PoeSuite - Settings";
 
 			wnd.Show();
 

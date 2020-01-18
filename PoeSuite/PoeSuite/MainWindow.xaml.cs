@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 
 using Hardcodet.Wpf.TaskbarNotification;
 using System.IO;
+using System.ComponentModel;
 
 namespace PoeSuite
 {
@@ -41,20 +42,33 @@ namespace PoeSuite
             */
             myNotifyIcon.TrayMouseDoubleClick += (object x, RoutedEventArgs y) =>
                 {
-                    this.Show();
-                    this.WindowState = WindowState.Normal;
+                    base.Show();
+                    base.WindowState = WindowState.Normal;
                 };
         }
 
-        
+        #region Minimize to tray
 
         protected override void OnStateChanged(EventArgs e)
         {
             if (WindowState == WindowState.Minimized)
-                this.Hide();
+                base.Hide();
 
             base.OnStateChanged(e);
         }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            // setting cancel to true will cancel the close request
+            // so the application is not closed
+            e.Cancel = true;
+
+            base.Hide();
+
+            base.OnClosing(e);
+        }
+
+        #endregion
 
         private void hotkeys_HotkeyPressed(int ID)
         {
