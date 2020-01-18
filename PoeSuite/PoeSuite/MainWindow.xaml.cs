@@ -40,11 +40,7 @@ namespace PoeSuite
             Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/Icon1.ico")).Stream;
             trayIcon.Icon = new System.Drawing.Icon(iconStream);
             */
-            myNotifyIcon.TrayMouseDoubleClick += (object x, RoutedEventArgs y) =>
-                {
-                    base.Show();
-                    base.WindowState = WindowState.Normal;
-                };
+            myNotifyIcon.TrayMouseDoubleClick += (object x, RoutedEventArgs y) => ReopenWindow(x, y);
         }
 
         #region Minimize to tray
@@ -68,28 +64,20 @@ namespace PoeSuite
             base.OnClosing(e);
         }
 
+
+
         #endregion
 
-        private void hotkeys_HotkeyPressed(int ID)
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var key = (System.Windows.Forms.Keys)ID;
-            Console.WriteLine($"Key pressed: {key.ToString()}");
-            switch (ID)
-            {
-                case 1001:
-                    MessageBox.Show("Alt-1");
-                    break;
+            myNotifyIcon.Dispose();
+            Application.Current.Shutdown();
+        }
 
-                case 1002:
-                    MessageBox.Show("Alt-2");
-                    break;
-
-                case 1003: // Alt-Q
-                    //Application.Exit();
-                    break;
-                default:
-                    break;
-            }
+        private void ReopenWindow(object sender, RoutedEventArgs e)
+        {
+            base.Show();
+            base.WindowState = WindowState.Normal;
         }
     }
 }
