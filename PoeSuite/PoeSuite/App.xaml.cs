@@ -15,6 +15,9 @@ namespace PoeSuite
     /// </summary>
     public partial class App : Application
     {
+		public static Logger Log = new Logger();
+
+
 		private void Application_Startup(object sender, StartupEventArgs e)
 		{
 			//EventManager.RegisterClassHandler(typeof(UIElement), UIElement.PreviewKeyUpEvent, new RoutedEventHandler(OnPreviewKeyUp));
