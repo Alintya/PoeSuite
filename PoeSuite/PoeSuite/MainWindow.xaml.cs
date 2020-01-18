@@ -26,15 +26,17 @@ namespace PoeSuite
     public partial class MainWindow : Window
     {
         private LogListener _logListener;
-        private HotKeyManager hotkeys = null;
+        private HotkeysManager _hotkeys = null;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            hotkeys = new HotKeyManager();
-            hotkeys.HotkeyPressed += new HotKeyManager.HotkeyDelegate(hotkeys_HotkeyPressed);
+            _hotkeys = new HotkeysManager();
 
+            //_hotkeys.AddCallback("OpenSettings", test);
+
+            //_hotkeys.AddCallback("OpenSettings", test);
             /*
             TaskbarIcon trayIcon = new TaskbarIcon();
             Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/Icon1.ico")).Stream;
