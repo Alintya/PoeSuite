@@ -26,7 +26,6 @@ namespace PoeSuite
 
         private Process _proc = default;
 
-
         public bool IsValid => _proc != null && !_proc.HasExited;
 
         public Game()
@@ -39,17 +38,9 @@ namespace PoeSuite
             get
             {
                 lock (_padlock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new Game();
-                    }
-                    return _instance;
-                }
+                    return _instance ?? (_instance = new Game());
             }
         }
-
-        
 
         public static IEnumerable<Process> GetRunningInstances()
         {
@@ -63,14 +54,11 @@ namespace PoeSuite
             if (connections.Count == 0)
                 return false;
 
-            foreach(var connection in connections)
+            foreach(var connection in connections.Where(x => x.OwningPid == _proc.Id))
             {
-                if (connection.OwningPid == _proc.Id)
+                if (!TcpHelper.CloseConnection(connection))
                 {
-                    if (!TcpHelper.CloseConnection(connection))
-                    {
-                        // TODO
-                    }
+                    // TODO
                 }
             }
 
