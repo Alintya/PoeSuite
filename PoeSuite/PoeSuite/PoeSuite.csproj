@@ -73,6 +73,11 @@
     </ApplicationDefinition>
     <Compile Include="Game.cs" />
     <Compile Include="HotKeyManager.cs" />
+    <Compile Include="Properties\Hotkeys.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Hotkeys.settings</DependentUpon>
+    </Compile>
     <Compile Include="Imports\IpHelper.cs" />
     <Compile Include="Imports\Kernel32.cs" />
     <Compile Include="Imports\User32.cs" />
@@ -125,6 +130,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.manifest" />
+    <None Include="Properties\Hotkeys.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Hotkeys.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

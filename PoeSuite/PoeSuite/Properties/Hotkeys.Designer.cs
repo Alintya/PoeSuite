@@ -13,11 +13,11 @@ namespace PoeSuite.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class Hotkeys : global::System.Configuration.ApplicationSettingsBase {
         
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        private static Hotkeys defaultInstance = ((Hotkeys)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Hotkeys())));
         
-        public static Settings Default {
+        public static Hotkeys Default {
             get {
                 return defaultInstance;
             }
@@ -26,24 +26,24 @@ namespace PoeSuite.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("F1")]
-        public global::LowLevelInput.Hooks.VirtualKeyCode logoutHotkey {
+        public global::LowLevelInput.Hooks.VirtualKeyCode Logout {
             get {
-                return ((global::LowLevelInput.Hooks.VirtualKeyCode)(this["logoutHotkey"]));
+                return ((global::LowLevelInput.Hooks.VirtualKeyCode)(this["Logout"]));
             }
             set {
-                this["logoutHotkey"] = value;
+                this["Logout"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("test")]
-        public string Setting {
+        [global::System.Configuration.DefaultSettingValueAttribute("F12")]
+        public global::LowLevelInput.Hooks.VirtualKeyCode OpenSettings {
             get {
-                return ((string)(this["Setting"]));
+                return ((global::LowLevelInput.Hooks.VirtualKeyCode)(this["OpenSettings"]));
             }
             set {
-                this["Setting"] = value;
+                this["OpenSettings"] = value;
             }
         }
     }
