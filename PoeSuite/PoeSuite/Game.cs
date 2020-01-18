@@ -48,7 +48,7 @@ namespace PoeSuite
                 .Where(x => _executableNames.Contains(x.ProcessName));
         }
 
-        public bool CloseTcpConnections(IpVersion ipVersion)
+        public bool CloseTcpConnections(IpVersion ipVersion = IpVersion.Ipv4)
         {
             var connections = TcpHelper.GetTcpConnections(ipVersion, TcpTableClass.OwnerPidAll);
             if (connections.Count == 0)
@@ -63,6 +63,16 @@ namespace PoeSuite
             }
 
             return true;
+        }
+
+        public void SendWhisper(string recipientName, string message)
+        {
+            SendChatMessage($"@{recipientName} {message}");
+        }
+
+        public void SendChatMessage(string message)
+        {
+            throw new NotImplementedException();
         }
     }
 }
