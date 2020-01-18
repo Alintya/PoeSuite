@@ -116,9 +116,9 @@ namespace PoeSuite
 
         private void OnKeyboardEvent(VirtualKeyCode key, KeyState state)
         {
-            Console.WriteLine("Hotkey pressed: " + key.ToString());
+            App.Log.Debug($"KeyEvent: {key}, {state}");
 
-            var command = _hotkeys.First(x => x.Value.KeyCode == key /* && x.Value.State == state*/).Value;
+            var command = _hotkeys.FirstOrDefault(x => x.Value.KeyCode == key /* && x.Value.State == state*/).Value;
 
             if (!(command is null))
             {
@@ -126,13 +126,11 @@ namespace PoeSuite
                     action.BeginInvoke(action.EndInvoke, null);
             }
 
-            if (state == KeyState.Pressed)
-            {
-                if (!_listeners.TryGetValue((key, state), out var actions))
-                    return;
 
-                actions.ForEach(x => x.Invoke());
-            }
+            if (!_listeners.TryGetValue((key, state), out var actions))
+                return;
+
+            actions.ForEach(x => x.Invoke());
 
 
         }
