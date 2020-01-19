@@ -10,7 +10,7 @@ namespace PoeSuite.Utility
     {
         public static bool CloseConnection(MibTcpRowOwnerId tcpRow)
         {
-            tcpRow.State = MibTcpState.Closed;
+            tcpRow.State = MibTcpState.DeleteTcp;
 
             var tableSize = Marshal.SizeOf(tcpRow);
             var tcpRowPtr = Marshal.AllocCoTaskMem(tableSize);
