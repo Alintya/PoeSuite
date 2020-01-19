@@ -70,13 +70,13 @@ namespace PoeSuite.Utility
             {
                 msg = $"[{DateTime.Now.ToString()}]{caller.PadLeft(8, ' ')}| {msg}";
 
-                _logFileStream?.WriteLine(msg);
-
 #if DEBUG
                 Console.ForegroundColor = clr;
                 Console.WriteLine(msg);
                 Console.ResetColor();
 #endif
+
+                _logFileStream?.WriteLine(msg);
             }
         }
     }
