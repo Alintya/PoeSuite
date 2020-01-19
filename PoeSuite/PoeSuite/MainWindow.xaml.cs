@@ -25,18 +25,10 @@ namespace PoeSuite
     /// </summary>
     public partial class MainWindow : Window
     {
-        private LogListener _logListener;
-        private HotkeysManager _hotkeys = null;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            _hotkeys = new HotkeysManager();
-
-            //_hotkeys.AddCallback("OpenSettings", test);
-
-            //_hotkeys.AddCallback("OpenSettings", test);
 
             /*
             TaskbarIcon trayIcon = new TaskbarIcon();
@@ -71,8 +63,6 @@ namespace PoeSuite
             base.Hide();
             base.OnClosing(e);
         }
-
-
 
         #endregion
 
