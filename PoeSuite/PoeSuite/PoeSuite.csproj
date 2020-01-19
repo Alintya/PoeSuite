@@ -91,7 +91,9 @@
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\PoeApi.cs" />
     <Compile Include="Utility\TcpHelper.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\OverlayViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -148,6 +150,9 @@
     </PackageReference>
     <PackageReference Include="LowLevelInput.Net">
       <Version>1.36.6</Version>
+    </PackageReference>
+    <PackageReference Include="MvvmLight">
+      <Version>5.4.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

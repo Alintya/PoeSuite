@@ -37,6 +37,7 @@ namespace PoeSuite
             //_hotkeys.AddCallback("OpenSettings", test);
 
             //_hotkeys.AddCallback("OpenSettings", test);
+
             /*
             TaskbarIcon trayIcon = new TaskbarIcon();
             Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/Icon1.ico")).Stream;
@@ -61,8 +62,13 @@ namespace PoeSuite
             // so the application is not closed
             e.Cancel = true;
 
-            base.Hide();
+            // Save all settings
+            Properties.Settings.Default.Save();
+            Properties.Hotkeys.Default.Save();
 
+            Logger.Get.Success("Saved settings to file");
+
+            base.Hide();
             base.OnClosing(e);
         }
 

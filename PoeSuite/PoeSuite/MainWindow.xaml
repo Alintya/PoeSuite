@@ -6,9 +6,10 @@
     xmlns:local="clr-namespace:PoeSuite"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tb="http://www.hardcodet.net/taskbar"
-    Title="MainWindow"
+    Title="{Binding WindowTitle, Mode=OneWay}"
     Width="800"
     Height="450"
+    DataContext="{Binding Main, Source={StaticResource Locator}}"
     Icon="Resources/Icon1.ico"
     mc:Ignorable="d">
 
