@@ -10,8 +10,14 @@ namespace PoeSuite.Utility
     {
         private readonly object _lockObject = new object();
         private StreamWriter _logFileStream = null;
+        private static Logger _instance = null;
 
         public Logger() { }
+
+        public static Logger Get()
+        {
+            return _instance ?? (_instance = new Logger());
+        }
 
         public void EnableFileLogging(string fileName = "log.txt")
         {
@@ -69,13 +75,11 @@ namespace PoeSuite.Utility
 
                 _logFileStream?.WriteLine(msg);
 
-                #if DEBUG 
-
+#if DEBUG
                 Console.ForegroundColor = clr;
                 Console.WriteLine(msg);
                 Console.ResetColor();
-
-                #endif    
+#endif
             }
         }
     }

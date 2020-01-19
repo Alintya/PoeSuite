@@ -2,10 +2,12 @@
 using PoeSuite.Utility;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace PoeSuite
 {
+    // TODO: put this in its own file
     internal class HotkeyCommand
     {
         public VirtualKeyCode KeyCode;
@@ -16,123 +18,75 @@ namespace PoeSuite
     internal class HotkeysManager
     {
         private readonly LowLevelKeyboardHook _keyboardHook;
-        
-        private Dictionary<string, HotkeyCommand> _hotkeys;
-
-
-
-        private readonly Dictionary<(VirtualKeyCode, KeyState), List<Action>> _listeners;
-
+        private readonly Dictionary<string, HotkeyCommand> _hotkeys;
 
         public HotkeysManager()
         {
             _keyboardHook = new LowLevelKeyboardHook(true);
-
-
-            _listeners = new Dictionary<(VirtualKeyCode, KeyState), List<Action>>();
-
-
             _hotkeys = new Dictionary<string, HotkeyCommand>();
 
-
-            // load stored hotkeys
-            foreach (System.Configuration.SettingsProperty key in Properties.Hotkeys.Default.Properties)
+            foreach (var settings in Properties.Hotkeys.Default.Properties.Cast<SettingsProperty>())
             {
-                var value = (VirtualKeyCode)Properties.Hotkeys.Default[key.Name];
-                _hotkeys.Add(key.Name, new HotkeyCommand { KeyCode = value });
+                if (!(Properties.Hotkeys.Default[settings.Name] is VirtualKeyCode keyCode))
+                    continue;
 
-                App.Log.Info($"Loaded hotkey {value} for {key.Name}");
+                _hotkeys.Add(settings.Name, new HotkeyCommand
+                {
+                    KeyCode = keyCode
+                });
+
+                Logger.Get().Info($"Added hotkey {keyCode} for action {settings.Name}");
             }
 
-
-            // listen to settings changes
             Properties.Hotkeys.Default.PropertyChanged += OnSettingsPropertyChanged;
+
             _keyboardHook.OnKeyboardEvent += OnKeyboardEvent;
-
             _keyboardHook.InstallHook();
-        }
-
-        private void OnSettingsPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (_hotkeys.ContainsKey(e.PropertyName))
-            {
-                var updatedValue = (VirtualKeyCode)Properties.Hotkeys.Default[e.PropertyName];
-                _hotkeys[e.PropertyName].KeyCode = updatedValue;
-
-                App.Log.Success($"Changed hotkey for {e.PropertyName} to {updatedValue.ToString()}");
-            }
-        }
-
-        public void AddHotkey(VirtualKeyCode key, KeyState state, Action action)
-        {
-            if (_listeners.TryGetValue((key, state), out var actions))
-            {
-                if (actions.Contains(action))
-                    throw new ArgumentException("Listeners already contains this actions");
-
-                actions.Add(action);
-            }
-            else
-                _listeners.Add((key, state), new List<Action> { action });
-        }
-
-        public void AddHotkey()
-        {
-
-        }
-
-        public void AddCallback(string command, Action callback)
-        {
-            if (!_hotkeys.Any(x => x.Key.Equals(command)))
-            {
-                App.Log.Error($"Unknown hotkey command {command}");
-                return;
-            }
-
-            if (_hotkeys[command].Actions.Contains(callback))
-            {
-                App.Log.Warning($"{callback.Method.Name} is already registered for command {command}");
-                return;
-            }
-
-            _hotkeys[command].Actions.Add(callback);
         }
 
         public void AddCallbacks(string command, List<Action> callbacks)
         {
-            foreach (var c in callbacks)
-                AddCallback(command, c);
+            callbacks.ForEach(x => AddCallback(command, x));
         }
 
-        public void RemoveCallback(Action action)
+        public void AddCallback(string command, Action callback)
         {
-            var test = _listeners.Where(x => x.Value.Contains(action));
-            if (test is null)
+            if (!_hotkeys.TryGetValue(command, out var hotkeyCmd))
+            {
+                Logger.Get().Error($"Unknown hotkey command {command}");
+                return;
+            }
+
+            if (hotkeyCmd.Actions.Contains(callback))
+            {
+                Logger.Get().Error($"{callback.Method.Name} is already registered for command {command}");
+                return;
+            }
+
+            hotkeyCmd.Actions.Add(callback);
+        }
+
+        private void OnSettingsPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (!(Properties.Hotkeys.Default[e.PropertyName] is VirtualKeyCode keyCode))
+                return;
+            if (!_hotkeys.TryGetValue(e.PropertyName, out var hotkeyCmd))
                 return;
 
-            foreach (var miep in test)
-                miep.Value.Remove(action);
+            hotkeyCmd.KeyCode = keyCode;
+
+            Logger.Get().Success($"Changed hotkey for {e.PropertyName} to {keyCode}");
         }
 
         private void OnKeyboardEvent(VirtualKeyCode key, KeyState state)
         {
-            App.Log.Debug($"KeyEvent: {key}, {state}");
+            Logger.Get().Debug($"KeyEvent {key} [{state}]");
 
-            var command = _hotkeys.FirstOrDefault(x => x.Value.KeyCode == key /* && x.Value.State == state*/).Value;
-
-            if (!(command is null))
-            {
-                foreach (var action in command.Actions)
-                    action.BeginInvoke(action.EndInvoke, null);
-            }
-
-
-            if (!_listeners.TryGetValue((key, state), out var actions))
+            var hotkey = _hotkeys.FirstOrDefault(x => x.Value.KeyCode == key /* && x.Value.State == state*/);
+            if (hotkey.Equals(default) || hotkey.Value is null)
                 return;
 
-            actions.ForEach(x => x.Invoke());
-
-
+            hotkey.Value.Actions.ForEach(x => x.BeginInvoke(x.EndInvoke, null));
         }
     }
 }
