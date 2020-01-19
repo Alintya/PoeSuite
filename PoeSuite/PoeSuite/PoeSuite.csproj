@@ -72,6 +72,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Game.cs" />
+    <Compile Include="Imports\DiscordRpc.cs" />
+    <Compile Include="Models\RichPresence.cs" />
     <Compile Include="Properties\Hotkeys.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -87,7 +89,6 @@
       <DependentUpon>Overlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\ConsoleExtension.cs" />
-    <Compile Include="Utility\Discord.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\PoeApi.cs" />
     <Compile Include="Utility\TcpHelper.cs" />
