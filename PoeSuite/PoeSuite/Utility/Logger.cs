@@ -12,10 +12,9 @@ namespace PoeSuite.Utility
         private StreamWriter _logFileStream = null;
         private static Logger _instance = null;
 
+        public static Logger Get => _instance ?? (_instance = new Logger());
+
         public Logger() { }
-
-        public static Logger Get =>_instance ?? (_instance = new Logger());
-
 
         public void EnableFileLogging(string fileName = "log.txt")
         {
@@ -71,13 +70,13 @@ namespace PoeSuite.Utility
             {
                 msg = $"[{DateTime.Now.ToString()}]{caller.PadLeft(8, ' ')}| {msg}";
 
-                _logFileStream?.WriteLine(msg);
-
 #if DEBUG
                 Console.ForegroundColor = clr;
                 Console.WriteLine(msg);
                 Console.ResetColor();
 #endif
+
+                _logFileStream?.WriteLine(msg);
             }
         }
     }

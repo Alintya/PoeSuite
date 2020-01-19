@@ -43,7 +43,7 @@ namespace PoeSuite.Imports
         [StructLayout(LayoutKind.Sequential)]
         public struct MibTcpTableOwnerPid
         {
-            public uint EntryCount;
+            public uint TableCount;
             [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.Struct, SizeConst = 1)]
             public MibTcpRowOwnerId[] Tables;
         }
