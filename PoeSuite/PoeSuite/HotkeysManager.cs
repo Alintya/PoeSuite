@@ -11,7 +11,7 @@ namespace PoeSuite
     internal class HotkeyCommand
     {
         public VirtualKeyCode KeyCode;
-        public KeyState State = KeyState.Pressed;
+        public KeyState State = KeyState.Up;
         public List<Action> Actions = new List<Action>();
     }
 
@@ -82,7 +82,7 @@ namespace PoeSuite
         {
             Logger.Get.Debug($"KeyEvent {key} [{state}]");
 
-            var hotkey = _hotkeys.FirstOrDefault(x => x.Value.KeyCode == key /* && x.Value.State == state*/);
+            var hotkey = _hotkeys.FirstOrDefault(x => x.Value.KeyCode == key && x.Value.State == state);
             if (hotkey.Equals(default) || hotkey.Value is null)
                 return;
 
