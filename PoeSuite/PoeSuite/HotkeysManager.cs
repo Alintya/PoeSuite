@@ -35,7 +35,7 @@ namespace PoeSuite
                     KeyCode = keyCode
                 });
 
-                Logger.Get().Info($"Added hotkey {keyCode} for action {settings.Name}");
+                Logger.Get.Info($"Added hotkey {keyCode} for action {settings.Name}");
             }
 
             Properties.Hotkeys.Default.PropertyChanged += OnSettingsPropertyChanged;
@@ -53,13 +53,13 @@ namespace PoeSuite
         {
             if (!_hotkeys.TryGetValue(command, out var hotkeyCmd))
             {
-                Logger.Get().Error($"Unknown hotkey command {command}");
+                Logger.Get.Error($"Unknown hotkey command {command}");
                 return;
             }
 
             if (hotkeyCmd.Actions.Contains(callback))
             {
-                Logger.Get().Error($"{callback.Method.Name} is already registered for command {command}");
+                Logger.Get.Error($"{callback.Method.Name} is already registered for command {command}");
                 return;
             }
 
@@ -75,12 +75,12 @@ namespace PoeSuite
 
             hotkeyCmd.KeyCode = keyCode;
 
-            Logger.Get().Success($"Changed hotkey for {e.PropertyName} to {keyCode}");
+            Logger.Get.Success($"Changed hotkey for {e.PropertyName} to {keyCode}");
         }
 
         private void OnKeyboardEvent(VirtualKeyCode key, KeyState state)
         {
-            Logger.Get().Debug($"KeyEvent {key} [{state}]");
+            Logger.Get.Debug($"KeyEvent {key} [{state}]");
 
             var hotkey = _hotkeys.FirstOrDefault(x => x.Value.KeyCode == key /* && x.Value.State == state*/);
             if (hotkey.Equals(default) || hotkey.Value is null)

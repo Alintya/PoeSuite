@@ -14,10 +14,8 @@ namespace PoeSuite.Utility
 
         public Logger() { }
 
-        public static Logger Get()
-        {
-            return _instance ?? (_instance = new Logger());
-        }
+        public static Logger Get =>_instance ?? (_instance = new Logger());
+
 
         public void EnableFileLogging(string fileName = "log.txt")
         {
