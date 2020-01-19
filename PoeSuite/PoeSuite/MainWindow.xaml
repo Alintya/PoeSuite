@@ -4,14 +4,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:PoeSuite"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tb="http://www.hardcodet.net/taskbar"
+    xmlns:input="clr-namespace:LowLevelInput.Hooks;assembly=LowLevelInput"
+    xmlns:p="clr-namespace:PoeSuite.Properties"
     Title="{Binding WindowTitle, Mode=OneWay}"
     Width="800"
     Height="450"
     DataContext="{Binding Main, Source={StaticResource Locator}}"
     Icon="Resources/Icon1.ico"
     mc:Ignorable="d">
+
+    <Window.Resources>
+
+        <ObjectDataProvider x:Key="enumValues"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="input:VirtualKeyCode"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+    </Window.Resources>
+
 
     <Grid>
         <tb:TaskbarIcon
@@ -61,6 +77,17 @@
             </tb:TaskbarIcon.ContextMenu>
 
         </tb:TaskbarIcon>
+        
+        <ComboBox
+            
+            Width="120"
+            Margin="99,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            ItemsSource="{Binding Source={StaticResource enumValues}}"
+            SelectedValue="{Binding Source={x:Static p:Hotkeys.Default}, Path=Logout, Mode=TwoWay}"
+            />
+
         <!--
             ContextMenu="{StaticResource TrayMenu}"
             
