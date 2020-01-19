@@ -25,25 +25,13 @@ namespace PoeSuite.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("F1")]
-        public global::LowLevelInput.Hooks.VirtualKeyCode logoutHotkey {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AccountName {
             get {
-                return ((global::LowLevelInput.Hooks.VirtualKeyCode)(this["logoutHotkey"]));
+                return ((string)(this["AccountName"]));
             }
             set {
-                this["logoutHotkey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("test")]
-        public string Setting {
-            get {
-                return ((string)(this["Setting"]));
-            }
-            set {
-                this["Setting"] = value;
+                this["AccountName"] = value;
             }
         }
     }

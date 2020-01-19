@@ -17,18 +17,16 @@ namespace PoeSuite
     {
 		private void Application_Startup(object sender, StartupEventArgs e)
 		{
-			//EventManager.RegisterClassHandler(typeof(UIElement), UIElement.PreviewKeyUpEvent, new RoutedEventHandler(OnPreviewKeyUp));
-
-
 			MainWindow wnd = new MainWindow();
-
-			wnd.Title = "PoeSuite - Settings";
-
 			wnd.Show();
 
 			Overlay overlay = new Overlay();
 			overlay.Show();
+
+
 		}
+
+
 
 		/*
 		private static void OnPreviewKeyUp(object source, RoutedEventArgs e)
@@ -38,5 +36,7 @@ namespace PoeSuite
 			//Console.WriteLine($"Key pressed: {x.KeyCode}");
 		}
 		*/
+
+
 	}
 }

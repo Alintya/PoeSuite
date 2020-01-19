@@ -2,11 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PoeSuite.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="logoutHotkey" Type="LowLevelInput.Hooks.VirtualKeyCode" Scope="User">
-      <Value Profile="(Default)">F1</Value>
-    </Setting>
-    <Setting Name="Setting" Type="System.String" Scope="User">
-      <Value Profile="(Default)">test</Value>
+    <Setting Name="AccountName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
