@@ -13,12 +13,12 @@ namespace PoeSuite
     {
         private static readonly string[] _executableNames =
         {
-            "PathOfExile.exe",
-            "PathOfExile_x64.exe",
-            "PathOfExileSteam.exe",
-            "PathOfExile_x64Steam.exe",
-            "PathOfExile_KG.exe",
-            "PathOfExile_x64_KG.exe"
+            "PathOfExile",
+            "PathOfExile_x64",
+            "PathOfExileSteam",
+            "PathOfExile_x64Steam",
+            "PathOfExile_KG",
+            "PathOfExile_x64_KG"
         };
 
         private static readonly object _padlock = new object();
