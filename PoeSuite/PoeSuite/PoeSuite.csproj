@@ -73,6 +73,7 @@
     </ApplicationDefinition>
     <Compile Include="Game.cs" />
     <Compile Include="Imports\DiscordRpc.cs" />
+    <Compile Include="Models\PoeCharacterInfo.cs" />
     <Compile Include="Models\RichPresence.cs" />
     <Compile Include="Properties\Hotkeys.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -154,6 +155,9 @@
     </PackageReference>
     <PackageReference Include="MvvmLight">
       <Version>5.4.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
