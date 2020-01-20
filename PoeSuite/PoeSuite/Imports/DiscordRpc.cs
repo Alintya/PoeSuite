@@ -13,7 +13,7 @@ namespace PoeSuite.Imports
         public static extern void Discord_Initialize(string applicationId, ref EventHandlers handlers, bool autoRegister, string optionalSteamId);
 
         [DllImport("discord-rpc.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void Discord_UpdatePresence(ref Models.RichPresence presence);
+        public static extern void Discord_UpdatePresence(ref RichPresence presence);
 
         [DllImport("discord-rpc.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void Discord_RunCallbacks();
@@ -21,13 +21,38 @@ namespace PoeSuite.Imports
         [DllImport("discord-rpc.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void Discord_Shutdown();
 
+
+        [Serializable]
+        public struct RichPresence
+        {
+            public string State;
+            public string Details;
+            public long StartTimestamp;
+            public long EndTimestamp;
+            public string LargeImageKey;
+            public string LargeImageText;
+            public string SmallImageKey;
+            public string SmallImageText;
+            public string PartyId;
+            public int PartySize;
+            public int PartyMax;
+            public string MatchSecret;
+            public string JoinSecret;
+            public string SpectateSecret;
+            public bool Instance;
+
+            public void Update()
+            {
+                Discord_RunCallbacks();
+                Discord_UpdatePresence(ref this);
+            }
+        }
         public struct EventHandlers
         {
             public ReadyCallback ReadyCallback;
             public DisconnectedCallback DisconnectedCallback;
             public ErrorCallback ErrorCallback;
         }
-
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void ReadyCallback();

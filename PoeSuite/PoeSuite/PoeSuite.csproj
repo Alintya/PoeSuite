@@ -74,7 +74,6 @@
     <Compile Include="Game.cs" />
     <Compile Include="Imports\DiscordRpc.cs" />
     <Compile Include="Models\PoeCharacterInfo.cs" />
-    <Compile Include="Models\RichPresence.cs" />
     <Compile Include="Properties\Hotkeys.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

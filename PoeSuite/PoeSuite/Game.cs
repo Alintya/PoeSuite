@@ -26,9 +26,9 @@ namespace PoeSuite
         //private static readonly object _padlock = new object();
         //private static Game _instance = null;
 
-        private Process _proc = default;
-        private static Models.RichPresence _richPresence = new Models.RichPresence();
-        private static PoeCharacterInfo _characterInfo = default;
+        private Process _proc;
+        private static DiscordRpc.RichPresence _richPresence = new DiscordRpc.RichPresence();
+        private static PoeCharacterInfo _characterInfo;
 
         public event EventHandler GameProcessExited;
 
@@ -36,7 +36,7 @@ namespace PoeSuite
 
         public bool IsValid => _proc != null && !_proc.HasExited;
 
-        public LogListener Listener = default;
+        public LogListener Listener;
 
         public Game(int pid = 0)
         {
