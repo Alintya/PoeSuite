@@ -27,6 +27,7 @@ namespace PoeSuite
         //private static Game _instance = null;
 
         private Process _proc;
+        private bool _disposed;
         private static DiscordRpc.RichPresence _richPresence = new DiscordRpc.RichPresence();
         private static PoeCharacterInfo _characterInfo;
 
@@ -208,13 +209,18 @@ namespace PoeSuite
 
         protected virtual void Dispose(bool disposing)
         {
+            if (_disposed)
+                return;
+
             if (disposing)
             {
-                _proc.Dispose();
-                Listener.StopListening();
-                Listener.Dispose();
+                _proc?.Dispose();
+                Listener?.Dispose();
             }
+
             DiscordRpc.Discord_Shutdown();
+
+            _disposed = true;
         }
     }
 }
