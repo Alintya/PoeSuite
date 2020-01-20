@@ -2,13 +2,13 @@
     x:Class="PoeSuite.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:PoeSuite"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:tb="http://www.hardcodet.net/taskbar"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:input="clr-namespace:LowLevelInput.Hooks;assembly=LowLevelInput"
+    xmlns:local="clr-namespace:PoeSuite"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:PoeSuite.Properties"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
     Title="{Binding WindowTitle, Mode=OneWay}"
     Width="800"
     Height="450"
@@ -18,11 +18,12 @@
 
     <Window.Resources>
 
-        <ObjectDataProvider x:Key="enumValues"
-                            MethodName="GetValues"
-                            ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider
+            x:Key="enumValues"
+            MethodName="GetValues"
+            ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="input:VirtualKeyCode"/>
+                <x:Type TypeName="input:VirtualKeyCode" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
@@ -30,6 +31,61 @@
 
 
     <Grid>
+        <TabControl>
+            <TabItem Header="General">
+                <Grid>
+                    <ComboBox
+                        Width="120"
+                        Margin="99,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        ItemsSource="{Binding Source={StaticResource enumValues}}"
+                        SelectedValue="{Binding Source={x:Static p:Hotkeys.Default}, Path=Logout, Mode=TwoWay}" />
+                    <CheckBox
+                        Margin="99,37,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="Auto start PoE"
+                        IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=AutoStartPoe, Mode=TwoWay}" />
+                    <StackPanel Orientation="Horizontal">
+                        <Label
+                            Margin="3"
+                            VerticalAlignment="Center"
+                            Content="AccountName" />
+                        <TextBox
+                            Margin="3"
+                            Width="120"
+                            VerticalAlignment="Center"
+                            Text="{Binding AccountName, Mode=TwoWay, Source={x:Static p:Settings.Default}}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <TextBox
+                        Width="120"
+                        Height="23"
+                        Margin="303,63,363,305"
+                        Text="TextBox"
+                        TextWrapping="Wrap" />
+                </Grid>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image
+                            Width="16"
+                            Height="16"
+                            Source="/PoeSuite;component/Resources/Icon1.ico" />
+                        <TextBlock Foreground="Blue" Text=" Rich Header" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem Header="3" />
+
+
+        </TabControl>
+
         <tb:TaskbarIcon
             x:Name="myNotifyIcon"
             IconSource="Resources/Icon1.ico"
@@ -77,16 +133,6 @@
             </tb:TaskbarIcon.ContextMenu>
 
         </tb:TaskbarIcon>
-        
-        <ComboBox
-            
-            Width="120"
-            Margin="99,10,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            ItemsSource="{Binding Source={StaticResource enumValues}}"
-            SelectedValue="{Binding Source={x:Static p:Hotkeys.Default}, Path=Logout, Mode=TwoWay}"
-            />
 
         <!--
             ContextMenu="{StaticResource TrayMenu}"

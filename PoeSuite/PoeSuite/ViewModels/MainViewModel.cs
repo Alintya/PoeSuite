@@ -63,7 +63,7 @@ namespace PoeSuite.ViewModels
             }
             if (instances.Count() == 1)
             {
-                Poe = new Game(instances.First().Id);
+                Poe = new Game(instances.First());
                 _timer.Stop();
 
                 Poe.GameProcessExited += Poe_GameProcessExited;
