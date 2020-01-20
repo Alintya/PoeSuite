@@ -34,5 +34,29 @@ namespace PoeSuite.Properties {
                 this["AccountName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PoePath {
+            get {
+                return ((string)(this["PoePath"]));
+            }
+            set {
+                this["PoePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoStartPoe {
+            get {
+                return ((bool)(this["AutoStartPoe"]));
+            }
+            set {
+                this["AutoStartPoe"] = value;
+            }
+        }
     }
 }

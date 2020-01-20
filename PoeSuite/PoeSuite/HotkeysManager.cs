@@ -80,7 +80,7 @@ namespace PoeSuite
 
         private void OnKeyboardEvent(VirtualKeyCode key, KeyState state)
         {
-            Logger.Get.Debug($"KeyEvent {key} [{state}]");
+            //Logger.Get.Debug($"KeyEvent {key} [{state}]");
 
             var hotkey = _hotkeys.FirstOrDefault(x => x.Value.KeyCode == key && x.Value.State == state);
             if (hotkey.Equals(default) || hotkey.Value is null)

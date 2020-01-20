@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PoeSuite.Imports
 {
-    internal class DiscordRpc
+    internal static class DiscordRpc
     {
         [DllImport("discord-rpc.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern void Discord_Initialize(string applicationId, ref EventHandlers handlers, bool autoRegister, string optionalSteamId);
