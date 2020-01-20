@@ -71,6 +71,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Features\ChatScanner.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Imports\DiscordRpc.cs" />
     <Compile Include="Models\PoeCharacterInfo.cs" />
@@ -87,6 +88,9 @@
     <Compile Include="Models\TradeRequest.cs" />
     <Compile Include="Overlay.xaml.cs">
       <DependentUpon>Overlay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TextBoxPrompt.xaml.cs">
+      <DependentUpon>TextBoxPrompt.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\ConsoleExtension.cs" />
     <Compile Include="Utility\Logger.cs" />
@@ -109,6 +113,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Overlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TextBoxPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

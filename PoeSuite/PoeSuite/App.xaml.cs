@@ -21,22 +21,26 @@ namespace PoeSuite
 			wnd.Show();
 
 			Overlay overlay = new Overlay();
-			overlay.Show();
+            //overlay.Show();
 
 
-		}
+            // Validate UserSettings
+            if (String.IsNullOrEmpty(PoeSuite.Properties.Settings.Default.AccountName))
+            {
+                var dialog = new TextBoxPrompt();
 
+                if (dialog.ShowDialog() == true)
+                {
+                    PoeSuite.Properties.Settings.Default.AccountName = dialog.ResponseText;
+                    PoeSuite.Properties.Settings.Default.Save();
 
-
-		/*
-		private static void OnPreviewKeyUp(object source, RoutedEventArgs e)
-		{
-			//var x = e as System.Windows.Forms.KeyEventArgs;
-
-			//Console.WriteLine($"Key pressed: {x.KeyCode}");
-		}
-		*/
-
-
+                    Logger.Get.Success($"Updated AccountName setting due to user input: {dialog.ResponseText}");
+                }
+                else
+                {
+                    Logger.Get.Error("AccountName setting was empty but not updated by user");
+                }
+            }
+        }
 	}
 }
