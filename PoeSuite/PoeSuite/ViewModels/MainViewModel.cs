@@ -14,11 +14,11 @@ namespace PoeSuite.ViewModels
     {
         public string WindowTitle { get; private set; }
 
-        public Game Poe = default;
+        public Game Poe;
 
         private readonly Timer _timer;
 
-        private HotkeysManager _hotkeys = default;
+        private HotkeysManager _hotkeys;
 
 
         public MainViewModel()
@@ -62,6 +62,7 @@ namespace PoeSuite.ViewModels
 
         private void Poe_GameProcessExited(object sender, EventArgs e)
         {
+            Poe.Dispose();
             _timer.Start();
         }
     }

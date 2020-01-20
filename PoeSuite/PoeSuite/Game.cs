@@ -202,7 +202,19 @@ namespace PoeSuite
 
         public void Dispose()
         {
+            Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _proc.Dispose();
+                Listener.StopListening();
+                Listener.Dispose();
+            }
+            DiscordRpc.Discord_Shutdown();
         }
     }
 }
