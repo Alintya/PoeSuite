@@ -28,11 +28,24 @@ namespace PoeSuite.ViewModels
             else
                 WindowTitle = "PoeSuite - Settings";
 
+
             _timer = new Timer(250);
-            _timer.Elapsed += new ElapsedEventHandler(OnTimerElapsed);
+            _timer.Elapsed += OnTimerElapsed;
+
+
+            if (Properties.Settings.Default.AutoStartPoe && !string.IsNullOrEmpty(Properties.Settings.Default.PoePath))
+            {
+                var proc = new System.Diagnostics.Process();
+                proc.StartInfo.FileName = Properties.Settings.Default.PoePath;
+                proc.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(Properties.Settings.Default.PoePath);
+                proc.StartInfo.UseShellExecute = false;
+
+                proc.Start();
+            }
+
             _timer.Start();
-
-
+            
+            
             _hotkeys = new HotkeysManager();
             _hotkeys.AddCallback("Logout", () =>
             {
@@ -55,6 +68,7 @@ namespace PoeSuite.ViewModels
                 _timer.Stop();
 
                 Poe.GameProcessExited += Poe_GameProcessExited;
+                Properties.Settings.Default.PoePath = instances.First().MainModule.FileName;
 
                 Logger.Get.Success("Found poe instance");
             }
