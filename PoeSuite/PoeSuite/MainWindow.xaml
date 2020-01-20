@@ -53,8 +53,8 @@
                             VerticalAlignment="Center"
                             Content="AccountName" />
                         <TextBox
-                            Margin="3"
                             Width="120"
+                            Margin="3"
                             VerticalAlignment="Center"
                             Text="{Binding AccountName, Mode=TwoWay, Source={x:Static p:Settings.Default}}"
                             TextWrapping="Wrap" />
@@ -66,6 +66,12 @@
                         Margin="303,63,363,305"
                         Text="TextBox"
                         TextWrapping="Wrap" />
+                    <CheckBox
+                        Margin="99,57,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="Discord Rich Presence"
+                        IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=DiscordRichPresence, Mode=TwoWay}" />
                 </Grid>
             </TabItem>
 

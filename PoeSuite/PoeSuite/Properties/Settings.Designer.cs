@@ -58,5 +58,17 @@ namespace PoeSuite.Properties {
                 this["AutoStartPoe"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DiscordRichPresence {
+            get {
+                return ((bool)(this["DiscordRichPresence"]));
+            }
+            set {
+                this["DiscordRichPresence"] = value;
+            }
+        }
     }
 }
