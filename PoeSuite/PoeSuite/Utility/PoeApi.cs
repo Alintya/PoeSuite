@@ -5,7 +5,7 @@ using System.Net;
 
 namespace PoeSuite.Utility
 {
-    internal class PoeApi
+    internal static class PoeApi
     {
         private static WebClient _webclient = new WebClient();
 
@@ -13,10 +13,16 @@ namespace PoeSuite.Utility
         {
             PoeCharacterInfo characterInfo = new PoeCharacterInfo();
 
+            if (string.IsNullOrEmpty(Properties.Settings.Default.AccountName))
+            {
+                Logger.Get.Error("Account name is not set!");
+                return null;
+            }
+
             try
             {
                 var rawData = _webclient.DownloadString(
-                            $"https://www.pathofexile.com/character-window/get-characters?accountName={Properties.Settings.Default.AccountName}");
+                            "https://www.pathofexile.com/character-window/get-characters?accountName=" + Properties.Settings.Default.AccountName);
 
                 if (rawData.Length == 0)
                 {
