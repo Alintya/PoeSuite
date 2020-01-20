@@ -43,7 +43,7 @@ namespace PoeSuite.Imports
 
             public void Update()
             {
-                Discord_RunCallbacks();
+                //Discord_RunCallbacks();
                 Discord_UpdatePresence(ref this);
             }
         }

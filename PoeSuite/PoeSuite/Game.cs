@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Timers;
 using static PoeSuite.Imports.Iphlpapi;
 
 namespace PoeSuite
@@ -28,6 +29,7 @@ namespace PoeSuite
 
         private Process _proc;
         private bool _disposed;
+
         private static DiscordRpc.RichPresence _richPresence = new DiscordRpc.RichPresence();
         private static PoeCharacterInfo _characterInfo;
 
@@ -38,6 +40,7 @@ namespace PoeSuite
         public bool IsValid => _proc != null && !_proc.HasExited;
 
         public LogListener Listener;
+     
 
         public Game(int pid = 0)
         {
@@ -61,10 +64,13 @@ namespace PoeSuite
             Listener.AddListener("] : You have entered (.+).", OnInstanceEntered);
             Listener.AddListener("] Connecting to instance server at (.+)", OnInstanceConnect);
             Listener.AddListener("] Connected to (.+) in (.+)ms.", OnLogin);
+            Listener.AddListener("] (?:@From|@To|#|\\$|&|%) ?(.+): (.+)", OnChatMessage);
+            //Listener.AddListener("] (?:@From|@To) (.+): (.+)", OnWhisperMessage);
 
             Listener.StartListening();
 
-            Logger.Get.Info("Added listeners");
+            Logger.Get.Info("Added game log listeners");
+
 
             var discordEvents = new DiscordRpc.EventHandlers();
             discordEvents.ReadyCallback += () => Logger.Get.Success("Connected to Discord RPC pipe");
@@ -72,18 +78,12 @@ namespace PoeSuite
             discordEvents.DisconnectedCallback += (_, __) => Logger.Get.Info("Disconnected from Discord RPC pipe");
 
             DiscordRpc.Discord_Initialize("550890770056347648", ref discordEvents, false, null);
+            
+            var _timer = new Timer(2000);
+            _timer.Elapsed += (x, y) => DiscordRpc.Discord_RunCallbacks();
+            _timer.Start();
+            
         }
-
-        /*
-                public static Game Get
-                {
-                    get
-                    {
-                        lock (_padlock)
-                            return _instance ?? (_instance = new Game());
-                    }
-                }
-        */
 
         public static IEnumerable<Process> GetRunningInstances()
         {
@@ -128,6 +128,27 @@ namespace PoeSuite
         private void proc_Exited(object sender, EventArgs e)
         {
             GameProcessExited?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Gets triggered when the player receives a chat message
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="match"></param>
+        private static void OnChatMessage(string line, Match match)
+        {
+            // TODO: filter message channel?
+            Logger.Get.Debug($"Chat message from: {match.Groups[1]}: {match.Groups[2]}");
+        }
+
+        /// <summary>
+        /// Gets triggered when the player receives a private message
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="match"></param>
+        private static void OnWhisperReceived(string line, Match match)
+        {
+            Logger.Get.Debug($"Connected to server instance {match.Groups[1]}");
         }
 
         #region discord-rpc
