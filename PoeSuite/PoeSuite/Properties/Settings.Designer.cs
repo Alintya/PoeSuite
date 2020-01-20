@@ -38,12 +38,12 @@ namespace PoeSuite.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string PoePath {
+        public string PoeFilePath {
             get {
-                return ((string)(this["PoePath"]));
+                return ((string)(this["PoeFilePath"]));
             }
             set {
-                this["PoePath"] = value;
+                this["PoeFilePath"] = value;
             }
         }
         

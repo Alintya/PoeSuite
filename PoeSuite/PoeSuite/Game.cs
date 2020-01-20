@@ -42,19 +42,20 @@ namespace PoeSuite
         public LogListener Listener;
      
 
-        public Game(int pid = 0)
+        public Game(Process proc)
         {
-            if (pid == 0)
-            {
-                var list = GetRunningInstances();
+            _proc = proc;
+            Initialize();
+        }
 
-                //TODO
-            }
-            else
-            {
-                _proc = Process.GetProcessById(pid);
-            }
+        public Game(int pid)
+        {
+            _proc = Process.GetProcessById(pid);
+            Initialize();
+        }
 
+        private void Initialize()
+        {
             _proc.Exited += proc_Exited;
             _proc.EnableRaisingEvents = true;
 
@@ -78,11 +79,30 @@ namespace PoeSuite
             discordEvents.DisconnectedCallback += (_, __) => Logger.Get.Info("Disconnected from Discord RPC pipe");
 
             DiscordRpc.Discord_Initialize("550890770056347648", ref discordEvents, false, null);
-            
+
             var _timer = new Timer(2000);
             _timer.Elapsed += (x, y) => DiscordRpc.Discord_RunCallbacks();
             _timer.Start();
-            
+        }
+
+        public static Game Launch(string filepath)
+        {
+            var proc = new Process();
+
+            proc.StartInfo.FileName = filepath;
+            proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(Properties.Settings.Default.PoeFilePath);
+            proc.StartInfo.UseShellExecute = false;
+
+            proc.Start();
+
+            Logger.Get.Success("Launched PoE");
+
+            return new Game(proc);
+        }
+
+        internal static bool ValidateGamePath(string poeFilePath)
+        {
+            return File.Exists(poeFilePath) && _executableNames.Any(x => poeFilePath.Contains(x));
         }
 
         public static IEnumerable<Process> GetRunningInstances()

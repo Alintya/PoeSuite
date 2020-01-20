@@ -5,7 +5,7 @@
     <Setting Name="AccountName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="PoePath" Type="System.String" Scope="User">
+    <Setting Name="PoeFilePath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="AutoStartPoe" Type="System.Boolean" Scope="User">

@@ -32,20 +32,18 @@ namespace PoeSuite.ViewModels
             _timer = new Timer(250);
             _timer.Elapsed += OnTimerElapsed;
 
-
-            if (Properties.Settings.Default.AutoStartPoe && !string.IsNullOrEmpty(Properties.Settings.Default.PoePath))
+            if (Properties.Settings.Default.AutoStartPoe
+                && !string.IsNullOrEmpty(Properties.Settings.Default.PoeFilePath)
+                && Game.ValidateGamePath(Properties.Settings.Default.PoeFilePath)
+                && !Game.GetRunningInstances().Any())
             {
-                var proc = new System.Diagnostics.Process();
-                proc.StartInfo.FileName = Properties.Settings.Default.PoePath;
-                proc.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(Properties.Settings.Default.PoePath);
-                proc.StartInfo.UseShellExecute = false;
-
-                proc.Start();
+                Poe = Game.Launch(Properties.Settings.Default.PoeFilePath);
             }
-
-            _timer.Start();
-            
-            
+            else
+            {
+                _timer.Start();
+            }
+       
             _hotkeys = new HotkeysManager();
             _hotkeys.AddCallback("Logout", () =>
             {
@@ -61,6 +59,7 @@ namespace PoeSuite.ViewModels
             if (instances.Count() > 1)
             {
                 // TODO
+                
             }
             if (instances.Count() == 1)
             {
@@ -68,11 +67,13 @@ namespace PoeSuite.ViewModels
                 _timer.Stop();
 
                 Poe.GameProcessExited += Poe_GameProcessExited;
-                Properties.Settings.Default.PoePath = instances.First().MainModule.FileName;
+                Properties.Settings.Default.PoeFilePath = instances.First().MainModule.FileName;
 
                 Logger.Get.Success("Found poe instance");
             }
         }
+
+
 
         private void Poe_GameProcessExited(object sender, EventArgs e)
         {
