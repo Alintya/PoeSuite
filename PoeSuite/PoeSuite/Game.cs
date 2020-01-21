@@ -71,18 +71,6 @@ namespace PoeSuite
             Listener.StartListening();
 
             Logger.Get.Info("Added game log listeners");
-
-
-            var discordEvents = new DiscordRpc.EventHandlers();
-            discordEvents.ReadyCallback += () => Logger.Get.Success("Connected to Discord RPC pipe");
-            discordEvents.ErrorCallback += (errCode, msg) => Logger.Get.Error($"Discord error triggered '{errCode}' {msg}");
-            discordEvents.DisconnectedCallback += (_, __) => Logger.Get.Info("Disconnected from Discord RPC pipe");
-
-            DiscordRpc.Discord_Initialize("550890770056347648", ref discordEvents, false, null);
-
-            var _timer = new Timer(2000);
-            _timer.Elapsed += (x, y) => DiscordRpc.Discord_RunCallbacks();
-            _timer.Start();
         }
 
         public static Game Launch(string filepath)

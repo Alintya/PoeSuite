@@ -71,6 +71,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Features\TradeHelper.cs" />
+    <Compile Include="Utilities\Discord.cs" />
     <Compile Include="Features\ChatScanner.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Imports\DiscordRpc.cs" />
@@ -149,6 +151,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
