@@ -46,5 +46,17 @@ namespace PoeSuite.Properties {
                 this["OpenSettings"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("F5")]
+        public global::LowLevelInput.Hooks.VirtualKeyCode EnterHideout {
+            get {
+                return ((global::LowLevelInput.Hooks.VirtualKeyCode)(this["EnterHideout"]));
+            }
+            set {
+                this["EnterHideout"] = value;
+            }
+        }
     }
 }
