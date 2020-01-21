@@ -49,12 +49,12 @@
                         IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=AutoStartPoe, Mode=TwoWay}" />
                     <StackPanel Orientation="Horizontal">
                         <Label
-                            Margin="3"
+                            Margin="3,0,0,0"
                             VerticalAlignment="Center"
-                            Content="AccountName" />
+                            Content="AccountName:" />
                         <TextBox
                             Width="120"
-                            Margin="3"
+                            Margin="0,0,0,0"
                             VerticalAlignment="Center"
                             Text="{Binding AccountName, Mode=TwoWay, Source={x:Static p:Settings.Default}}"
                             TextWrapping="Wrap" />
@@ -87,7 +87,7 @@
                 </TabItem.Header>
             </TabItem>
 
-            <TabItem Header="3" />
+            <TabItem Header="Macros" />
 
 
         </TabControl>

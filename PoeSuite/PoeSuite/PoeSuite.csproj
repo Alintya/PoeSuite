@@ -92,10 +92,10 @@
     <Compile Include="TextBoxPrompt.xaml.cs">
       <DependentUpon>TextBoxPrompt.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utility\ConsoleExtension.cs" />
-    <Compile Include="Utility\Logger.cs" />
-    <Compile Include="Utility\PoeApi.cs" />
-    <Compile Include="Utility\TcpHelper.cs" />
+    <Compile Include="Utilities\ConsoleExtension.cs" />
+    <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="Utilities\PoeApi.cs" />
+    <Compile Include="Utilities\TcpHelper.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\OverlayViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
