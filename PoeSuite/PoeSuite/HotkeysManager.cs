@@ -8,9 +8,11 @@ using System.Linq;
 namespace PoeSuite
 {
     // TODO: put this in its own file
+    // TODO: allow for modifier keys
     internal class HotkeyCommand
     {
         public VirtualKeyCode KeyCode;
+        public VirtualKeyCode Modifier = VirtualKeyCode.Invalid;
         public KeyState State = KeyState.Up;
         public List<Action> Actions = new List<Action>();
     }
@@ -19,6 +21,7 @@ namespace PoeSuite
     {
         private readonly LowLevelKeyboardHook _keyboardHook;
         private readonly Dictionary<string, HotkeyCommand> _hotkeys;
+        private VirtualKeyCode _lastModifier;
 
         public HotkeysManager()
         {
@@ -42,6 +45,25 @@ namespace PoeSuite
 
             _keyboardHook.OnKeyboardEvent += OnKeyboardEvent;
             _keyboardHook.InstallHook();
+        }
+
+        public bool AddModifier(string command, VirtualKeyCode mod)
+        {
+            if (!IsModifierKey(mod))
+            {
+                Logger.Get.Error($"{mod} is not a valid modifier key!");
+                return false;
+            }
+
+            if (!_hotkeys.TryGetValue(command, out var hotkeyCmd))
+            {
+                Logger.Get.Error($"Unknown hotkey command {command}");
+                return false;
+            }
+
+            hotkeyCmd.Modifier = mod;
+
+            return true;
         }
 
         public void AddCallbacks(string command, List<Action> callbacks)
@@ -82,11 +104,26 @@ namespace PoeSuite
         {
             //Logger.Get.Debug($"KeyEvent {key} [{state}]");
 
+            if (IsModifierKey(key) && state == KeyState.Down)
+                _lastModifier = key;
+            else if (key == _lastModifier && state == KeyState.Up)
+                _lastModifier = VirtualKeyCode.Hotkey;
+
             var hotkey = _hotkeys.FirstOrDefault(x => x.Value.KeyCode == key && x.Value.State == state);
             if (hotkey.Equals(default) || hotkey.Value is null)
                 return;
 
-            hotkey.Value.Actions.ForEach(x => x.BeginInvoke(x.EndInvoke, null));
+            hotkey.Value.Actions.ForEach(x =>
+            {
+                if (hotkey.Value.Modifier == VirtualKeyCode.Invalid || hotkey.Value.Modifier == _lastModifier)
+                    x.BeginInvoke(x.EndInvoke, null);
+            });
+        }
+
+        // TODO: make extension method?
+        private bool IsModifierKey(VirtualKeyCode key)
+        {
+            return key == VirtualKeyCode.Lmenu || key == VirtualKeyCode.Lcontrol || key == VirtualKeyCode.Lshift;
         }
     }
 }
