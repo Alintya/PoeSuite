@@ -18,9 +18,6 @@ namespace PoeSuite.ViewModels
 
         private readonly Timer _timer;
 
-        private HotkeysManager _hotkeys;
-
-
         public MainViewModel()
         {
             if (IsInDesignMode)
@@ -44,8 +41,7 @@ namespace PoeSuite.ViewModels
                 _timer.Start();
             }
        
-            _hotkeys = new HotkeysManager();
-            _hotkeys.AddCallback("Logout", () =>
+            HotkeysManager.Get.AddCallback("Logout", () =>
             {
                 Poe?.CloseTcpConnections();
                 Logger.Get.Info("logoutCommand called");

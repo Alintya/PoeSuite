@@ -19,11 +19,16 @@ namespace PoeSuite
 
     internal class HotkeysManager
     {
+        private static HotkeysManager _instance = null;
+
         private readonly LowLevelKeyboardHook _keyboardHook;
         private readonly Dictionary<string, HotkeyCommand> _hotkeys;
         private VirtualKeyCode _lastModifier;
 
-        public HotkeysManager()
+
+        public static HotkeysManager Get => _instance ?? (_instance = new HotkeysManager());
+
+        private HotkeysManager()
         {
             _keyboardHook = new LowLevelKeyboardHook(true);
             _hotkeys = new Dictionary<string, HotkeyCommand>();
