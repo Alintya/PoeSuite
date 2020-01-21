@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace PoeSuite.Models
 {
+#pragma warning disable CS0649
+
     class PoeCharacterInfo
     {
         [JsonProperty("name")]
@@ -33,4 +35,5 @@ namespace PoeSuite.Models
         [JsonProperty("lastActive")]
         public bool LastActive;
     }
+#pragma warning restore CS0649
 }

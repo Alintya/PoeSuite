@@ -13,7 +13,7 @@
     Width="800"
     Height="450"
     DataContext="{Binding Main, Source={StaticResource Locator}}"
-    Icon="Resources/Icon1.ico"
+    Icon="../Resources/Icon1.ico"
     mc:Ignorable="d">
 
     <Window.Resources>
@@ -94,7 +94,7 @@
 
         <tb:TaskbarIcon
             x:Name="myNotifyIcon"
-            IconSource="Resources/Icon1.ico"
+            IconSource="../Resources/Icon1.ico"
             MenuActivation="RightClick"
             PopupActivation="LeftClick"
             ToolTipText="Fallback ToolTip for Windows xp"
