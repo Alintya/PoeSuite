@@ -38,6 +38,8 @@ namespace PoeSuite.Utilities
                 return null;
             }
 
+            Logger.Get.Success($"Updated character info for {characterInfo.Name}!");
+
             return characterInfo;
         }
     }

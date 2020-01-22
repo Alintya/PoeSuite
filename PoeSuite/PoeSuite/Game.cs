@@ -1,5 +1,3 @@
-﻿using PoeSuite.Imports;
-using PoeSuite.Models;
 ﻿using PoeSuite.Utilities;
 using System;
 using System.Collections.Generic;
@@ -24,16 +22,12 @@ namespace PoeSuite
             "PathOfExile_x64_KG"
         };
 
-        //private static readonly object _padlock = new object();
-        //private static Game _instance = null;
-
         private Process _proc;
         private bool _disposed;
-
-        private static DiscordRpc.RichPresence _richPresence = new DiscordRpc.RichPresence();
-        private static PoeCharacterInfo _characterInfo;
+        private Discord _discord;
 
         public event EventHandler GameProcessExited;
+        public event EventHandler GameOn;
 
         public string LogFile => Path.Combine(Path.GetDirectoryName(_proc.MainModule.FileName), "logs\\Client.txt");
 
@@ -61,12 +55,10 @@ namespace PoeSuite
 
             Listener = new LogListener(LogFile);
 
-            Listener.AddListener("] :\\s(.+?) \\((.+)\\) is now level ([0-9]+)", OnLevelUp);
-            Listener.AddListener("] : You have entered (.+).", OnInstanceEntered);
-            Listener.AddListener("] Connecting to instance server at (.+)", OnInstanceConnect);
-            Listener.AddListener("] Connected to (.+) in (.+)ms.", OnLogin);
             Listener.AddListener("] (?:@From|@To|#|\\$|&|%) ?(.+): (.+)", OnChatMessage);
             //Listener.AddListener("] (?:@From|@To) (.+): (.+)", OnWhisperMessage);
+
+            _discord = new Discord(Listener);
 
             Listener.StartListening();
 
@@ -164,77 +156,6 @@ namespace PoeSuite
             Logger.Get.Debug($"Connected to server instance {match.Groups[1]}");
         }
 
-        #region discord-rpc
-
-        /// <summary>
-        /// Gets triggered when the player connects to a new instance
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="match"></param>
-        private static void OnInstanceConnect(string line, Match match)
-        {
-            Logger.Get.Debug($"Connected to server instance {match.Groups[1]}");
-        }
-
-        /// <summary>
-        /// Gets triggered when the player enters a new instance
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="match"></param>
-        private static void OnInstanceEntered(string line, Match match)
-        {
-            var location = match.Groups[1].Value;
-
-            Logger.Get.Debug($"Traveled to {location}");
-
-            _richPresence.State = location;
-            _richPresence.StartTimestamp = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
-            _richPresence.Update();
-        }
-
-        /// <summary>
-        /// Gets triggered when the player levels up
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="match"></param>
-        private static void OnLevelUp(string line, Match match)
-        {
-            var charName = match.Groups[1].Value;
-            var charClass = match.Groups[2].Value;
-            var charLevel = match.Groups[3].Value;
-
-            Logger.Get.Debug($"{charName} [{charClass}] is now level {charLevel}");
-
-            if (_characterInfo?.Name != charName)
-            {
-                return;
-            }
-
-            _richPresence.LargeImageText = $"{charClass} ({charLevel})";
-            _richPresence.Update();
-        }
-
-        /// <summary>
-        /// Gets triggered when the player logs into poe
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="match"></param>
-        private static void OnLogin(string line, Match match)
-        {
-            Logger.Get.Debug($"Logged into {match.Groups[1]} with a ping of {match.Groups[2]}ms");
-
-            _characterInfo = PoeApi.GetCharacterData();
-
-            if (_characterInfo != null)
-            {
-                _richPresence.Details = $"{_characterInfo.League} League";
-                _richPresence.LargeImageKey = _characterInfo.Class.ToLower();
-                _richPresence.LargeImageText = $"{_characterInfo.Class} ({_characterInfo.Level})";
-            }
-        }
-
-        #endregion discord-rpc
-
         public void Dispose()
         {
             Dispose(true);
@@ -250,10 +171,8 @@ namespace PoeSuite
             {
                 _proc?.Dispose();
                 Listener?.Dispose();
+                _discord.Dispose();
             }
-
-            DiscordRpc.Discord_Shutdown();
-
             _disposed = true;
         }
     }
