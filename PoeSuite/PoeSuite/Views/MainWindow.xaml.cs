@@ -36,6 +36,15 @@ namespace PoeSuite
             trayIcon.Icon = new System.Drawing.Icon(iconStream);
             */
             myNotifyIcon.TrayMouseDoubleClick += (object x, RoutedEventArgs y) => ReopenWindow(x, y);
+
+            HotkeysManager.Get.AddCallback("OpenSettings", () =>
+            {
+                // Toggle instead?
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    ReopenWindow(this, new RoutedEventArgs());
+                }));
+            });
         }
 
         #region Minimize to tray
@@ -43,7 +52,7 @@ namespace PoeSuite
         protected override void OnStateChanged(EventArgs e)
         {
             if (WindowState == WindowState.Minimized)
-                base.Hide();
+                Hide();
 
             base.OnStateChanged(e);
         }
@@ -60,7 +69,8 @@ namespace PoeSuite
 
             Logger.Get.Success("Saved settings to file");
 
-            base.Hide();
+            Hide();
+
             base.OnClosing(e);
         }
 
@@ -74,8 +84,9 @@ namespace PoeSuite
 
         private void ReopenWindow(object sender, RoutedEventArgs e)
         {
-            base.Show();
-            base.WindowState = WindowState.Normal;
+            Show();
+            WindowState = WindowState.Normal;
+            Activate();
         }
     }
 }
