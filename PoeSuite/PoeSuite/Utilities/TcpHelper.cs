@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 using static PoeSuite.Imports.Iphlpapi;
 
-namespace PoeSuite.Utility
+namespace PoeSuite.Utilities
 {
     internal static class TcpHelper
     {

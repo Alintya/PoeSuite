@@ -1,5 +1,5 @@
 ﻿using PoeSuite.Imports;
-using PoeSuite.Utility;
+using PoeSuite.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

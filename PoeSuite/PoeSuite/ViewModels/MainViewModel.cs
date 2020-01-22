@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using PoeSuite.Utility;
+using PoeSuite.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +54,7 @@ namespace PoeSuite.ViewModels
 
             if (instances.Count() > 1)
             {
-                // TODO
+                // TODO: show selection prompt
                 
             }
             if (instances.Count() == 1)

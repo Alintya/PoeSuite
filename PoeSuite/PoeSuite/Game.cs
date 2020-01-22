@@ -1,6 +1,6 @@
 ﻿using PoeSuite.Imports;
 using PoeSuite.Models;
-using PoeSuite.Utility;
+﻿using PoeSuite.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -109,7 +109,11 @@ namespace PoeSuite
             var connections = TcpHelper.GetTcpConnections(ipVersion, TcpTableClass.OwnerPidAll);
 
             if (connections.Count == 0)
+            {
+                Logger.Get.Warning($"There are no active tcp connections for {_proc.Id}");
                 return false;
+            }
+                
 
             foreach (var connection in connections.Where(x => x.OwningPid == _proc.Id))
             {
@@ -117,6 +121,7 @@ namespace PoeSuite
                 {
                     // TODO
                     Logger.Get.Warning($"Could not kill tcp connection");
+                    return false;
                 }
             }
 

@@ -4,7 +4,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace PoeSuite.Utility
+namespace PoeSuite.Utilities
 {
     public class Logger
     {

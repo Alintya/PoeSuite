@@ -3,7 +3,7 @@ using PoeSuite.Models;
 using System;
 using System.Net;
 
-namespace PoeSuite.Utility
+namespace PoeSuite.Utilities
 {
     internal static class PoeApi
     {

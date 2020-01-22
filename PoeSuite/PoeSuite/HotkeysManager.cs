@@ -1,5 +1,5 @@
 ﻿using LowLevelInput.Hooks;
-using PoeSuite.Utility;
+using PoeSuite.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
