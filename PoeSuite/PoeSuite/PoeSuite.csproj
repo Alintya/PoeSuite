@@ -94,7 +94,6 @@
     <Compile Include="Views\Dialogs\TextBoxPrompt.xaml.cs">
       <DependentUpon>TextBoxPrompt.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\ConsoleExtension.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Utilities\PoeApi.cs" />
     <Compile Include="Utilities\TcpHelper.cs" />

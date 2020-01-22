@@ -41,7 +41,7 @@ namespace PoeSuite.Imports
             public string SpectateSecret;
             public bool Instance;
 
-            public void Update()
+            public void SendUpdate()
             {
                 //Discord_RunCallbacks();
                 Discord_UpdatePresence(ref this);

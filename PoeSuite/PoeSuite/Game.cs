@@ -1,4 +1,5 @@
-﻿using PoeSuite.Utilities;
+﻿using PoeSuite.Models;
+using PoeSuite.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,13 +22,14 @@ namespace PoeSuite
             "PathOfExile_KG",
             "PathOfExile_x64_KG"
         };
-
-        private Process _proc;
+        
         private bool _disposed;
+        
+        private Process _proc;
         private Discord _discord;
+        private PoeCharacterInfo _characterInfo;
 
         public event EventHandler GameProcessExited;
-        public event EventHandler GameOn;
 
         public string LogFile => Path.Combine(Path.GetDirectoryName(_proc.MainModule.FileName), "logs\\Client.txt");
 
@@ -55,6 +57,10 @@ namespace PoeSuite
 
             Listener = new LogListener(LogFile);
 
+            Listener.AddListener("] :\\s(.+?) \\((.+)\\) is now level ([0-9]+)", OnLevelUp);
+            Listener.AddListener("] : You have entered (.+).", OnInstanceEntered);
+            Listener.AddListener("] Connecting to instance server at (.+)", OnInstanceConnect);
+            Listener.AddListener("] Connected to (.+) in (.+)ms.", OnLogin);
             Listener.AddListener("] (?:@From|@To|#|\\$|&|%) ?(.+): (.+)", OnChatMessage);
             //Listener.AddListener("] (?:@From|@To) (.+): (.+)", OnWhisperMessage);
 
@@ -138,10 +144,77 @@ namespace PoeSuite
             throw new NotImplementedException();
         }
 
-        private void proc_Exited(object sender, EventArgs e)
+        #region discord-rpc
+
+        /// <summary>
+        /// Gets triggered when the player connects to a new instance
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="match"></param>
+        private void OnInstanceConnect(string line, Match match)
         {
-            GameProcessExited?.Invoke(this, e);
+            Logger.Get.Debug($"Connected to server instance {match.Groups[1]}");
+
+            _characterInfo = PoeApi.GetCharacterData();
+
+            if (_characterInfo is null)
+                return;
+
+            _discord.RichPresenceData.Details = $"{_characterInfo.League} League";
+            _discord.RichPresenceData.LargeImageKey = _characterInfo.Class.ToLower();
+            _discord.RichPresenceData.LargeImageText = $"{_characterInfo.Class} ({_characterInfo.Level})";
         }
+
+        /// <summary>
+        /// Gets triggered when the player enters a new instance
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="match"></param>
+        private void OnInstanceEntered(string line, Match match)
+        {
+            var location = match.Groups[1].Value;
+
+            Logger.Get.Debug($"Traveled to {location}");
+
+            _discord.RichPresenceData.State = location;
+            _discord.RichPresenceData.StartTimestamp = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
+            _discord.RichPresenceData.SendUpdate();
+        }
+
+        /// <summary>
+        /// Gets triggered when the player levels up
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="match"></param>
+        private void OnLevelUp(string line, Match match)
+        {
+            var charName = match.Groups[1].Value;
+            var charClass = match.Groups[2].Value;
+            var charLevel = match.Groups[3].Value;
+
+            Logger.Get.Debug($"{charName} [{charClass}] is now level {charLevel}");
+
+            if (_characterInfo?.Name != charName)
+            {
+                // TODO: just update characterInfo instead?
+                return;
+            }
+
+            _discord.RichPresenceData.LargeImageText = $"{charClass} ({charLevel})";
+            _discord.RichPresenceData.SendUpdate();
+        }
+
+        /// <summary>
+        /// Gets triggered when the player logs into poe
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="match"></param>
+        private static void OnLogin(string line, Match match)
+        {
+            Logger.Get.Debug($"Logged into {match.Groups[1]} with a ping of {match.Groups[2]}ms");
+        }
+
+        #endregion discord-rpc
 
         /// <summary>
         /// Gets triggered when the player receives a chat message
@@ -162,6 +235,11 @@ namespace PoeSuite
         private static void OnWhisperReceived(string line, Match match)
         {
             Logger.Get.Debug($"Connected to server instance {match.Groups[1]}");
+        }
+
+        private void proc_Exited(object sender, EventArgs e)
+        {
+            GameProcessExited?.Invoke(this, e);
         }
 
         public void Dispose()
