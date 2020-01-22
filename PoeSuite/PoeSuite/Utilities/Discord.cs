@@ -1,16 +1,11 @@
 ﻿using PoeSuite.Imports;
-using PoeSuite.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace PoeSuite.Utilities
 {
-    class Discord : IDisposable
+    internal class Discord : IDisposable
     {
         private bool _disposed;
 
@@ -19,7 +14,6 @@ namespace PoeSuite.Utilities
 
         private static DiscordRpc.RichPresence _richPresence = new DiscordRpc.RichPresence();
         private static Models.PoeCharacterInfo _characterInfo;
-
 
         public Discord(LogListener listener, ulong appId = 550890770056347648)
         {
@@ -52,6 +46,15 @@ namespace PoeSuite.Utilities
         private static void OnInstanceConnect(string line, Match match)
         {
             Logger.Get.Debug($"Connected to server instance {match.Groups[1]}");
+
+            _characterInfo = PoeApi.GetCharacterData();
+
+            if (_characterInfo is null)
+                return;
+
+            _richPresence.Details = $"{_characterInfo.League} League";
+            _richPresence.LargeImageKey = _characterInfo.Class.ToLower();
+            _richPresence.LargeImageText = $"{_characterInfo.Class} ({_characterInfo.Level})";
         }
 
         /// <summary>
@@ -101,15 +104,6 @@ namespace PoeSuite.Utilities
         private static void OnLogin(string line, Match match)
         {
             Logger.Get.Debug($"Logged into {match.Groups[1]} with a ping of {match.Groups[2]}ms");
-
-            _characterInfo = PoeApi.GetCharacterData();
-
-            if (_characterInfo != null)
-            {
-                _richPresence.Details = $"{_characterInfo.League} League";
-                _richPresence.LargeImageKey = _characterInfo.Class.ToLower();
-                _richPresence.LargeImageText = $"{_characterInfo.Class} ({_characterInfo.Level})";
-            }
         }
 
         #endregion discord-rpc

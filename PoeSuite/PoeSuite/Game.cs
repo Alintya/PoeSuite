@@ -73,7 +73,15 @@ namespace PoeSuite
             proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(Properties.Settings.Default.PoeFilePath);
             proc.StartInfo.UseShellExecute = false;
 
-            proc.Start();
+            try
+            {
+                proc.Start();
+            }
+            catch (Exception e)
+            {
+                Logger.Get.Error($"Could not start poe: {e.Message}");
+            }
+
 
             Logger.Get.Success("Launched PoE");
 
