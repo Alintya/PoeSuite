@@ -47,18 +47,55 @@
                         VerticalAlignment="Top"
                         Content="Auto start PoE"
                         IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=AutoStartPoe, Mode=TwoWay}" />
-                    <StackPanel Orientation="Horizontal">
+
+                    <Grid Height="Auto" Width="250" VerticalAlignment="Bottom">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+
                         <Label
+                            Grid.Row="0"
                             Margin="3,0,0,0"
                             VerticalAlignment="Center"
                             Content="AccountName:" />
                         <TextBox
+                            Grid.Column="1"
                             Width="120"
                             Margin="0,0,0,0"
                             VerticalAlignment="Center"
+                            AcceptsReturn="False"
                             Text="{Binding AccountName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static p:Settings.Default}}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
+                            TextWrapping="NoWrap" />
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="3,0,0,0"
+                            VerticalAlignment="Center"
+                            Content="Poe File Path:" />
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="120"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Center"
+                            AcceptsReturn="False"
+                            Text="{Binding PoeFilePath, Mode=TwoWay, Source={x:Static p:Settings.Default}, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="NoWrap" />
+                        <Button
+                            Grid.Column="0"
+                            Height="20" 
+                            Margin="3,0,0,0">
+                            Select
+                        </Button>
+
+                    </Grid>
 
                     <TextBox
                         Width="120"
