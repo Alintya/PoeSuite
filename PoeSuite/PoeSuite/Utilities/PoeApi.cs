@@ -21,6 +21,9 @@ namespace PoeSuite.Utilities
 
             try
             {
+                if (!string.IsNullOrEmpty(Properties.Settings.Default.SessionId))
+                    _webclient.Headers.Add("POESESSID", Properties.Settings.Default.SessionId);
+
                 var rawData = _webclient.DownloadString(
                             "https://www.pathofexile.com/character-window/get-characters?accountName=" + Properties.Settings.Default.AccountName);
 
@@ -32,9 +35,21 @@ namespace PoeSuite.Utilities
                     
                 characterInfo = Array.Find(JsonConvert.DeserializeObject<PoeCharacterInfo[]>(rawData), x => x.LastActive);
             }
-            catch (Exception ex)
+            catch (WebException ex)
             {
-                Logger.Get.Error($"Failed to retrieve data from PoE api: {ex}");
+                // profile probably private or wrong name/id
+                if (ex.Status == WebExceptionStatus.ProtocolError
+                    && ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.Forbidden
+                    && string.IsNullOrEmpty(Properties.Settings.Default.SessionId))
+                {
+                    Logger.Get.Error($"Failed to retrieve data from PoE api, profile is probably private: {ex.Message}");
+                    // TODO: notify user
+                }
+                else
+                {
+                    Logger.Get.Error($"Failed to retrieve data from PoE api: {ex.Message}");
+                }
+                
                 return null;
             }
 
