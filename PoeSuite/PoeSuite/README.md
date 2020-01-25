@@ -2,13 +2,19 @@
 
 # TODO
 
--**make TextBoxPrompt universal (title and message param)**
+-**~~make TextBoxPrompt universal (title and message param)~~**
+
+-**implement sessionId and handle it in prompt**
 
 -**get modifier keys into settings**
 
+-**add notification system for application messages(errors, infos) as overlay? tray popup? messagebox?**
+
 -**refactor View(models) to use ICommands**
 
--**properly implement discord rich presence**
+-**implement IDataError on bindings**
+
+-**~~properly implement discord rich presence~~**
 
 -**get behind fucking viewmodellocator to utilize correctly**
 
@@ -26,7 +32,7 @@
 
 **__Future__**
 
--**custom console window in debug mode**
+-**~~custom console window in debug mode~~**
 
 -**pricecheck hotkey**
 
