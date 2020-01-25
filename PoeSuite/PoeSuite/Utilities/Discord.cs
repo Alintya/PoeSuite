@@ -12,7 +12,7 @@ namespace PoeSuite.Utilities
 
         public DiscordRpc.RichPresence RichPresenceData = new DiscordRpc.RichPresence();
 
-        public Discord(LogListener listener, ulong appId = 550890770056347648)
+        public Discord(ulong appId = 550890770056347648)
         {
             var discordEvents = new DiscordRpc.EventHandlers();
             discordEvents.ReadyCallback += () => Logger.Get.Success("Connected to Discord RPC pipe");

@@ -64,7 +64,7 @@ namespace PoeSuite
             Listener.AddListener("] (?:@From|@To|#|\\$|&|%) ?(.+): (.+)", OnChatMessage);
             //Listener.AddListener("] (?:@From|@To) (.+): (.+)", OnWhisperMessage);
 
-            _discord = new Discord(Listener);
+            _discord = new Discord();
 
             Listener.StartListening();
 
