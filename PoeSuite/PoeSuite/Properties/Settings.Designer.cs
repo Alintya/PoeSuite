@@ -70,5 +70,17 @@ namespace PoeSuite.Properties {
                 this["DiscordRichPresence"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SessionId {
+            get {
+                return ((string)(this["SessionId"]));
+            }
+            set {
+                this["SessionId"] = value;
+            }
+        }
     }
 }
