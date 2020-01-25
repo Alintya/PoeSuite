@@ -26,9 +26,12 @@ namespace PoeSuite
         }
 
 
-        public TextBoxPrompt()
+        public TextBoxPrompt(string title, string message)
         {
             InitializeComponent();
+
+            Title = title;
+            TextField.Text = message;
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)

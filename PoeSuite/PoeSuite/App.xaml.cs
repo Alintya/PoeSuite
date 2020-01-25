@@ -27,7 +27,7 @@ namespace PoeSuite
             // Validate UserSettings
             if (String.IsNullOrEmpty(PoeSuite.Properties.Settings.Default.AccountName))
             {
-                var dialog = new TextBoxPrompt();
+                var dialog = new TextBoxPrompt("test", "Enter your PoE account name.");
 
                 if (dialog.ShowDialog() == true)
                 {
