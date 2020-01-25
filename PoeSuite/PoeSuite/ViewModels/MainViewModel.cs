@@ -46,6 +46,7 @@ namespace PoeSuite.ViewModels
                 Poe?.CloseTcpConnections();
                 Logger.Get.Info("logoutCommand called");
             });
+            //HotkeysManager.Get.AddModifier("Logout", LowLevelInput.Hooks.VirtualKeyCode.Lshift);
         }
 
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
@@ -68,8 +69,6 @@ namespace PoeSuite.ViewModels
                 Logger.Get.Success("Found poe instance");
             }
         }
-
-
 
         private void Poe_GameProcessExited(object sender, EventArgs e)
         {
