@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace PoeSuite.Models
 {
-    class TradeRequest
+    public class TradeRequest
     {
-        string PlayerName;
-        string ItemName;
-        string StashTabName;
-        System.Numerics.Vector<int> ItemPosition;
-        int Price;
-        string CurrencyName;
+        public string PlayerName { get; set; }
+        public string ItemName { get; set; }
+        public string StashTabName { get; set; }
+        public System.Numerics.Vector<int> ItemPosition { get; set; }
+        public int Price { get; set; }
+        public string CurrencyName { get; set; }
 
     }
 }

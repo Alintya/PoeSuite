@@ -48,7 +48,10 @@
                         Content="Auto start PoE"
                         IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=AutoStartPoe, Mode=TwoWay}" />
 
-                    <Grid Height="Auto" Width="250" VerticalAlignment="Bottom">
+                    <Grid
+                        Width="250"
+                        Height="Auto"
+                        VerticalAlignment="Bottom">
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
@@ -70,7 +73,7 @@
                             Margin="0,0,0,0"
                             VerticalAlignment="Center"
                             AcceptsReturn="False"
-                            Text="{Binding AccountName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Source={x:Static p:Settings.Default}}"
+                            Text="{Binding AccountName, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Source={x:Static p:Settings.Default}}"
                             TextWrapping="NoWrap" />
 
                         <Label
@@ -90,7 +93,7 @@
                             TextWrapping="NoWrap" />
                         <Button
                             Grid.Column="0"
-                            Height="20" 
+                            Height="20"
                             Margin="3,0,0,0">
                             Select
                         </Button>

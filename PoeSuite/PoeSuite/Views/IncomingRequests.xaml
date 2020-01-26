@@ -1,0 +1,61 @@
+﻿<Window
+    x:Class="PoeSuite.Views.IncomingRequests"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PoeSuite.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="IncomingRequests"
+    Width="400"
+    Height="250"
+    DataContext="{Binding IncomingRequests, Source={StaticResource Locator}}"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Grid>
+        <TabControl
+            Width="Auto"
+            ItemsSource="{Binding ActiveRequests, Mode=TwoWay}"
+            SelectedItem="">
+
+            <TabControl.Resources>
+                <local:ItemsControlIndexConverter x:Key="IndexConverter" />
+            </TabControl.Resources>
+
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding
+                                    Converter="{StaticResource IndexConverter}"
+                                    Mode="OneWay"
+                                    StringFormat="Item {0}">
+                                    <Binding Path="Items" RelativeSource="{RelativeSource AncestorType=TabControl}" />
+                                    <!--  First converter index is the ItemsCollection  -->
+                                    <Binding />
+                                    <!--  Second index is the content of this tab  -->
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplate>
+                <!--  this is the body of the TabItem template  -->
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding PlayerName, Mode=OneWay}" />
+                        <Button
+                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.CloseTabCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=SelectedItem}"
+                            Content="test" />
+                    </Grid>
+
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+
+        </TabControl>
+
+    </Grid>
+</Window>

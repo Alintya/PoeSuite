@@ -4,6 +4,8 @@
 
 -**~~make TextBoxPrompt universal (title and message param)~~**
 
+-**bind visibility of incomingtrades overlay to List.count > 1**
+
 -**implement sessionId and handle it in prompt**
 
 -**get modifier keys into settings**

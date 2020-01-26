@@ -1,4 +1,5 @@
 ﻿using PoeSuite.Utilities;
+using PoeSuite.Views;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -19,6 +20,10 @@ namespace PoeSuite
 		{
 			MainWindow wnd = new MainWindow();
 			wnd.Show();
+
+            var incomingRequests = new IncomingRequests();
+            incomingRequests.Show();
+
 
 			Overlay overlay = new Overlay();
             //overlay.Show();
