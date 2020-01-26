@@ -2,6 +2,7 @@
 using PoeSuite.Models;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace PoeSuite.Utilities
 {
@@ -57,5 +58,46 @@ namespace PoeSuite.Utilities
 
             return characterInfo;
         }
+
+        public static async Task<string[]> GetActiveTradingLeagues()
+        {
+            var list = new string[] { };
+
+            var x = await _webclient.DownloadStringTaskAsync("http://api.pathofexile.com/leagues?type=main&compact=1");
+
+            try
+            {
+                var leagues = JsonConvert.DeserializeObject<LeagueData[]>(x);
+            }
+            catch
+            {
+
+            }
+            
+
+            //list.
+            return list;
+        }
+    }
+
+    class LeagueData
+    {
+        [JsonProperty("id")]
+        public string Id;
+
+        [JsonProperty("realm")]
+        public string Realm;
+
+        [JsonProperty("url")]
+        public string Url;
+
+        [JsonProperty("startAt")]
+        public DateTime? StartAt;
+
+        [JsonProperty("endAt")]
+        public DateTime? EndAt;
+
+        [JsonProperty("delveEvent")]
+        public bool DelveEvent;
     }
 }
