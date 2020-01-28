@@ -188,6 +188,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataTypes\Interfaces\" />
+    <Folder Include="Resources\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y "$(SolutionDir)Third Party Libs\*.dll" "$(OutDir)"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

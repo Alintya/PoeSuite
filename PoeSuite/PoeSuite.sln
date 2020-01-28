@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoeSuite", "PoeSuite\PoeSuite.csproj", "{75A5893E-9542-4F78-82A9-49BAED38A7C7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Third Party Libs", "Third Party Libs", "{00058F57-2899-4EE4-B3E0-42DB5B45A55D}"
+	ProjectSection(SolutionItems) = preProject
+		Third Party Libs\discord-rpc.dll = Third Party Libs\discord-rpc.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
