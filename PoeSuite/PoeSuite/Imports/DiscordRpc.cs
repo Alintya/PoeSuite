@@ -44,7 +44,9 @@ namespace PoeSuite.Imports
             public void SendUpdate()
             {
                 //Discord_RunCallbacks();
-                Discord_UpdatePresence(ref this);
+
+                if (Properties.Settings.Default.DiscordRichPresence)
+                    Discord_UpdatePresence(ref this);
             }
         }
         public struct EventHandlers
