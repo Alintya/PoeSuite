@@ -71,6 +71,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataTypes\ChatMessage.cs" />
+    <Compile Include="DataTypes\Enums\ChatMessageChannel.cs" />
     <Compile Include="Features\Pricechecker.cs" />
     <Compile Include="Features\TradeHelper.cs" />
     <Compile Include="Views\ItemsControlIndexConverter.cs" />
@@ -185,6 +187,7 @@
     <Resource Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DataTypes\Interfaces\" />
     <Folder Include="Views\Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,6 +8,8 @@
 
 -**enable/disable RichPresence properly**
 
+-**utilize messaging system to pause/resume classes when poe shuts down?**
+
 -**implement sessionId and handle it in prompt**
 
 -**get modifier keys into settings**
