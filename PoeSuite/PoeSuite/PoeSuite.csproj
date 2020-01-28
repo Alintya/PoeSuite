@@ -75,7 +75,7 @@
     <Compile Include="DataTypes\Enums\ChatMessageChannel.cs" />
     <Compile Include="Features\Pricechecker.cs" />
     <Compile Include="Features\TradeHelper.cs" />
-    <Compile Include="Views\ItemsControlIndexConverter.cs" />
+    <Compile Include="Views\Converters\ItemsControlIndexConverter.cs" />
     <Compile Include="Messages\IncomingTradeMessage.cs" />
     <Compile Include="Messages\ShowIncomingRequestsMessage.cs" />
     <Compile Include="Utilities\Discord.cs" />
@@ -188,7 +188,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataTypes\Interfaces\" />
-    <Folder Include="Views\Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

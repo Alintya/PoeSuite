@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace PoeSuite.Views
+namespace PoeSuite.Views.Converters
 {
     public class ItemsControlIndexConverter : IMultiValueConverter
     {
