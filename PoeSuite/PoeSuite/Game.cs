@@ -1,4 +1,5 @@
-﻿using PoeSuite.Models;
+﻿using PoeSuite.Imports;
+using PoeSuite.Models;
 using PoeSuite.Utilities;
 using System;
 using System.Collections.Generic;
@@ -71,8 +72,11 @@ namespace PoeSuite
             _discord = new Discord();
 
             Listener.StartListening();
-
             Logger.Get.Info("Added game log listeners");
+
+            RegisterHotkeys();
+
+            Logger.Get.Success("Initialized game instance " + _proc.Id);
         }
 
         public static Game Launch(string filepath)
@@ -91,8 +95,6 @@ namespace PoeSuite
             {
                 Logger.Get.Error($"Could not start poe: {e.Message}");
             }
-
-
             Logger.Get.Success("Launched PoE");
 
             return new Game(proc);
@@ -138,17 +140,73 @@ namespace PoeSuite
             return true;
         }
 
-        public void SendWhisper(string recipientName, string message)
+        public void DisplayWhoIs(string player) => SendChatMessage("/whois " + player);
+
+        public void EnterHideout(string player) => SendChatMessage("/hideout " + player);
+
+        public void KickPlayer(string player) => SendChatMessage("/kick " + player);
+
+        public void LeaveParty() => KickPlayer(_characterInfo.Name);
+
+        public void TradeWith(string player) => SendChatMessage("/tradewith " + player);
+
+        public void InvitePlayer(string player) => SendChatMessage("/invite " + player);
+
+        public void SendWhisper(string recipientName, string message) => SendChatMessage($"@{recipientName} {message}");
+
+        public void ChatLogout() => SendChatMessage("/exit");
+
+        private void SendChatMessage(string message)
         {
-            SendChatMessage($"@{recipientName} {message}");
+            if (!IsForegroundWindow)
+                return;
+
+            try
+            {
+                System.Windows.Forms.SendKeys.SendWait("{ENTER}");
+                System.Windows.Forms.SendKeys.SendWait(message);
+                System.Windows.Forms.SendKeys.SendWait("{ENTER}");
+            }
+            catch(Exception e)
+            {
+                Logger.Get.Error($"Could not send chatmessage: {e.Message}");
+            }
+
         }
 
-        public void SendChatMessage(string message)
+        private void RegisterHotkeys()
         {
-            throw new NotImplementedException();
+            HotkeysManager.Get.AddCallback("EnterHideout", () => SendChatMessage("/hideout"));
+            //HotkeysManager.Get.AddCallback("EnterDelve", () => SendChatMessage("/delve"));
+            //HotkeysManager.Get.AddCallback("EnterMenagerie", () => SendChatMessage("/menagerie"));
+            //HotkeysManager.Get.AddCallback("EnterHideout", () => SendChatMessage("/remaining"));
         }
 
-        #region discord-rpc
+        private void UnregisterHotkeys()
+        {
+            HotkeysManager.Get.ClearCallbacks("EnterHideout");
+        }
+
+        /// <summary>
+        /// Gets triggered when the player receives a chat message
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="match"></param>
+        private static void OnChatMessage(string line, Match match)
+        {
+            // TODO: filter message channel?
+            Logger.Get.Debug($"Chat message from: {match.Groups[1]}: {match.Groups[2]}");
+        }
+
+        /// <summary>
+        /// Gets triggered when the player receives a private message
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="match"></param>
+        private static void OnWhisperReceived(string line, Match match)
+        {
+            Logger.Get.Debug($"Connected to server instance {match.Groups[1]}");
+        }
 
         /// <summary>
         /// Gets triggered when the player connects to a new instance
@@ -218,29 +276,6 @@ namespace PoeSuite
             Logger.Get.Debug($"Logged into {match.Groups[1]} with a ping of {match.Groups[2]}ms");
         }
 
-        #endregion discord-rpc
-
-        /// <summary>
-        /// Gets triggered when the player receives a chat message
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="match"></param>
-        private static void OnChatMessage(string line, Match match)
-        {
-            // TODO: filter message channel?
-            Logger.Get.Debug($"Chat message from: {match.Groups[1]}: {match.Groups[2]}");
-        }
-
-        /// <summary>
-        /// Gets triggered when the player receives a private message
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="match"></param>
-        private static void OnWhisperReceived(string line, Match match)
-        {
-            Logger.Get.Debug($"Connected to server instance {match.Groups[1]}");
-        }
-
         private void proc_Exited(object sender, EventArgs e)
         {
             GameProcessExited?.Invoke(this, e);
@@ -259,9 +294,11 @@ namespace PoeSuite
 
             if (disposing)
             {
+                UnregisterHotkeys();
+
                 _proc?.Dispose();
                 Listener?.Dispose();
-                _discord.Dispose();
+                _discord?.Dispose();
             }
             _disposed = true;
         }
