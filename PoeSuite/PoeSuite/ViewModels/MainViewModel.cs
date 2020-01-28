@@ -1,4 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using PoeSuite.Imports;
+using PoeSuite.Messages;
 using PoeSuite.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,9 +17,13 @@ namespace PoeSuite.ViewModels
     {
         public string WindowTitle { get; private set; }
 
+        public RelayCommand OpenFileDialogCommand { get; private set; }
+
         public Game Poe;
 
         private readonly Timer _timer;
+        private User32.WinEventDelegate _winEventCallback;
+
 
         public MainViewModel()
         {
@@ -24,6 +31,9 @@ namespace PoeSuite.ViewModels
                 WindowTitle = "PoeSuite (Designmode)";
             else
                 WindowTitle = "PoeSuite - Settings";
+
+            // TODO
+            OpenFileDialogCommand = new RelayCommand(() => { });
 
 
             _timer = new Timer(250);
@@ -47,6 +57,25 @@ namespace PoeSuite.ViewModels
                 Logger.Get.Info("logoutCommand called");
             });
             //HotkeysManager.Get.AddModifier("Logout", LowLevelInput.Hooks.VirtualKeyCode.Lshift);
+
+            _winEventCallback = new User32.WinEventDelegate(WinEventProc);
+            IntPtr m_hhook = User32.SetWinEventHook(User32.EVENT_SYSTEM_FOREGROUND, User32.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _winEventCallback, 0, 0, User32.WINEVENT_OUTOFCONTEXT);
+        }
+
+        public void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+        {
+            Logger.Get.Debug("Active window changed to " + User32.GetActiveWindowTitle());
+
+            // TODO: or one of our overlay windows
+            if (!(Poe is null) && (Poe.IsForegroundWindow || false))
+            {
+                HotkeysManager.Get.IsEnabled = true;
+            }
+            else
+            {
+                HotkeysManager.Get.IsEnabled = false;
+            }
+            
         }
 
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)

@@ -28,6 +28,8 @@ namespace PoeSuite
 
         public static HotkeysManager Get => _instance ?? (_instance = new HotkeysManager());
 
+        public bool IsEnabled { get; set; }
+
         private HotkeysManager()
         {
             _keyboardHook = new LowLevelKeyboardHook(true);
@@ -93,6 +95,17 @@ namespace PoeSuite
             hotkeyCmd.Actions.Add(callback);
         }
 
+        public void ClearCallbacks(string command)
+        {
+            if (!_hotkeys.TryGetValue(command, out var hotkeyCmd))
+            {
+                Logger.Get.Error($"Unknown hotkey command {command}");
+                return;
+            }
+
+            hotkeyCmd.Actions.Clear();
+        }
+
         private void OnSettingsPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (!(Properties.Hotkeys.Default[e.PropertyName] is VirtualKeyCode keyCode))
@@ -108,6 +121,8 @@ namespace PoeSuite
         private void OnKeyboardEvent(VirtualKeyCode key, KeyState state)
         {
             //Logger.Get.Debug($"KeyEvent {key} [{state}]");
+            if (!IsEnabled)
+                return;
 
             if (IsModifierKey(key) && state == KeyState.Down)
                 _lastModifier = key;

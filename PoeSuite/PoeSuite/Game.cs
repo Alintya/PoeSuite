@@ -22,9 +22,9 @@ namespace PoeSuite
             "PathOfExile_KG",
             "PathOfExile_x64_KG"
         };
-        
+
         private bool _disposed;
-        
+
         private Process _proc;
         private Discord _discord;
         private PoeCharacterInfo _characterInfo;
@@ -34,6 +34,10 @@ namespace PoeSuite
         public string LogFile => Path.Combine(Path.GetDirectoryName(_proc.MainModule.FileName), "logs\\Client.txt");
 
         public bool IsValid => _proc != null && !_proc.HasExited;
+
+        public bool IsForegroundWindow => User32.GetForegroundWindow() == _proc.MainWindowHandle;
+
+        //public IntPtr WindowHandle => _proc.MainWindowHandle;
 
         public LogListener Listener;
      
