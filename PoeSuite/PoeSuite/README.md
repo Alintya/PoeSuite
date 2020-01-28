@@ -6,13 +6,15 @@
 
 -**bind visibility of incomingtrades overlay to List.count > 1**
 
+-**enable/disable RichPresence properly**
+
 -**implement sessionId and handle it in prompt**
 
 -**get modifier keys into settings**
 
 -**add notification system for application messages(errors, infos) as overlay? tray popup? messagebox?**
 
--**refactor View(models) to use ICommands**
+-**~~refactor View(models) to use ICommands~~**
 
 -**implement IDataError on bindings**
 
@@ -29,6 +31,12 @@
 -**implement chat scanner along with overlay**
 
 -**lock overlay to poe window (size and pos)**
+
+-**move mode to position overlay elements**
+
+-**~~disable all hotkeys when poe is not active~~**
+
+-**only disable poe specific hotkeys**
 
 
 
