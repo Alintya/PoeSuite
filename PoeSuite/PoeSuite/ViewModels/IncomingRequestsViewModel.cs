@@ -11,6 +11,7 @@ namespace PoeSuite.ViewModels
     {
         private ObservableCollection<TradeRequest> _activeRequests;
         private bool _shouldBeVisible = true;
+        private TradeRequest _selectedTab;
 
         public ObservableCollection<TradeRequest> ActiveRequests
         {
@@ -21,6 +22,19 @@ namespace PoeSuite.ViewModels
                 {
                     _activeRequests = value;
                     RaisePropertyChanged(nameof(ActiveRequests));
+                }
+            }
+        }
+
+        public TradeRequest SelectedTab
+        {
+            get { return _selectedTab; }
+            set
+            {
+                if (_selectedTab != value)
+                {
+                    _selectedTab = value;
+                    RaisePropertyChanged(nameof(SelectedTab));
                 }
             }
         }
@@ -38,15 +52,15 @@ namespace PoeSuite.ViewModels
             }
         }
 
-        public RelayCommand<TradeRequest> CloseTabCommand { get; private set; }
+        public RelayCommand CloseTabCommand { get; private set; }
 
         public IncomingRequestsViewModel()
         {
             // mockup
             ActiveRequests = new ObservableCollection<TradeRequest>{
-                new TradeRequest { PlayerName = "huehue" },
-                new TradeRequest { },
-                new TradeRequest { },
+                new TradeRequest { PlayerName = "huehue", ItemName = "sdsf" },
+                new TradeRequest { ItemName = "sdssdfasdff" },
+                new TradeRequest { ItemName = "asc" },
                 new TradeRequest { }
             };
 
@@ -59,7 +73,7 @@ namespace PoeSuite.ViewModels
                     });
             });
 
-            CloseTabCommand = new RelayCommand<TradeRequest>(tab => ExecuteCloseTab(tab));
+            CloseTabCommand = new RelayCommand(() => ExecuteCloseTab());
 
             MessengerInstance.Register<IncomingTradeMessage>(this, msg =>
             {
@@ -68,9 +82,9 @@ namespace PoeSuite.ViewModels
             });
         }
 
-        private void ExecuteCloseTab(TradeRequest tab)
+        private void ExecuteCloseTab()
         {
-            Remove(tab);
+            Remove(SelectedTab);
         }
 
         private void Add(TradeRequest x)
