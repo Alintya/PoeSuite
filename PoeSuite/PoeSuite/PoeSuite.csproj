@@ -93,7 +93,7 @@
     <Compile Include="Imports\Kernel32.cs" />
     <Compile Include="Imports\User32.cs" />
     <Compile Include="Models\GameSettings.cs" />
-    <Compile Include="Models\TradeRequest.cs" />
+    <Compile Include="DataTypes\TradeRequest.cs" />
     <Compile Include="ViewModels\IncomingRequestsViewModel.cs" />
     <Compile Include="Views\IncomingRequests.xaml.cs">
       <DependentUpon>IncomingRequests.xaml</DependentUpon>
