@@ -42,9 +42,13 @@
 
 -**only disable poe specific hotkeys**
 
+-**localize UI**
+
 
 
 **__Future__**
+
+-**localize chat filters**
 
 -**~~custom console window in debug mode~~**
 

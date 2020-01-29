@@ -52,7 +52,7 @@ namespace PoeSuite.ViewModels
             }
         }
 
-        public RelayCommand CloseTabCommand { get; private set; }
+        public RelayCommand<TradeRequest> CloseTabCommand { get; private set; }
 
         public IncomingRequestsViewModel()
         {
@@ -64,16 +64,15 @@ namespace PoeSuite.ViewModels
                 new TradeRequest { }
             };
 
-            HotkeysManager.Get.AddCallback("EnterHideout", () =>
+            HotkeysManager.Get.AddCallback("OpenSettings", () =>
             {
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        Add(new TradeRequest());
                         MessengerInstance.Send<IncomingTradeMessage>(new IncomingTradeMessage(new TradeRequest { ItemName = "test32" }));
                     });
             });
 
-            CloseTabCommand = new RelayCommand(() => ExecuteCloseTab());
+            CloseTabCommand = new RelayCommand<TradeRequest>(tab => ExecuteCloseTab(tab));
 
             MessengerInstance.Register<IncomingTradeMessage>(this, msg =>
             {
@@ -82,9 +81,9 @@ namespace PoeSuite.ViewModels
             });
         }
 
-        private void ExecuteCloseTab()
+        private void ExecuteCloseTab(TradeRequest x)
         {
-            Remove(SelectedTab);
+            Remove(x);
         }
 
         private void Add(TradeRequest x)

@@ -6,15 +6,25 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:PoeSuite.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="incomingRequestsWindow"
     Title="IncomingRequests"
     Width="400"
     Height="250"
     DataContext="{Binding IncomingRequests, Source={StaticResource Locator}}"
-    Visibility="{Binding ShouldBeVisible, Converter={StaticResource BoolToVis}}"
+    Visibility="{Binding ShouldBeVisible, Mode=TwoWay, Converter={StaticResource BoolToVis}}"
     WindowStyle="SingleBorderWindow"
-    mc:Ignorable="d"
-    Name="incomingRequestsWindow">
-    
+    mc:Ignorable="d">
+    <!--
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ActiveRequests.Count}" Value="0">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>    -->
     <Grid>
         <TabControl
             Width="Auto"
@@ -29,7 +39,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding ItemName}">
-                            
+
                             <!--
                             <TextBlock.Text>
 
@@ -44,7 +54,8 @@
                             </TextBlock.Text>
                             -->
                         </TextBlock>
-                        <Button Command="{Binding ElementName=incomingRequestsWindow, Path=DataContext.CloseTabCommand}" Content="x" />
+                        <Button Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor, AncestorLevel=1}, Path=DataContext.CloseTabCommand}" Content="x"
+                                CommandParameter="{Binding}"/>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
@@ -54,7 +65,7 @@
                 <DataTemplate>
                     <Grid>
                         <TextBlock Text="{Binding PlayerName, Mode=OneWay}" />
-                        
+
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
