@@ -1,5 +1,5 @@
-﻿using PoeSuite.Imports;
 ﻿using PoeSuite.DataTypes;
+using PoeSuite.Imports;
 using PoeSuite.Models;
 using PoeSuite.Utilities;
 using System;
@@ -197,6 +197,11 @@ namespace PoeSuite
         {
             // TODO: filter message channel?
             Logger.Get.Debug($"Chat message from: {match.Groups[1]}: {match.Groups[2]}");
+
+            var msg = new ChatMessage { Sender = match.Groups[1].Value, Message = match.Groups[1].Value,
+                Channel = ChatMessage.GetMessageChannel(line) };
+
+            //ChatScanner.OnChatMessage(msg);
         }
 
         /// <summary>

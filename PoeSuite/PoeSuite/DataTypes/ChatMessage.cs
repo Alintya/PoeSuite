@@ -35,20 +35,18 @@ namespace PoeSuite.DataTypes
 
         public ChatMessage(string raw)
         {
-
-        }
-
-        public ChatMessage(string sender, string msg)
-        {
-
+            // TODO: apply regex?
+            _raw = raw;
         }
 
         public ChatMessage(ChatMessageChannel channel, string sender, string msg)
         {
-
+            Channel = channel;
+            Sender = sender;
+            Message = msg;
         }
 
-        private ChatMessageChannel GetMessageChannel(string message)
+        public static ChatMessageChannel GetMessageChannel(string message)
         {
             ChatMessageChannel ch = ChatMessageChannel.None;
 
