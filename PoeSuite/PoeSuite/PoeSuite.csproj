@@ -75,6 +75,7 @@
     <Compile Include="DataTypes\Enums\ChatMessageChannel.cs" />
     <Compile Include="Features\Pricechecker.cs" />
     <Compile Include="Features\TradeHelper.cs" />
+    <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\ItemsControlIndexConverter.cs" />
     <Compile Include="Messages\IncomingTradeMessage.cs" />
     <Compile Include="Messages\ShowIncomingRequestsMessage.cs" />

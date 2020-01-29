@@ -1,4 +1,5 @@
 ﻿using PoeSuite.Imports;
+﻿using PoeSuite.DataTypes;
 using PoeSuite.Models;
 using PoeSuite.Utilities;
 using System;

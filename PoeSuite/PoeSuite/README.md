@@ -12,6 +12,8 @@
 
 -**implement sessionId and handle it in prompt**
 
+-**draw feature overlays inside overlay window**
+
 -**get modifier keys into settings**
 
 -**add notification system for application messages(errors, infos) as overlay? tray popup? messagebox?**
