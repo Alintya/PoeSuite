@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:input="clr-namespace:LowLevelInput.Hooks;assembly=LowLevelInput"
     xmlns:local="clr-namespace:PoeSuite"
+    xmlns:controls="clr-namespace:PoeSuite.Views.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:PoeSuite.Properties"
     xmlns:tb="http://www.hardcodet.net/taskbar"
@@ -141,19 +142,7 @@
             Visibility="Visible">
 
             <tb:TaskbarIcon.TrayToolTip>
-                <Border
-                    Width="160"
-                    Height="40"
-                    Background="White"
-                    BorderBrush="Orange"
-                    BorderThickness="2"
-                    CornerRadius="4"
-                    Opacity="0.8">
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="hello world" />
-                </Border>
+                <controls:ToolTip />
             </tb:TaskbarIcon.TrayToolTip>
 
             <tb:TaskbarIcon.TrayPopup>

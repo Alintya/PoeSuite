@@ -75,7 +75,11 @@
     <Compile Include="DataTypes\Enums\ChatMessageChannel.cs" />
     <Compile Include="Features\Pricechecker.cs" />
     <Compile Include="Features\TradeHelper.cs" />
+    <Compile Include="Messages\ShowTooltipMessage.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Views\UserControls\ToolTip.xaml.cs">
+      <DependentUpon>ToolTip.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Converters\ItemsControlIndexConverter.cs" />
     <Compile Include="Messages\IncomingTradeMessage.cs" />
     <Compile Include="Messages\ShowIncomingRequestsMessage.cs" />
@@ -111,6 +115,10 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\OverlayViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Page Include="Views\UserControls\ToolTip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\IncomingRequests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
