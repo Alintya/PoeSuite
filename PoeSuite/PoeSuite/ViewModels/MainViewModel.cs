@@ -64,7 +64,7 @@ namespace PoeSuite.ViewModels
 
         public void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
         {
-            Logger.Get.Debug("Active window changed to " + User32.GetActiveWindowTitle());
+            //Logger.Get.Debug("Active window changed to " + User32.GetActiveWindowTitle());
 
             // TODO: or one of our overlay windows
             if (!(Poe is null) && (Poe.IsForegroundWindow || false))

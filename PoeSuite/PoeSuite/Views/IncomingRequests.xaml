@@ -10,7 +10,8 @@
     Width="400"
     Height="250"
     DataContext="{Binding IncomingRequests, Source={StaticResource Locator}}"
-    WindowStyle="None"
+    Visibility="{Binding ShouldBeVisible, Converter={StaticResource BoolToVis}}"
+    WindowStyle="SingleBorderWindow"
     mc:Ignorable="d">
     <Grid>
         <TabControl
@@ -25,32 +26,34 @@
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock>
+                        <TextBlock Text="{Binding ItemName}">
+                            <!--
                             <TextBlock.Text>
+
                                 <MultiBinding
                                     Converter="{StaticResource IndexConverter}"
                                     Mode="OneWay"
                                     StringFormat="Item {0}">
                                     <Binding Path="Items" RelativeSource="{RelativeSource AncestorType=TabControl}" />
-                                    <!--  First converter index is the ItemsCollection  -->
                                     <Binding />
-                                    <!--  Second index is the content of this tab  -->
                                 </MultiBinding>
+
                             </TextBlock.Text>
+                            -->
                         </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
 
             <TabControl.ContentTemplate>
-                <!--  this is the body of the TabItem template  -->
+                <!--  tab body  -->
                 <DataTemplate>
                     <Grid>
                         <TextBlock Text="{Binding PlayerName, Mode=OneWay}" />
                         <Button
                             Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.CloseTabCommand}"
-                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=SelectedItem}"
-                            Content="test" />
+                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}, Path=SelectedItem}"
+                            Content="x" />
                     </Grid>
 
                 </DataTemplate>

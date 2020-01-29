@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using PoeSuite.DataTypes;
 using PoeSuite.Messages;
-using PoeSuite.Models;
 using System.Collections.ObjectModel;
 
 namespace PoeSuite.ViewModels
@@ -10,6 +10,7 @@ namespace PoeSuite.ViewModels
     public class IncomingRequestsViewModel : ViewModelBase
     {
         private ObservableCollection<TradeRequest> _activeRequests;
+        private bool _shouldBeVisible = true;
 
         public ObservableCollection<TradeRequest> ActiveRequests
         {
@@ -24,7 +25,18 @@ namespace PoeSuite.ViewModels
             }
         }
 
-        public bool ShouldBeVisible => ActiveRequests.Count > 0;
+        public bool ShouldBeVisible
+        {
+            get
+            {
+                return _shouldBeVisible;
+            }
+            set
+            {
+                _shouldBeVisible = value;
+                RaisePropertyChanged(nameof(ShouldBeVisible));
+            }
+        }
 
         public RelayCommand<TradeRequest> CloseTabCommand { get; private set; }
 
@@ -43,6 +55,7 @@ namespace PoeSuite.ViewModels
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
                         Add(new TradeRequest());
+                        MessengerInstance.Send<IncomingTradeMessage>(new IncomingTradeMessage(new TradeRequest { ItemName = "test32" }));
                     });
             });
 
@@ -51,6 +64,7 @@ namespace PoeSuite.ViewModels
             MessengerInstance.Register<IncomingTradeMessage>(this, msg =>
             {
                 Add(msg.Request);
+                ShouldBeVisible = true;
             });
         }
 
@@ -66,7 +80,11 @@ namespace PoeSuite.ViewModels
 
         private void Remove(TradeRequest x)
         {
-            _activeRequests.Remove(x);
+            if (_activeRequests.Count > 0)
+                _activeRequests.Remove(x);
+
+            if (_activeRequests.Count == 0)
+                ShouldBeVisible = false;
         }
     }
 }
