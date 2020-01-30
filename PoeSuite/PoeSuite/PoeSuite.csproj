@@ -73,6 +73,7 @@
     </ApplicationDefinition>
     <Compile Include="DataTypes\ChatMessage.cs" />
     <Compile Include="DataTypes\Enums\ChatMessageChannel.cs" />
+    <Compile Include="DataTypes\HotkeyCommand.cs" />
     <Compile Include="Features\Pricechecker.cs" />
     <Compile Include="Features\TradeHelper.cs" />
     <Compile Include="Messages\ShowTooltipMessage.cs" />

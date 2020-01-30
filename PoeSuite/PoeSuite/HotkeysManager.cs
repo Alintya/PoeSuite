@@ -1,4 +1,5 @@
 ﻿using LowLevelInput.Hooks;
+using PoeSuite.DataTypes;
 using PoeSuite.Utilities;
 using System;
 using System.Collections.Generic;
@@ -7,16 +8,6 @@ using System.Linq;
 
 namespace PoeSuite
 {
-    // TODO: put this in its own file
-    // TODO: allow for modifier keys
-    internal class HotkeyCommand
-    {
-        public VirtualKeyCode KeyCode;
-        public VirtualKeyCode Modifier = VirtualKeyCode.Invalid;
-        public KeyState State = KeyState.Up;
-        public List<Action> Actions = new List<Action>();
-    }
-
     internal class HotkeysManager
     {
         private static HotkeysManager _instance = null;
