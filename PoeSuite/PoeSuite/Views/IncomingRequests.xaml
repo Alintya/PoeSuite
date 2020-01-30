@@ -33,12 +33,15 @@
 
             <TabControl.Resources>
                 <converters:ItemsControlIndexConverter x:Key="IndexConverter" />
+                <converters:BooleanToColorConverter x:Key="BooleanToColor" />
             </TabControl.Resources>
 
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ItemName}">
+                        <TextBlock
+                            Text="{Binding ItemName}"
+                            Foreground="{Binding PlayerJoinedArea, Converter={StaticResource BooleanToColor}}">
 
                             <!--
                             <TextBlock.Text>
@@ -65,7 +68,6 @@
                 <DataTemplate>
                     <Grid>
                         <TextBlock Text="{Binding PlayerName, Mode=OneWay}" />
-
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>

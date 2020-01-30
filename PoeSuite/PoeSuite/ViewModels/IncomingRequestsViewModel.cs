@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using PoeSuite.DataTypes;
 using PoeSuite.Messages;
+using PoeSuite.Models;
 using System.Collections.ObjectModel;
 
 namespace PoeSuite.ViewModels

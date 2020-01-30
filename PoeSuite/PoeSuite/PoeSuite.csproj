@@ -78,6 +78,7 @@
     <Compile Include="Features\TradeHelper.cs" />
     <Compile Include="Messages\PlayerJoinedAreaMessage.cs" />
     <Compile Include="Messages\ShowTooltipMessage.cs" />
+    <Compile Include="Views\Converters\BooleanToColorConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Views\UserControls\ToolTip.xaml.cs">
       <DependentUpon>ToolTip.xaml</DependentUpon>
