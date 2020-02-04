@@ -44,6 +44,12 @@
 
 -**localize UI**
 
+-**bind visibility of overlay to poe foreground status**
+
+-**timeout on requests until they are removed**
+
+-**refactor game interaction to service**
+
 
 
 **__Future__**
