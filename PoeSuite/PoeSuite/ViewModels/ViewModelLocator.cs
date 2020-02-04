@@ -31,6 +31,7 @@ namespace PoeSuite.ViewModels
             else
             {
                 // Create run time view services and models                
+                SimpleIoc.Default.Register<IOService, IOServiceContainer>();
             }
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<IncomingRequestsViewModel>();

@@ -74,10 +74,12 @@
     <Compile Include="DataTypes\ChatMessage.cs" />
     <Compile Include="DataTypes\Enums\ChatMessageChannel.cs" />
     <Compile Include="DataTypes\HotkeyCommand.cs" />
+    <Compile Include="DataTypes\Interfaces\IOService.cs" />
     <Compile Include="Features\Pricechecker.cs" />
     <Compile Include="Features\TradeHelper.cs" />
     <Compile Include="Messages\PlayerJoinedAreaMessage.cs" />
     <Compile Include="Messages\ShowTooltipMessage.cs" />
+    <Compile Include="Utilities\Services\IOServiceContainer.cs" />
     <Compile Include="Views\Converters\BooleanToColorConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Views\UserControls\ToolTip.xaml.cs">
