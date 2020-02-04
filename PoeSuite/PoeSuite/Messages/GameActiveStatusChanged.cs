@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace PoeSuite.Messages
 {
-    class ShowIncomingRequestsMessage
+    class GameActiveStatusChanged
     {
+        public bool IsInForeground { get; set; }
     }
 }

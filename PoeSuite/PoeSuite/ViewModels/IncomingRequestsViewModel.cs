@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using PoeSuite.DataTypes;
 using PoeSuite.Messages;
 using PoeSuite.Models;
 using System.Collections.ObjectModel;
@@ -52,38 +53,70 @@ namespace PoeSuite.ViewModels
             }
         }
 
-        public RelayCommand<TradeRequest> CloseTabCommand { get; private set; }
+        public RelayCommand CloseTabCommand { get; private set; }
+        public RelayCommand SendTradeCommand { get; private set; }
+        public RelayCommand SendInviteCommand { get; private set; }
+        public RelayCommand EnterHideoutCommand { get; private set; }
+        public RelayCommand KickCommand { get; private set; }
+        public RelayCommand SendMessageCommand { get; private set; }
 
         public IncomingRequestsViewModel()
         {
             // mockup
-            ActiveRequests = new ObservableCollection<TradeRequest>{
-                new TradeRequest { PlayerName = "huehue", ItemName = "sdsf" },
-                new TradeRequest { ItemName = "sdssdfasdff" },
-                new TradeRequest { ItemName = "asc" },
-                new TradeRequest { }
-            };
-
+            ActiveRequests = new ObservableCollection<TradeRequest>() { new TradeRequest { ItemName = "testItem12345678", PlayerName= "huehue" }};
+            /*
             HotkeysManager.Get.AddCallback("OpenSettings", () =>
             {
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        MessengerInstance.Send<IncomingTradeMessage>(new IncomingTradeMessage(new TradeRequest { ItemName = "test32" }));
+                        MessengerInstance.Send(new IncomingTradeMessage(new TradeRequest { ItemName = "test32" }));
+                        MessengerInstance.Send(new PlayerJoinedAreaMessage { PlayerName="huehue" });
                     });
             });
+            */
 
-            CloseTabCommand = new RelayCommand<TradeRequest>(tab => ExecuteCloseTab(tab));
+            CloseTabCommand = new RelayCommand(ExecuteCloseTab);
+
+            SendTradeCommand = new RelayCommand(() =>
+            {
+                MessengerInstance.Send(new Messages.SendChatMessage(CreateChatCommand("/tradewith")));
+            });
+
+            SendInviteCommand = new RelayCommand(() =>
+            {
+                MessengerInstance.Send(new SendChatMessage(CreateChatCommand("/invite")));
+            });
+
+            EnterHideoutCommand = new RelayCommand(() =>
+            {
+                MessengerInstance.Send(new SendChatMessage(CreateChatCommand("/hideout")));
+            });
+
+            KickCommand = new RelayCommand(() =>
+            {
+                MessengerInstance.Send(new SendChatMessage(CreateChatCommand("/kick")));
+            });
+
 
             MessengerInstance.Register<IncomingTradeMessage>(this, msg =>
             {
-                Add(msg.Request);
-                ShouldBeVisible = true;
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Add(msg.Request);
+                    ShouldBeVisible = true;
+                });
             });
         }
 
-        private void ExecuteCloseTab(TradeRequest x)
+        private ChatMessage CreateChatCommand(string command)
         {
-            Remove(x);
+            return new ChatMessage { Channel = DataTypes.Enums.ChatMessageChannel.ChatCommand,
+                Sender = _selectedTab.PlayerName, Message = command };
+        }
+
+        private void ExecuteCloseTab()
+        {
+            Remove(_selectedTab);
         }
 
         private void Add(TradeRequest x)

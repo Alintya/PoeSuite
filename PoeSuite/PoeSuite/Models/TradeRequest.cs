@@ -15,18 +15,20 @@ namespace PoeSuite.Models
 
         public string PlayerName { get; set; }
         public string ItemName { get; set; }
+        public int ItemAmount { get; set; }
         public string StashTabName { get; set; }
-        public System.Numerics.Vector<int> ItemPosition { get; set; }
+        public System.Drawing.Point ItemPosition { get; set; }
         public int Price { get; set; }
         public string CurrencyName { get; set; }
 
-        public bool Outgoing { get; set; }
+        public bool IsCurrencyExchange { get; set; }
+        public bool IsOutgoing { get; set; }
 
         public bool PlayerJoinedArea
         {
             get { return _playerJoinedArea; }
             set
-            { 
+            {
                 _playerJoinedArea = value;
                 RaisePropertyChanged(nameof(PlayerJoinedArea));
             }

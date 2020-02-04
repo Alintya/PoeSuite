@@ -1,5 +1,9 @@
-﻿using PoeSuite.DataTypes;
+﻿using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
+using PoeSuite.DataTypes;
+using PoeSuite.Features;
 using PoeSuite.Imports;
+using PoeSuite.Messages;
 using PoeSuite.Models;
 using PoeSuite.Utilities;
 using System;
@@ -30,6 +34,8 @@ namespace PoeSuite
         private Process _proc;
         private Discord _discord;
         private PoeCharacterInfo _characterInfo;
+
+        private TradeHelper _tradeHelper;
 
         public event EventHandler GameProcessExited;
 
@@ -67,17 +73,20 @@ namespace PoeSuite
             Listener.AddListener("] : You have entered (.+).", OnInstanceEntered);
             Listener.AddListener("] Connecting to instance server at (.+)", OnInstanceConnect);
             Listener.AddListener("] Connected to (.+) in (.+)ms.", OnLogin);
-            Listener.AddListener("] (?:@From|@To|#|\\$|&|%) ?(.+): (.+)", OnChatMessage);
+            Listener.AddListener("(?:@From|@To|#|\\$|&|%) ?(?:<.+> )*([^\\s]*): (.+)", OnChatMessage);
             //Listener.AddListener("] (?:@From|@To) (.+): (.+)", OnWhisperMessage);
 
             _discord = new Discord();
+            _tradeHelper = SimpleIoc.Default.GetInstance<TradeHelper>();
+
 
             Listener.StartListening();
-            Logger.Get.Info("Added game log listeners");
-
             RegisterHotkeys();
 
             Logger.Get.Success("Initialized game instance " + _proc.Id);
+
+            Messenger.Default.Register<Messages.SendChatMessage>(this, msg => SendChatMessage(msg.Message));
+            Messenger.Default.Send(new Messages.GameActiveStatusChanged { IsInForeground = true });
         }
 
         public static Game Launch(string filepath)
@@ -100,6 +109,8 @@ namespace PoeSuite
 
             return new Game(proc);
         }
+
+        public bool IsWindowHandle(IntPtr hwnd) => !_disposed && _proc?.MainWindowHandle == hwnd ? true : false;
 
         internal static bool ValidateGamePath(string poeFilePath)
         {
@@ -141,6 +152,7 @@ namespace PoeSuite
             return true;
         }
 
+        #region chat meta methods
         public void DisplayWhoIs(string player) => SendChatMessage("/whois " + player);
 
         public void EnterHideout(string player) => SendChatMessage("/hideout " + player);
@@ -156,6 +168,23 @@ namespace PoeSuite
         public void SendWhisper(string recipientName, string message) => SendChatMessage($"@{recipientName} {message}");
 
         public void ChatLogout() => SendChatMessage("/exit");
+        #endregion
+
+        private void SendChatMessage(ChatMessage message)
+        {
+            string msgString = message.GetPrefix;
+
+            // private message
+            if (message.Channel == DataTypes.Enums.ChatMessageChannel.Private && !string.IsNullOrEmpty(message.Sender))
+                msgString = string.Concat(msgString, $"{message.Sender} {message.Message}");
+            // chat command, Message = command, Sender = TargetName
+            else if (message.Channel == DataTypes.Enums.ChatMessageChannel.ChatCommand && !string.IsNullOrEmpty(message.Sender))
+                msgString = string.Concat(message.Message, message.Sender);
+            else
+                msgString = string.Concat(msgString, message.Message);
+
+            SendChatMessage(msgString);
+        }
 
         private void SendChatMessage(string message)
         {
@@ -172,7 +201,6 @@ namespace PoeSuite
             {
                 Logger.Get.Error($"Could not send chatmessage: {e.Message}");
             }
-
         }
 
         private void RegisterHotkeys()
@@ -193,13 +221,19 @@ namespace PoeSuite
         /// </summary>
         /// <param name="line"></param>
         /// <param name="match"></param>
-        private static void OnChatMessage(string line, Match match)
+        private void OnChatMessage(string line, Match match)
         {
-            // TODO: filter message channel?
-            Logger.Get.Debug($"Chat message from: {match.Groups[1]}: {match.Groups[2]}");
+            //Logger.Get.Debug($"Chat message from: {match.Groups[1]}: {match.Groups[2]}");
 
-            var msg = new ChatMessage { Sender = match.Groups[1].Value, Message = match.Groups[1].Value,
-                Channel = ChatMessage.GetMessageChannel(line) };
+            var msg = new ChatMessage
+            {
+                Sender = match.Groups[1].Value,
+                Message = match.Groups[2].Value,
+                Channel = ChatMessage.GetMessageChannel(match.Value)
+            };
+
+            if (msg.Channel == DataTypes.Enums.ChatMessageChannel.Private)
+                OnWhisperReceived(msg);
 
             //ChatScanner.OnChatMessage(msg);
         }
@@ -209,9 +243,9 @@ namespace PoeSuite
         /// </summary>
         /// <param name="line"></param>
         /// <param name="match"></param>
-        private static void OnWhisperReceived(string line, Match match)
+        private void OnWhisperReceived(ChatMessage msg)
         {
-            Logger.Get.Debug($"Connected to server instance {match.Groups[1]}");
+            _tradeHelper.OnChatMessage(msg);
         }
 
         /// <summary>

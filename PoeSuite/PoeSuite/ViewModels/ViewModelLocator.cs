@@ -2,7 +2,9 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
+using PoeSuite.DataTypes.Interfaces;
 using PoeSuite.Messages;
+using PoeSuite.Utilities.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +34,7 @@ namespace PoeSuite.ViewModels
             {
                 // Create run time view services and models                
                 SimpleIoc.Default.Register<IOService, IOServiceContainer>();
+                SimpleIoc.Default.Register<Features.TradeHelper>();
             }
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<IncomingRequestsViewModel>();

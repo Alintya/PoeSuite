@@ -24,7 +24,7 @@ namespace PoeSuite.DataTypes
                 return _channel;
             }
 
-            set { }
+            set { _channel = value; }
         }
         
 
@@ -45,6 +45,8 @@ namespace PoeSuite.DataTypes
             Sender = sender;
             Message = msg;
         }
+
+        public string GetPrefix => ChannelToPrefix(_channel);
 
         public static ChatMessageChannel GetMessageChannel(string message)
         {
@@ -73,6 +75,38 @@ namespace PoeSuite.DataTypes
             }
 
             return ch;
+        }
+
+        public static string ChannelToPrefix(ChatMessageChannel ch)
+        {
+            string prefix = string.Empty;
+
+            switch (ch)
+            {
+                case ChatMessageChannel.Private:
+                    prefix = "@";
+                    break;
+                case ChatMessageChannel.Global:
+                    prefix = "#";
+                    break;
+                case ChatMessageChannel.Party:
+                    prefix = "%";
+                    break;
+                case ChatMessageChannel.Trade:
+                    prefix = "$";
+                    break;
+                case ChatMessageChannel.Guild:
+                    prefix = "&";
+                    break;
+                case ChatMessageChannel.ChatCommand:
+                    prefix = "/";
+                    break;
+                default:
+
+                    break;
+            }
+
+            return prefix;
         }
     }
 }

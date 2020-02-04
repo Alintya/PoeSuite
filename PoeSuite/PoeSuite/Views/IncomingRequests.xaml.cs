@@ -19,7 +19,7 @@ namespace PoeSuite.Views
     /// <summary>
     /// Interaction logic for IncomingRequests.xaml
     /// </summary>
-    public partial class IncomingRequests : Window
+    public partial class IncomingRequests : UserControl
     {
         public IncomingRequests()
         {

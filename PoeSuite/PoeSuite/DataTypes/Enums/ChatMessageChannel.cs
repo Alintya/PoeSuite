@@ -17,6 +17,7 @@ namespace PoeSuite.DataTypes.Enums
         Trade,
         Party,
         Guild,
+        ChatCommand,
         Unknown
     }
 }

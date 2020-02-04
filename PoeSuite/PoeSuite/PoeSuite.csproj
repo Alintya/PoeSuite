@@ -74,9 +74,11 @@
     <Compile Include="DataTypes\ChatMessage.cs" />
     <Compile Include="DataTypes\Enums\ChatMessageChannel.cs" />
     <Compile Include="DataTypes\HotkeyCommand.cs" />
+    <Compile Include="DataTypes\Interfaces\IGame.cs" />
     <Compile Include="DataTypes\Interfaces\IOService.cs" />
     <Compile Include="Features\Pricechecker.cs" />
     <Compile Include="Features\TradeHelper.cs" />
+    <Compile Include="Messages\GameActiveStatusChanged.cs" />
     <Compile Include="Messages\PlayerJoinedAreaMessage.cs" />
     <Compile Include="Messages\ShowTooltipMessage.cs" />
     <Compile Include="Utilities\Services\IOServiceContainer.cs" />
@@ -87,7 +89,7 @@
     </Compile>
     <Compile Include="Views\Converters\ItemsControlIndexConverter.cs" />
     <Compile Include="Messages\IncomingTradeMessage.cs" />
-    <Compile Include="Messages\ShowIncomingRequestsMessage.cs" />
+    <Compile Include="Messages\SendChatMessage.cs" />
     <Compile Include="Utilities\Discord.cs" />
     <Compile Include="Features\ChatScanner.cs" />
     <Compile Include="Game.cs" />
@@ -190,11 +192,17 @@
     <PackageReference Include="LowLevelInput.Net">
       <Version>1.36.6</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.19</Version>
+    </PackageReference>
     <PackageReference Include="MvvmLight">
       <Version>5.4.1.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="System.Windows.Interactivity.WPF">
+      <Version>2.0.20525</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
