@@ -22,11 +22,11 @@ namespace PoeSuite
 			wnd.Show();
 
             var incomingRequests = new IncomingRequests();
-            incomingRequests.Show();
+            //incomingRequests.Show();
 
 
 			Overlay overlay = new Overlay();
-            //overlay.Show();
+            overlay.Show();
 
 
             // Validate UserSettings
