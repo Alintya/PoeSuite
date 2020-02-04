@@ -20,6 +20,7 @@ namespace PoeSuite.ViewModels
     public class ViewModelLocator
     {
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public OverlayViewModel OverlayCanvas => ServiceLocator.Current.GetInstance<OverlayViewModel>();
         public IncomingRequestsViewModel IncomingRequests => ServiceLocator.Current.GetInstance<IncomingRequestsViewModel>();
 
         public ViewModelLocator()
@@ -32,11 +33,13 @@ namespace PoeSuite.ViewModels
             }
             else
             {
-                // Create run time view services and models                
+                // Create run time view services and models     
                 SimpleIoc.Default.Register<IOService, IOServiceContainer>();
                 SimpleIoc.Default.Register<Features.TradeHelper>();
             }
+
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<OverlayViewModel>();
             SimpleIoc.Default.Register<IncomingRequestsViewModel>();
         }
 

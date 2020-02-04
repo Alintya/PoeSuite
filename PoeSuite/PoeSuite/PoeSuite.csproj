@@ -84,6 +84,7 @@
     <Compile Include="Utilities\Services\IOServiceContainer.cs" />
     <Compile Include="Views\Converters\BooleanToColorConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Views\Converters\IndexMultiConverter.cs" />
     <Compile Include="Views\UserControls\ToolTip.xaml.cs">
       <DependentUpon>ToolTip.xaml</DependentUpon>
     </Compile>
@@ -209,7 +210,6 @@
     <Resource Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DataTypes\Interfaces\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

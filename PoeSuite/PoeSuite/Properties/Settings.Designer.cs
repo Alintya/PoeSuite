@@ -82,5 +82,29 @@ namespace PoeSuite.Properties {
                 this["SessionId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double IncomingOverlayX {
+            get {
+                return ((double)(this["IncomingOverlayX"]));
+            }
+            set {
+                this["IncomingOverlayX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double IncomingOverlayY {
+            get {
+                return ((double)(this["IncomingOverlayY"]));
+            }
+            set {
+                this["IncomingOverlayY"] = value;
+            }
+        }
     }
 }
