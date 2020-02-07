@@ -80,10 +80,15 @@ namespace PoeSuite.ViewModels
         public void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild,
             uint dwEventThread, uint dwmsEventTime)
         {
-            //Logger.Get.Debug("Active window changed to " + User32.GetActiveWindowTitle());
+            bool ownWindow = false;
 
-            // TODO: or one of our overlay windows
-            if (!(Poe is null) && (Poe.IsWindowHandle(hwnd) || false))
+            //Logger.Get.Debug("Active window changed to " + User32.GetActiveWindowTitle());
+            // TODO: simplify check
+            foreach(object window in App.Current.Windows)
+                if (window is Overlay && new System.Windows.Interop.WindowInteropHelper((System.Windows.Window)window).Handle == hwnd)
+                    ownWindow = true;
+
+            if (!(Poe is null) && (Poe.IsWindowHandle(hwnd) || ownWindow))
             {
                 HotkeysManager.Get.IsEnabled = true;
                 MessengerInstance.Send(new GameActiveStatusChanged { IsInForeground = true });
