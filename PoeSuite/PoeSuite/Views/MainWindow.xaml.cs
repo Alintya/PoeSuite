@@ -79,6 +79,10 @@ namespace PoeSuite
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             myNotifyIcon.Dispose();
+
+            Properties.Settings.Default.Save();
+            Properties.Hotkeys.Default.Save();
+
             Application.Current.Shutdown();
         }
 
