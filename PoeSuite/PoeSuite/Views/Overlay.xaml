@@ -3,6 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:il="clr-namespace:Microsoft.Expression.Interactivity.Layout;assembly=Microsoft.Expression.Interactions"
     xmlns:local="clr-namespace:PoeSuite.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:PoeSuite.Properties"
@@ -16,13 +18,14 @@
     Background="{x:Null}"
     DataContext="{Binding OverlayCanvas, Source={StaticResource Locator}}"
     ShowInTaskbar="False"
-    Topmost="{Binding ShouldBeVisible, Mode=TwoWay}"  
+    Topmost="{Binding ShouldBeVisible, Mode=OneWay}"  
     Visibility="{Binding ShouldBeVisible, Mode=TwoWay, Converter={StaticResource BoolToVis}}"
     WindowState="Maximized"
     WindowStyle="None"
+    IsHitTestVisible="{Binding ShouldBeVisible, Mode=OneWay}"
     mc:Ignorable="d">
 
-    <!--  IsHitTestVisible="False"  -->
+
     <Grid>
         <Button
             Width="75"
@@ -31,15 +34,16 @@
             VerticalAlignment="Top"
             Click="Button_Click"
             Content="Button" />
-
+        <!--
+            Canvas.Left="{Binding Source={x:Static p:Settings.Default}, Path=IncomingOverlayX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Canvas.Top="{Binding Source={x:Static p:Settings.Default}, Path=IncomingOverlayY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        -->
         <local:IncomingRequests>
-            <local:IncomingRequests.Style>
-                <Style>
-                    <Setter Property="Canvas.Left" Value="{Binding Source={x:Static p:Settings.Default}, Path=IncomingOverlayX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <Setter Property="Canvas.Top" Value="{Binding Source={x:Static p:Settings.Default}, Path=IncomingOverlayY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </Style>
-            </local:IncomingRequests.Style>
-
+            <!--
+            <i:Interaction.Behaviors>
+                <il:MouseDragElementBehavior />
+            </i:Interaction.Behaviors>
+            -->
         </local:IncomingRequests>
 
     </Grid>

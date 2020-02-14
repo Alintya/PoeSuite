@@ -4,10 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:PoeSuite.Views.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-    xmlns:il="clr-namespace:Microsoft.Expression.Interactivity.Layout;assembly=Microsoft.Expression.Interactions"
     xmlns:local="clr-namespace:PoeSuite.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:PoeSuite.Properties"
     Name="incomingRequestsWindow"
     Width="400"
     Height="250"
@@ -15,14 +14,17 @@
     Visibility="{Binding ShouldBeVisible, Mode=TwoWay, Converter={StaticResource BoolToVis}}"
     mc:Ignorable="d">
 
-    <Grid>
-        <i:Interaction.Behaviors>
-            <il:MouseDragElementBehavior />
-        </i:Interaction.Behaviors>
+    <UserControl.RenderTransform>
+        <TranslateTransform X="{Binding Source={x:Static p:Settings.Default}, Path=IncomingOverlayX, Mode=TwoWay}"
+                            Y="{Binding Source={x:Static p:Settings.Default}, Path=IncomingOverlayY, Mode=TwoWay}"/>
+    </UserControl.RenderTransform>
+    <Grid
+        MouseDown="IncomingRequests_MouseDown"
+        MouseMove="IncomingRequests_MouseMove"
+        MouseUp="IncomingRequests_MouseUp">
 
         <TabControl
             Width="Auto"
-            AlternationCount="999"
             ItemsSource="{Binding ActiveRequests, Mode=TwoWay}"
             SelectedItem="{Binding SelectedTab, Mode=OneWayToSource}">
 
@@ -70,40 +72,40 @@
                 <DataTemplate>
                     <Grid>
                         <TextBlock Text="{Binding PlayerName, Mode=OneWay}" />
-                        <Border BorderThickness="5" BorderBrush="AliceBlue">
+                        <Border BorderBrush="AliceBlue" BorderThickness="5">
                             <DockPanel
-                            Grid.Row="1"
-                            Width="Auto"
-                            Height="20">
+                                Grid.Row="1"
+                                Width="Auto"
+                                Height="20">
                                 <Button
-                                Width="20"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor, AncestorLevel=1}, Path=DataContext.SendInviteCommand}"
-                                Content="+" />
+                                    Width="20"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor, AncestorLevel=1}, Path=DataContext.SendInviteCommand}"
+                                    Content="+" />
                                 <Button
-                                Width="20"
-                                HorizontalAlignment="Left"
-                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor, AncestorLevel=1}, Path=DataContext.KickCommand}"
-                                Content="-" />
+                                    Width="20"
+                                    HorizontalAlignment="Left"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor, AncestorLevel=1}, Path=DataContext.KickCommand}"
+                                    Content="-" />
                                 <Button
-                                Width="20"
-                                HorizontalAlignment="Left"
-                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor, AncestorLevel=1}, Path=DataContext.SendTradeCommand}"
-                                Content="T" />
+                                    Width="20"
+                                    HorizontalAlignment="Left"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor, AncestorLevel=1}, Path=DataContext.SendTradeCommand}"
+                                    Content="T" />
                                 <Button
-                                Width="20"
-                                HorizontalAlignment="Left"
-                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor, AncestorLevel=1}, Path=DataContext.EnterHideoutCommand}"
-                                Content="H" />
+                                    Width="20"
+                                    HorizontalAlignment="Left"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor, AncestorLevel=1}, Path=DataContext.EnterHideoutCommand}"
+                                    Content="H" />
                                 <Button
-                                Width="20"
-                                HorizontalAlignment="Left"
-                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor, AncestorLevel=1}, Path=DataContext.SendMessageCommand}"
-                                Content="M" />
+                                    Width="20"
+                                    HorizontalAlignment="Left"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor, AncestorLevel=1}, Path=DataContext.SendMessageCommand}"
+                                    Content="M" />
                             </DockPanel>
                         </Border>
-                        
+
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>

@@ -14,6 +14,7 @@ namespace PoeSuite.ViewModels
         private bool _shouldBeVisible = true;
         private TradeRequest _selectedTab;
 
+
         public ObservableCollection<TradeRequest> ActiveRequests
         {
             get { return _activeRequests; }
