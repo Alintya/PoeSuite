@@ -4,7 +4,11 @@
 
 -**~~make TextBoxPrompt universal (title and message param)~~**
 
--**bind visibility of incomingtrades overlay to List.count > 1**
+-**~~bind visibility of incomingtrades overlay to List.count > 1~~**
+
+-**reset overlay positions button**
+
+-**macro recorder for hotkeys instead of key dropdown**
 
 -**enable/disable RichPresence properly**
 
@@ -12,7 +16,7 @@
 
 -**implement sessionId and handle it in prompt**
 
--**draw feature overlays inside overlay window**
+-**~~draw feature overlays inside overlay window~~**
 
 -**get modifier keys into settings**
 
