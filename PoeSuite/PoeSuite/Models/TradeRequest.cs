@@ -26,9 +26,12 @@ namespace PoeSuite.Models
 
         public bool PlayerJoinedArea
         {
-            get { return _playerJoinedArea; }
+            get => _playerJoinedArea;
             set
             {
+                if (value == _playerJoinedArea)
+                    return;
+
                 _playerJoinedArea = value;
                 RaisePropertyChanged(nameof(PlayerJoinedArea));
             }

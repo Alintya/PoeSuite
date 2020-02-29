@@ -33,7 +33,7 @@ namespace PoeSuite.Utilities
                     Logger.Get.Error("Data retrived from PoE api was empty");
                     return null;
                 }
-                    
+
                 characterInfo = Array.Find(JsonConvert.DeserializeObject<PoeCharacterInfo[]>(rawData), x => x.LastActive);
             }
             catch (WebException ex)
@@ -50,7 +50,7 @@ namespace PoeSuite.Utilities
                 {
                     Logger.Get.Error($"Failed to retrieve data from PoE api: {ex.Message}");
                 }
-                
+
                 return null;
             }
 
@@ -73,7 +73,6 @@ namespace PoeSuite.Utilities
             {
 
             }
-            
 
             //list.
             return list;

@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight.Messaging;
 using PoeSuite.DataTypes;
 using PoeSuite.Features;
 using PoeSuite.Imports;
-using PoeSuite.Messages;
 using PoeSuite.Models;
 using PoeSuite.Utilities;
 using System;
@@ -12,7 +11,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Timers;
 using static PoeSuite.Imports.Iphlpapi;
 
 namespace PoeSuite
@@ -48,7 +46,6 @@ namespace PoeSuite
         //public IntPtr WindowHandle => _proc.MainWindowHandle;
 
         public LogListener Listener;
-     
 
         public Game(Process proc)
         {
@@ -137,7 +134,6 @@ namespace PoeSuite
                 Logger.Get.Warning($"There are no active tcp connections for {_proc.Id}");
                 return false;
             }
-                
 
             foreach (var connection in connections.Where(x => x.OwningPid == _proc.Id))
             {

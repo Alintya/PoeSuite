@@ -16,7 +16,6 @@ namespace PoeSuite
         private readonly Dictionary<string, HotkeyCommand> _hotkeys;
         private VirtualKeyCode _lastModifier;
 
-
         public static HotkeysManager Get => _instance ?? (_instance = new HotkeysManager());
 
         public bool IsEnabled { get; set; }

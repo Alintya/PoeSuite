@@ -41,8 +41,6 @@ namespace PoeSuite.Features
 
         }
 
-
-        
         private void ParseFilterString(string value)
         {
             throw new NotImplementedException();

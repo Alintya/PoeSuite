@@ -29,11 +29,11 @@ namespace PoeSuite.ViewModels
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                // Create design time view services and models                
+                // Create design time view services and models
             }
             else
             {
-                // Create run time view services and models     
+                // Create run time view services and models
                 SimpleIoc.Default.Register<IOService, IOServiceContainer>();
                 SimpleIoc.Default.Register<Features.TradeHelper>();
             }

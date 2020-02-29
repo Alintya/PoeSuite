@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -13,13 +9,10 @@ namespace PoeSuite.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((bool)value)
-            {
-                {
-                    return new SolidColorBrush(Colors.Green);
-                }
-            }
-            return new SolidColorBrush(Colors.Black);
+            // szuka bljad why create a new color every time lol xd rofl, fix
+            return value is bool state && state is true
+                ? new SolidColorBrush(Colors.Green)
+                : new SolidColorBrush(Colors.Black);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

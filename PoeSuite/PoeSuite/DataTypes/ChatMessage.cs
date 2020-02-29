@@ -26,7 +26,6 @@ namespace PoeSuite.DataTypes
 
             set { _channel = value; }
         }
-        
 
         public ChatMessage()
         {

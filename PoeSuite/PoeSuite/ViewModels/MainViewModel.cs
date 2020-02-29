@@ -29,7 +29,6 @@ namespace PoeSuite.ViewModels
         private User32.WinEventDelegate _winEventCallback;
         private IOService _ioService;
 
-
         public MainViewModel()
         {
             if (IsInDesignMode)
@@ -56,7 +55,7 @@ namespace PoeSuite.ViewModels
             {
                 _timer.Start();
             }
-       
+
             HotkeysManager.Get.AddCallback("Logout", () =>
             {
                 Poe?.CloseTcpConnections();
@@ -72,7 +71,6 @@ namespace PoeSuite.ViewModels
         private void OpenFile()
         {
             var path = _ioService.OpenFileDialog();
-
             if (path != null && !string.IsNullOrEmpty(path))
                 Properties.Settings.Default.PoeFilePath = path;
         }
@@ -98,17 +96,14 @@ namespace PoeSuite.ViewModels
                 HotkeysManager.Get.IsEnabled = false;
                 MessengerInstance.Send(new GameActiveStatusChanged { IsInForeground = false });
             }
-            
         }
 
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             var instances = Game.GetRunningInstances();
-
             if (instances.Count() > 1)
             {
                 // TODO: show selection prompt
-                
             }
             if (instances.Count() == 1)
             {

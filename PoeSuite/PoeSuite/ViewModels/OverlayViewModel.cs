@@ -10,20 +10,16 @@ namespace PoeSuite.ViewModels
     {
         private bool _shouldBeVisible;
 
-
         public bool ShouldBeVisible
         {
-            get
-            {
-                return _shouldBeVisible;
-            }
+            get => _shouldBeVisible;
             set
             {
-                if (_shouldBeVisible != value)
-                {
-                    _shouldBeVisible = value;
-                    RaisePropertyChanged(nameof(ShouldBeVisible));
-                }
+                if (_shouldBeVisible == value)
+                    return;
+
+                _shouldBeVisible = value;
+                RaisePropertyChanged(nameof(ShouldBeVisible));
             }
         }
 

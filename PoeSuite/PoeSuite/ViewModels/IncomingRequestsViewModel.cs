@@ -14,41 +14,40 @@ namespace PoeSuite.ViewModels
         private bool _shouldBeVisible = true;
         private TradeRequest _selectedTab;
 
-
         public ObservableCollection<TradeRequest> ActiveRequests
         {
-            get { return _activeRequests; }
+            get => _activeRequests;
             set
             {
-                if (_activeRequests != value)
-                {
-                    _activeRequests = value;
-                    RaisePropertyChanged(nameof(ActiveRequests));
-                }
+                if (_activeRequests == value)
+                    return;
+
+                _activeRequests = value;
+                RaisePropertyChanged(nameof(ActiveRequests));
             }
         }
 
         public TradeRequest SelectedTab
         {
-            get { return _selectedTab; }
+            get => _selectedTab;
             set
             {
-                if (_selectedTab != value)
-                {
-                    _selectedTab = value;
-                    RaisePropertyChanged(nameof(SelectedTab));
-                }
+                if (_selectedTab == value)
+                    return;
+
+                _selectedTab = value;
+                RaisePropertyChanged(nameof(SelectedTab));
             }
         }
 
         public bool ShouldBeVisible
         {
-            get
-            {
-                return _shouldBeVisible;
-            }
+            get => _shouldBeVisible;
             set
             {
+                if (_shouldBeVisible == value)
+                    return;
+
                 _shouldBeVisible = value;
                 RaisePropertyChanged(nameof(ShouldBeVisible));
             }
