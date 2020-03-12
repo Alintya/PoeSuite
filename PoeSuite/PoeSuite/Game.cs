@@ -107,7 +107,7 @@ namespace PoeSuite
             return new Game(proc);
         }
 
-        public bool IsWindowHandle(IntPtr hwnd) => !_disposed && _proc?.MainWindowHandle == hwnd ? true : false;
+        public bool IsWindowHandle(IntPtr hwnd) => !_disposed && _proc?.MainWindowHandle == hwnd;
 
         internal static bool ValidateGamePath(string poeFilePath)
         {
