@@ -1,7 +1,7 @@
-﻿using System;
-using System.Security;
+﻿using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
-using System.Runtime.ConstrainedExecution;
+using System.Security;
+using System;
 
 namespace PoeSuite.Imports
 {
@@ -11,6 +11,8 @@ namespace PoeSuite.Imports
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
         [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CloseHandle(IntPtr handle);
+        public static extern bool CloseHandle(
+            IntPtr handle
+        );
     }
 }

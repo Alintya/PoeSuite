@@ -1,23 +1,23 @@
-﻿using LowLevelInput.Hooks;
-using PoeSuite.DataTypes;
+﻿using PoeSuite.DataTypes;
 using PoeSuite.Utilities;
-using System;
+
+using LowLevelInput.Hooks;
+
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System;
 
 namespace PoeSuite
 {
     internal class HotkeysManager
     {
         private static HotkeysManager _instance = null;
-
         private readonly LowLevelKeyboardHook _keyboardHook;
         private readonly Dictionary<string, HotkeyCommand> _hotkeys;
         private VirtualKeyCode _lastModifier;
 
         public static HotkeysManager Get => _instance ?? (_instance = new HotkeysManager());
-
         public bool IsEnabled { get; set; }
 
         private HotkeysManager()

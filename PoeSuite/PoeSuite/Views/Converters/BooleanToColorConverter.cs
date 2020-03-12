@@ -1,18 +1,20 @@
-﻿using System;
-using System.Globalization;
-using System.Windows.Data;
+﻿using System.Globalization;
 using System.Windows.Media;
+using System.Windows.Data;
+using System;
 
 namespace PoeSuite.Views.Converters
 {
-    class BooleanToColorConverter : IValueConverter
+    internal class BooleanToColorConverter : IValueConverter
     {
+        private readonly SolidColorBrush _green = new SolidColorBrush(Colors.Green);
+        private readonly SolidColorBrush _black = new SolidColorBrush(Colors.Green);
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            // szuka bljad why create a new color every time lol xd rofl, fix
             return value is bool state && state is true
-                ? new SolidColorBrush(Colors.Green)
-                : new SolidColorBrush(Colors.Black);
+                ? _green
+                : _black;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

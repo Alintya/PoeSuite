@@ -1,5 +1,5 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+using System;
 
 namespace PoeSuite.Imports
 {
@@ -71,6 +71,8 @@ namespace PoeSuite.Imports
             uint reserved = 0);
 
         [DllImport("Iphlpapi.dll", SetLastError = true)]
-        public static extern int SetTcpEntry(IntPtr tcprow);
+        public static extern int SetTcpEntry(
+            IntPtr tcpRow
+        );
     }
 }

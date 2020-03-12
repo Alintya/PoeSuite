@@ -1,16 +1,19 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
+﻿using PoeSuite.Utilities;
 using PoeSuite.DataTypes;
 using PoeSuite.Features;
 using PoeSuite.Imports;
 using PoeSuite.Models;
-using PoeSuite.Utilities;
-using System;
+
+using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Ioc;
+
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.IO;
+using System;
+
 using static PoeSuite.Imports.Iphlpapi;
 
 namespace PoeSuite
@@ -28,23 +31,16 @@ namespace PoeSuite
         };
 
         private bool _disposed;
-
         private Process _proc;
         private Discord _discord;
         private PoeCharacterInfo _characterInfo;
-
         private TradeHelper _tradeHelper;
 
         public event EventHandler GameProcessExited;
-
         public string LogFile => Path.Combine(Path.GetDirectoryName(_proc.MainModule.FileName), "logs\\Client.txt");
-
         public bool IsValid => _proc != null && !_proc.HasExited;
-
         public bool IsForegroundWindow => User32.GetForegroundWindow() == _proc.MainWindowHandle;
-
         //public IntPtr WindowHandle => _proc.MainWindowHandle;
-
         public LogListener Listener;
 
         public Game(Process proc)
@@ -76,7 +72,6 @@ namespace PoeSuite
             _discord = new Discord();
             _tradeHelper = SimpleIoc.Default.GetInstance<TradeHelper>();
 
-
             Listener.StartListening();
             RegisterHotkeys();
 
@@ -102,6 +97,7 @@ namespace PoeSuite
             {
                 Logger.Get.Error($"Could not start poe: {e.Message}");
             }
+
             Logger.Get.Success("Launched PoE");
 
             return new Game(proc);
@@ -128,7 +124,6 @@ namespace PoeSuite
             Logger.Get.Debug($"Trying to close tcp connections for pid {_proc.Id}");
 
             var connections = TcpHelper.GetTcpConnections(ipVersion, TcpTableClass.OwnerPidAll);
-
             if (connections.Count == 0)
             {
                 Logger.Get.Warning($"There are no active tcp connections for {_proc.Id}");
@@ -149,21 +144,16 @@ namespace PoeSuite
         }
 
         #region chat meta methods
+
         public void DisplayWhoIs(string player) => SendChatMessage("/whois " + player);
-
         public void EnterHideout(string player) => SendChatMessage("/hideout " + player);
-
         public void KickPlayer(string player) => SendChatMessage("/kick " + player);
-
         public void LeaveParty() => KickPlayer(_characterInfo.Name);
-
         public void TradeWith(string player) => SendChatMessage("/tradewith " + player);
-
         public void InvitePlayer(string player) => SendChatMessage("/invite " + player);
-
         public void SendWhisper(string recipientName, string message) => SendChatMessage($"@{recipientName} {message}");
-
         public void ChatLogout() => SendChatMessage("/exit");
+
         #endregion
 
         private void SendChatMessage(ChatMessage message)

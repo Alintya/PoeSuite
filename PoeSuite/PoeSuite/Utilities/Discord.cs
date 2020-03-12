@@ -1,7 +1,7 @@
 ﻿using PoeSuite.Imports;
-using System;
-using System.Text.RegularExpressions;
+
 using System.Timers;
+using System;
 
 namespace PoeSuite.Utilities
 {
@@ -37,10 +37,6 @@ namespace PoeSuite.Utilities
             if (_disposed)
                 return;
 
-            if (disposing)
-            {
-
-            }
             DiscordRpc.Discord_Shutdown();
 
             _disposed = true;

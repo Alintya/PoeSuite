@@ -1,15 +1,10 @@
-﻿using CommonServiceLocator;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
-using PoeSuite.DataTypes.Interfaces;
-using PoeSuite.Messages;
+﻿using PoeSuite.DataTypes.Interfaces;
 using PoeSuite.Utilities.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight;
+
+using CommonServiceLocator;
 
 namespace PoeSuite.ViewModels
 {

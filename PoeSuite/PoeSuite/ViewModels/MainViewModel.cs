@@ -1,28 +1,22 @@
-﻿using CommonServiceLocator;
-using GalaSoft.MvvmLight;
+﻿using PoeSuite.DataTypes.Interfaces;
+using PoeSuite.Utilities;
+using PoeSuite.Messages;
+using PoeSuite.Imports;
+
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
-using PoeSuite.DataTypes.Interfaces;
-using PoeSuite.Imports;
-using PoeSuite.Messages;
-using PoeSuite.Utilities;
-using PoeSuite.Utilities.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using GalaSoft.MvvmLight;
 
-using System.Threading.Tasks;
+using System;
+using System.Linq;
 using System.Timers;
 
 namespace PoeSuite.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public string WindowTitle { get; private set; }
-
-        public RelayCommand OpenFileDialogCommand { get; private set; }
-
+        public string WindowTitle { get; }
+        public RelayCommand OpenFileDialogCommand { get; }
         public Game Poe;
 
         private readonly Timer _timer;
@@ -39,7 +33,6 @@ namespace PoeSuite.ViewModels
             _ioService = SimpleIoc.Default.GetInstance<IOService>();
 
             OpenFileDialogCommand = new RelayCommand(OpenFile);
-
 
             _timer = new Timer(250);
             _timer.Elapsed += OnTimerElapsed;
@@ -83,7 +76,7 @@ namespace PoeSuite.ViewModels
             //Logger.Get.Debug("Active window changed to " + User32.GetActiveWindowTitle());
             // TODO: simplify check
             foreach(object window in App.Current.Windows)
-                if (window is Overlay && new System.Windows.Interop.WindowInteropHelper((System.Windows.Window)window).Handle == hwnd)
+                if (window is Overlay overlay && new System.Windows.Interop.WindowInteropHelper(overlay).Handle == hwnd)
                     ownWindow = true;
 
             if (!(Poe is null) && (Poe.IsWindowHandle(hwnd) || ownWindow))

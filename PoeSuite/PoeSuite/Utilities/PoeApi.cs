@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
-using PoeSuite.Models;
-using System;
-using System.Net;
+﻿using PoeSuite.Models;
+
+using Newtonsoft.Json;
+
 using System.Threading.Tasks;
+using System.Net;
+using System;
 
 namespace PoeSuite.Utilities
 {

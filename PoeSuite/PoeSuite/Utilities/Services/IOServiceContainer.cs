@@ -1,11 +1,8 @@
 ﻿using PoeSuite.DataTypes.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows.Forms;
+using System.IO;
+using System;
 
 namespace PoeSuite.Utilities.Services
 {
@@ -33,7 +30,7 @@ namespace PoeSuite.Utilities.Services
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                     return openFileDialog.FileName;
 
-                return String.Empty;
+                return string.Empty;
             }
         }
     }

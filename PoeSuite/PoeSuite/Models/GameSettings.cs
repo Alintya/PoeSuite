@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PoeSuite.Models
+﻿namespace PoeSuite.Models
 {
-    class GameSettings
+    internal class GameSettings
     {
-        bool Fullscreen;
-        bool BorderlessWindow;
-        int ResolutionWidth;
-        int ResolutionHeight;
-        char ChatKey;
+        public bool Fullscreen;
+        public bool BorderlessWindow;
+        public int ResolutionWidth;
+        public int ResolutionHeight;
+        public char ChatKey;
     }
 }

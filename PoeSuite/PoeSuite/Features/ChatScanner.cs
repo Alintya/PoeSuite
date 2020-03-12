@@ -1,16 +1,11 @@
-﻿using PoeSuite.DataTypes;
-using PoeSuite.DataTypes.Enums;
+﻿using PoeSuite.DataTypes.Enums;
+using PoeSuite.DataTypes;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PoeSuite.Features
 {
-
-
-    class ChatScanner
+    internal class ChatScanner
     {
         private ChatMessageChannel _channelFilter = ChatMessageChannel.None;
         private IObservable<string> _searchWords;
@@ -28,6 +23,7 @@ namespace PoeSuite.Features
                 FilterString = value;
             }
         }
+
         public ChatScanner()
         {
 
@@ -38,7 +34,7 @@ namespace PoeSuite.Features
             if (!_channelFilter.HasFlag(message.Channel))
                 return;
 
-
+            // TODO
         }
 
         private void ParseFilterString(string value)

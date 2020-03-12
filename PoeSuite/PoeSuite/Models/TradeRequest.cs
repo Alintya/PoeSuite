@@ -1,11 +1,9 @@
-﻿using GalaSoft.MvvmLight;
+﻿using PoeSuite.Messages;
+
 using GalaSoft.MvvmLight.Messaging;
-using PoeSuite.Messages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
+
+using System.Drawing;
 
 namespace PoeSuite.Models
 {
@@ -17,10 +15,9 @@ namespace PoeSuite.Models
         public string ItemName { get; set; }
         public int ItemAmount { get; set; }
         public string StashTabName { get; set; }
-        public System.Drawing.Point ItemPosition { get; set; }
+        public Point ItemPosition { get; set; }
         public int Price { get; set; }
         public string CurrencyName { get; set; }
-
         public bool IsCurrencyExchange { get; set; }
         public bool IsOutgoing { get; set; }
 
@@ -36,7 +33,6 @@ namespace PoeSuite.Models
                 RaisePropertyChanged(nameof(PlayerJoinedArea));
             }
         }
-
 
         public TradeRequest()
         {

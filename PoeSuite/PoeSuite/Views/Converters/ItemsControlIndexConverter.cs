@@ -1,10 +1,10 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Data;
+using System;
 
 namespace PoeSuite.Views.Converters
 {
-    public class ItemsControlIndexConverter : IMultiValueConverter
+    internal class ItemsControlIndexConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

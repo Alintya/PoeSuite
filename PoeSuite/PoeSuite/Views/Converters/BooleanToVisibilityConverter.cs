@@ -1,10 +1,10 @@
-﻿using System;
+﻿using System.Windows.Data;
 using System.Windows;
-using System.Windows.Data;
+using System;
 
 namespace PoeSuite.Views.Converters
 {
-    class BooleanToVisibilityConverter : IValueConverter
+    internal class BooleanToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

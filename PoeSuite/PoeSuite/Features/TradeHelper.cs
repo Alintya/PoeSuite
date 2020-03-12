@@ -1,16 +1,13 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using PoeSuite.DataTypes;
+﻿using PoeSuite.DataTypes;
 using PoeSuite.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
+using GalaSoft.MvvmLight.Messaging;
+
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PoeSuite.Features
 {
-    class TradeHelper
+    internal class TradeHelper
     {
         // regex
         // "@\\w+ (.+) [\\w\\s,]+ your ([0-9]*) *(.+) \\w* [for |my ]*([0-9]+) (\\w+) \\w+ (.+)( \\([\\w\\s]+\"(.+)\"; \\w+: \\w+ ([0-9]+), \\w+ ([0-9]+)\\))*"

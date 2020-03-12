@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Linq;
-using System.Threading;
+﻿using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Threading;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System;
 
 namespace PoeSuite
 {

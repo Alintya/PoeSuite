@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using System.Runtime.CompilerServices;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
+using System.Text;
+using System.IO;
+using System;
 
 namespace PoeSuite.Utilities
 {

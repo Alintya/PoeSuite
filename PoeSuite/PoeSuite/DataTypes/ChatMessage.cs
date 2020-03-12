@@ -1,21 +1,24 @@
 ﻿using PoeSuite.DataTypes.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PoeSuite.DataTypes
 {
-    class ChatMessage
+    internal class ChatMessage
     {
         private string _raw;
         private ChatMessageChannel _channel;
 
         public string Sender { get; set; }
         public string Message { get; set; }
+
         public ChatMessageChannel Channel
         {
+            set
+            {
+                if (value == _channel)
+                    return;
+
+                _channel = value;
+            }
             get
             {
                 if (_channel == ChatMessageChannel.None && !string.IsNullOrEmpty(_raw))
@@ -23,8 +26,6 @@ namespace PoeSuite.DataTypes
 
                 return _channel;
             }
-
-            set { _channel = value; }
         }
 
         public ChatMessage()

@@ -1,8 +1,6 @@
-﻿using GalaSoft.MvvmLight;
-using PoeSuite.Messages;
-using PoeSuite.Utilities;
-using System.ComponentModel;
-using System.Windows;
+﻿using PoeSuite.Messages;
+
+using GalaSoft.MvvmLight;
 
 namespace PoeSuite.ViewModels
 {
@@ -27,16 +25,9 @@ namespace PoeSuite.ViewModels
         public OverlayViewModel()
         {
             if (IsInDesignMode)
-            {
                 _shouldBeVisible = true;
-            }
             else
-            {
-                MessengerInstance.Register<GameActiveStatusChanged>(this, msg =>
-                {
-                    ShouldBeVisible = msg.IsInForeground;
-                });
-            }
+                MessengerInstance.Register<GameActiveStatusChanged>(this, msg => ShouldBeVisible = msg.IsInForeground);
         }
     }
 }

@@ -1,26 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
+using System;
 
 namespace PoeSuite.Imports
 {
     internal static class DiscordRpc
     {
-        [DllImport("discord-rpc.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        public static extern void Discord_Initialize(string applicationId, ref EventHandlers handlers, bool autoRegister, string optionalSteamId);
-
-        [DllImport("discord-rpc.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void Discord_UpdatePresence(ref RichPresence presence);
-
         [DllImport("discord-rpc.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void Discord_RunCallbacks();
 
         [DllImport("discord-rpc.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void Discord_Shutdown();
 
+        [DllImport("discord-rpc.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern void Discord_Initialize(
+            string applicationId,
+            ref EventHandlers handlers,
+            bool autoRegister,
+            string optionalSteamId
+        );
+
+        [DllImport("discord-rpc.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Discord_UpdatePresence(
+            ref RichPresence presence
+        );
 
         [Serializable]
         public struct RichPresence

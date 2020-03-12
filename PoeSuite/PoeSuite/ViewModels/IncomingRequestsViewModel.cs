@@ -1,8 +1,10 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using PoeSuite.DataTypes;
+﻿using PoeSuite.DataTypes;
 using PoeSuite.Messages;
 using PoeSuite.Models;
+
+using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight;
+
 using System.Collections.ObjectModel;
 
 namespace PoeSuite.ViewModels
@@ -53,17 +55,18 @@ namespace PoeSuite.ViewModels
             }
         }
 
-        public RelayCommand CloseTabCommand { get; private set; }
-        public RelayCommand SendTradeCommand { get; private set; }
-        public RelayCommand SendInviteCommand { get; private set; }
-        public RelayCommand EnterHideoutCommand { get; private set; }
-        public RelayCommand KickCommand { get; private set; }
-        public RelayCommand SendMessageCommand { get; private set; }
+        public RelayCommand CloseTabCommand { get; }
+        public RelayCommand SendTradeCommand { get; }
+        public RelayCommand SendInviteCommand { get; }
+        public RelayCommand EnterHideoutCommand { get; }
+        public RelayCommand KickCommand { get; }
+        public RelayCommand SendMessageCommand { get; }
 
         public IncomingRequestsViewModel()
         {
             // mockup
             ActiveRequests = new ObservableCollection<TradeRequest>() { new TradeRequest { ItemName = "testItem12345678", PlayerName= "huehue" }};
+
             /*
             HotkeysManager.Get.AddCallback("OpenSettings", () =>
             {
@@ -76,27 +79,10 @@ namespace PoeSuite.ViewModels
             */
 
             CloseTabCommand = new RelayCommand(ExecuteCloseTab);
-
-            SendTradeCommand = new RelayCommand(() =>
-            {
-                MessengerInstance.Send(new Messages.SendChatMessage(CreateChatCommand("/tradewith")));
-            });
-
-            SendInviteCommand = new RelayCommand(() =>
-            {
-                MessengerInstance.Send(new SendChatMessage(CreateChatCommand("/invite")));
-            });
-
-            EnterHideoutCommand = new RelayCommand(() =>
-            {
-                MessengerInstance.Send(new SendChatMessage(CreateChatCommand("/hideout")));
-            });
-
-            KickCommand = new RelayCommand(() =>
-            {
-                MessengerInstance.Send(new SendChatMessage(CreateChatCommand("/kick")));
-            });
-
+            SendTradeCommand = new RelayCommand(() => MessengerInstance.Send(new SendChatMessage(CreateChatCommand("/tradewith"))));
+            SendInviteCommand = new RelayCommand(() => MessengerInstance.Send(new SendChatMessage(CreateChatCommand("/invite"))));
+            EnterHideoutCommand = new RelayCommand(() => MessengerInstance.Send(new SendChatMessage(CreateChatCommand("/hideout"))));
+            KickCommand = new RelayCommand(() => MessengerInstance.Send(new SendChatMessage(CreateChatCommand("/kick"))));
 
             MessengerInstance.Register<IncomingTradeMessage>(this, msg =>
             {
@@ -110,8 +96,12 @@ namespace PoeSuite.ViewModels
 
         private ChatMessage CreateChatCommand(string command)
         {
-            return new ChatMessage { Channel = DataTypes.Enums.ChatMessageChannel.ChatCommand,
-                Sender = _selectedTab.PlayerName, Message = command };
+            return new ChatMessage
+            {
+                Channel = DataTypes.Enums.ChatMessageChannel.ChatCommand,
+                Sender = _selectedTab.PlayerName,
+                Message = command
+            };
         }
 
         private void ExecuteCloseTab()
@@ -128,7 +118,6 @@ namespace PoeSuite.ViewModels
         {
             if (_activeRequests.Count > 0)
                 _activeRequests.Remove(x);
-
             if (_activeRequests.Count == 0)
                 ShouldBeVisible = false;
         }
