@@ -1,13 +1,11 @@
 ﻿using PoeSuite.Utilities;
+using PoeSuite.Imports;
 using PoeSuite.Views;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
+
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
+using System;
 
 namespace PoeSuite
 {
@@ -16,24 +14,34 @@ namespace PoeSuite
     /// </summary>
     public partial class App : Application
     {
-		private void Application_Startup(object sender, StartupEventArgs e)
+        private Mutex _instanceMutex;
+
+        private void Application_Startup(object sender, StartupEventArgs e)
 		{
-			MainWindow wnd = new MainWindow();
-			wnd.Show();
+            _instanceMutex = new Mutex(true, "Local\\PoESuite", out var createdNew);
 
-            var incomingRequests = new IncomingRequests();
-            //incomingRequests.Show();
+            Logger.Get.EnableFileLogging();
 
-
-			Overlay overlay = new Overlay();
-            overlay.Show();
-
-
-            // Validate UserSettings
-            if (String.IsNullOrEmpty(PoeSuite.Properties.Settings.Default.AccountName))
+            if (!createdNew)
             {
-                var dialog = new TextBoxPrompt("test", "Enter your PoE account name.");
+                _instanceMutex.Close();
 
+                var currProc = Process.GetCurrentProcess();
+                var targProc = Array.Find(Process.GetProcessesByName(currProc.ProcessName), x => x.Id != currProc.Id);
+                if (targProc != null)
+                    User32.SetForegroundWindow(targProc.MainWindowHandle);
+
+                Environment.Exit(-1);
+            }
+
+            GC.KeepAlive(_instanceMutex);
+
+            this.MainWindow = new MainWindow();
+            this.MainWindow.Show();
+
+            if (string.IsNullOrEmpty(PoeSuite.Properties.Settings.Default.AccountName))
+            {
+                var dialog = new TextBoxPrompt("Settings", "Enter your PoE account name.");
                 if (dialog.ShowDialog() == true)
                 {
                     PoeSuite.Properties.Settings.Default.AccountName = dialog.ResponseText;
