@@ -18,14 +18,8 @@ namespace PoeSuite
 
         private void Application_Startup(object sender, StartupEventArgs e)
 		{
-            _instanceMutex = new Mutex(true, "Local\\PoESuite", out var createdNew);
-
-            Logger.Get.EnableFileLogging();
-
-            if (!createdNew)
+            if (Mutex.TryOpenExisting("Local\\PoESuite", out _))
             {
-                _instanceMutex.Close();
-
                 var currProc = Process.GetCurrentProcess();
                 var targProc = Array.Find(Process.GetProcessesByName(currProc.ProcessName), x => x.Id != currProc.Id);
                 if (targProc != null)
@@ -33,6 +27,10 @@ namespace PoeSuite
 
                 Environment.Exit(-1);
             }
+
+            Logger.Get.EnableFileLogging();
+
+            _instanceMutex = new Mutex(true, "Local\\PoESuite", out var createdNew);
 
             GC.KeepAlive(_instanceMutex);
 
