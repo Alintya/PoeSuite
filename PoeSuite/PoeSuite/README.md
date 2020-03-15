@@ -12,7 +12,7 @@
 
 -**enable/disable RichPresence properly**
 
--**utilize messaging system to pause/resume classes when poe shuts down?**
+-**utilize messaging system to pause/resume classes when poe shuts down instead of disposing?**
 
 -**implement sessionId and handle it in prompt**
 
@@ -48,7 +48,7 @@
 
 -**localize UI**
 
--**bind visibility of overlay to poe foreground status**
+-**~~bind visibility of overlay to poe foreground status~~**
 
 -**timeout on requests until they are removed**
 
@@ -71,4 +71,6 @@
 -**notify only when name of active trade enters zone**
 
 -**fullscreen overlay**
+
+-**check public poe api if requested item (still) exists at given position**
  
