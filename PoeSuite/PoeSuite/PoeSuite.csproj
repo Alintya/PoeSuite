@@ -103,7 +103,6 @@
     </Compile>
     <Compile Include="HotkeysManager.cs" />
     <Compile Include="Imports\IpHelper.cs" />
-    <Compile Include="Imports\Kernel32.cs" />
     <Compile Include="Imports\User32.cs" />
     <Compile Include="Models\GameSettings.cs" />
     <Compile Include="Models\TradeRequest.cs" />
