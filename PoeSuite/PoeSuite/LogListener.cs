@@ -19,11 +19,8 @@ namespace PoeSuite
 
         public LogListener(string filePath, int checkInterval = 1000)
         {
-            if (!File.Exists(filePath))
-                throw new ArgumentException("File doesnt exist");
-
             _logFileStream = new StreamReader(
-                File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.UTF8, false, 1024);
+                File.Open(filePath, FileMode.OpenOrCreate, FileAccess.Read, FileShare.ReadWrite), Encoding.UTF8, false, 1024);
 
             _interval = checkInterval;
             _listeners = new Dictionary<Regex, Action<string, Match>>();
