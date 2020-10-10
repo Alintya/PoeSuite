@@ -12,7 +12,7 @@ namespace PoeSuite.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.7.0.0")]
     internal sealed partial class Hotkeys : global::System.Configuration.ApplicationSettingsBase {
         
         private static Hotkeys defaultInstance = ((Hotkeys)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Hotkeys())));
@@ -56,6 +56,18 @@ namespace PoeSuite.Properties {
             }
             set {
                 this["EnterHideout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Scroll")]
+        public global::LowLevelInput.Hooks.VirtualKeyCode MouseScroll {
+            get {
+                return ((global::LowLevelInput.Hooks.VirtualKeyCode)(this["MouseScroll"]));
+            }
+            set {
+                this["MouseScroll"] = value;
             }
         }
     }

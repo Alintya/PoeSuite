@@ -11,5 +11,8 @@
     <Setting Name="EnterHideout" Type="LowLevelInput.Hooks.VirtualKeyCode" Scope="User">
       <Value Profile="(Default)">F5</Value>
     </Setting>
+    <Setting Name="MouseScroll" Type="LowLevelInput.Hooks.VirtualKeyCode" Scope="User">
+      <Value Profile="(Default)">Scroll</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
