@@ -13,7 +13,6 @@ namespace PoeSuite
     internal class HotkeysManager
     {
         private static HotkeysManager _instance = null;
-        private readonly LowLevelKeyboardHook _keyboardHook;
         private readonly Dictionary<string, HotkeyCommand> _hotkeys;
         private VirtualKeyCode _lastModifier;
 
@@ -22,7 +21,9 @@ namespace PoeSuite
 
         private HotkeysManager()
         {
-            _keyboardHook = new LowLevelKeyboardHook(true);
+            var keyboardHook = new LowLevelKeyboardHook(true);
+            var mouseHook = new LowLevelMouseHook(true);
+
             _hotkeys = new Dictionary<string, HotkeyCommand>();
 
             foreach (var settings in Properties.Hotkeys.Default.Properties.Cast<SettingsProperty>())
@@ -40,8 +41,11 @@ namespace PoeSuite
 
             Properties.Hotkeys.Default.PropertyChanged += OnSettingsPropertyChanged;
 
-            _keyboardHook.OnKeyboardEvent += OnKeyboardEvent;
-            _keyboardHook.InstallHook();
+            keyboardHook.OnKeyboardEvent += OnKeyboardEvent;
+            keyboardHook.InstallHook();
+
+            mouseHook.OnMouseEvent += MouseHook_OnMouseEvent;
+            mouseHook.InstallHook();
         }
 
         public bool AddModifier(string command, VirtualKeyCode mod)
@@ -85,6 +89,23 @@ namespace PoeSuite
             hotkeyCmd.Actions.Add(callback);
         }
 
+        public void AddCallback(string command, Action<VirtualKeyCode, int, int> callback)
+        {
+            if (!_hotkeys.TryGetValue(command, out var hotkeyCmd))
+            {
+                Logger.Get.Error($"Unknown hotkey command {command}");
+                return;
+            }
+
+            if (hotkeyCmd.MouseActions.Contains(callback))
+            {
+                Logger.Get.Error($"{callback.Method.Name} is already registered for command {command}");
+                return;
+            }
+
+            hotkeyCmd.MouseActions.Add(callback);
+        }
+
         public void ClearCallbacks(string command)
         {
             if (!_hotkeys.TryGetValue(command, out var hotkeyCmd))
@@ -111,6 +132,7 @@ namespace PoeSuite
         private void OnKeyboardEvent(VirtualKeyCode key, KeyState state)
         {
             //Logger.Get.Debug($"KeyEvent {key} [{state}]");
+
             if (!IsEnabled)
                 return;
 
@@ -130,8 +152,27 @@ namespace PoeSuite
             });
         }
 
+        private void MouseHook_OnMouseEvent(VirtualKeyCode key, KeyState state, int xz, int yz)
+        {
+            //Logger.Get.Debug($"MouseEvent {key} [{state}]");
+
+            if (!IsEnabled || key == VirtualKeyCode.Invalid)
+                return;
+            
+            var hotkey = _hotkeys.FirstOrDefault(x => x.Value.KeyCode == key);
+            if (hotkey.Equals(default) || hotkey.Value is null)
+                return;
+
+            hotkey.Value.MouseActions.ForEach(x =>
+            {
+                if (hotkey.Value.Modifier == VirtualKeyCode.Invalid || hotkey.Value.Modifier == _lastModifier)
+                    x.BeginInvoke(key, xz, yz, x.EndInvoke, null);
+            });
+            
+        }
+
         // TODO: make extension method?
-        private bool IsModifierKey(VirtualKeyCode key)
+        private static bool IsModifierKey(VirtualKeyCode key)
         {
             return key == VirtualKeyCode.Lmenu || key == VirtualKeyCode.Lcontrol || key == VirtualKeyCode.Lshift;
         }
