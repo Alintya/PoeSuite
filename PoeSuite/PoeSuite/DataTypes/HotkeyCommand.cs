@@ -13,5 +13,6 @@ namespace PoeSuite.DataTypes
         public VirtualKeyCode Modifier = VirtualKeyCode.Invalid;
         public KeyState State = KeyState.Up;
         public List<Action> Actions = new List<Action>();
+        public List<Action<VirtualKeyCode, int, int>> MouseActions = new List<Action<VirtualKeyCode, int, int>>();
     }
 }
