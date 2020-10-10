@@ -6,15 +6,22 @@ using System;
 
 namespace PoeSuite.Utilities
 {
-    public class Logger
+    public class Logger : IDisposable
     {
         private readonly object _lockObject = new object();
         private StreamWriter _logFileStream = null;
         private static Logger _instance = null;
+        private bool _disposed;
 
         public static Logger Get => _instance ?? (_instance = new Logger());
 
         private Logger() { }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         public void EnableFileLogging(string fileName = "log.txt")
         {
@@ -78,6 +85,23 @@ namespace PoeSuite.Utilities
 
                 _logFileStream?.WriteLine(msg);
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                if (_instance == this)
+                    _instance = null;
+
+                _logFileStream?.Dispose();
+                _logFileStream = null;
+            }
+
+            _disposed = true;
         }
     }
 }
