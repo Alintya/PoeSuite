@@ -81,6 +81,7 @@
     <Compile Include="Messages\GameActiveStatusChanged.cs" />
     <Compile Include="Messages\PlayerJoinedAreaMessage.cs" />
     <Compile Include="Messages\ShowTooltipMessage.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Utilities\Services\IOServiceContainer.cs" />
     <Compile Include="Views\Converters\BooleanToColorConverter.cs" />
     <Compile Include="Views\Converters\BooleanToVisibilityConverter.cs" />
