@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System;
+using GalaSoft.MvvmLight.Messaging;
+using PoeSuite.Messages;
 
 namespace PoeSuite
 {
@@ -46,6 +48,11 @@ namespace PoeSuite
 
             mouseHook.OnMouseEvent += MouseHook_OnMouseEvent;
             mouseHook.InstallHook();
+
+            Messenger.Default.Register<GameActiveStatusChanged>(this, msg =>
+            {
+                mouseHook.CaptureMouseMove = msg.IsInForeground;
+            });
         }
 
         public bool AddModifier(string command, VirtualKeyCode mod)

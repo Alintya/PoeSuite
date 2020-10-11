@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
 using System;
+using PoeSuite.Utilities;
 
 namespace PoeSuite.Imports
 {
@@ -48,7 +49,7 @@ namespace PoeSuite.Imports
             IntPtr hWnd
         );
 
-        [DllImport("User32.dll", CharSet = CharSet.Unicode)]
+        [DllImport("User32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern int GetWindowText(
             IntPtr hWnd,
             StringBuilder text,
@@ -65,5 +66,36 @@ namespace PoeSuite.Imports
             uint idThread,
             uint dwFlags
         );
+
+        [DllImport("User32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetWindowRect(HandleRef hWnd, out RECT lpRect);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int Left;        // x position of upper-left corner
+            public int Top;         // y position of upper-left corner
+            public int Right;       // x position of lower-right corner
+            public int Bottom;      // y position of lower-right corner
+        }
+
+        public static string GetActiveWindowTitle()
+        {
+            var hWnd = GetForegroundWindow();
+
+            
+
+            var titleLen = GetWindowTextLength(hWnd);
+            var strBuff = new StringBuilder(titleLen + 1);
+            if (GetWindowText(hWnd, strBuff, strBuff.Capacity) > 0)
+                return strBuff.ToString();
+            else
+            {
+                return Marshal.GetLastWin32Error().ToString();
+            }
+
+            return null;
+        }
     }
 }
