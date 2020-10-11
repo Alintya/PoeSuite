@@ -3,6 +3,9 @@ using System.Diagnostics;
 using System.Text;
 using System.IO;
 using System;
+using System.ComponentModel;
+using System.Globalization;
+using PoeSuite.Imports;
 
 namespace PoeSuite.Utilities
 {
@@ -13,6 +16,11 @@ namespace PoeSuite.Utilities
         private static Logger _instance = null;
         private bool _disposed;
 
+        /// <summary>
+        /// Indicates if a console window is attached
+        /// </summary>
+        private bool _consoleAttached = Kernel32.GetConsoleWindow() != IntPtr.Zero;
+
         public static Logger Get => _instance ?? (_instance = new Logger());
 
         private Logger() { }
@@ -21,6 +29,42 @@ namespace PoeSuite.Utilities
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Creates and attaches a console window if necessary
+        /// </summary>
+        public void AttachConsole()
+        {
+            if (_consoleAttached)
+                throw new InvalidOperationException();
+
+            lock (_lockObject)
+            {
+                if (!Kernel32.AttachConsole(-1) && !Kernel32.AllocConsole())
+                    throw new Win32Exception();
+
+                Console.SetOut(new StreamWriter(Console.OpenStandardOutput(), Console.OutputEncoding)
+                {
+                    AutoFlush = true
+                });
+
+                _consoleAttached = true;
+            }
+        }
+
+        /// <summary>
+        /// Removes the attached console window
+        /// </summary>
+        public void DetachConsole()
+        {
+            if (_consoleAttached)
+                throw new InvalidOperationException();
+
+            lock (_lockObject)
+            {
+                _consoleAttached = !Kernel32.FreeConsole();
+            }
         }
 
         public void EnableFileLogging(string fileName = "log.txt")
@@ -75,12 +119,15 @@ namespace PoeSuite.Utilities
         {
             lock (_lockObject)
             {
-                msg = $"[{DateTime.Now.ToString()}]{caller.PadLeft(8, ' ')}| {msg}";
+                msg = $"[{DateTime.Now.ToString(CultureInfo.InvariantCulture)}]{caller?.PadLeft(8, ' ')}| {msg}";
 
 #if DEBUG
-                Console.ForegroundColor = clr;
-                Console.WriteLine(msg);
-                Console.ResetColor();
+                if (_consoleAttached)
+                {
+                    Console.ForegroundColor = clr;
+                    Console.WriteLine(msg);
+                    Console.ResetColor();
+                }
 #endif
 
                 _logFileStream?.WriteLine(msg);
@@ -101,6 +148,7 @@ namespace PoeSuite.Utilities
                 _logFileStream = null;
             }
 
+            _instance = null;
             _disposed = true;
         }
     }
