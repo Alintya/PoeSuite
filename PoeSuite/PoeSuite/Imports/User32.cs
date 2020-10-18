@@ -69,7 +69,7 @@ namespace PoeSuite.Imports
 
         [DllImport("User32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetWindowRect(HandleRef hWnd, out RECT lpRect);
+        public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT

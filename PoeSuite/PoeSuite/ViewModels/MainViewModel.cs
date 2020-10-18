@@ -83,6 +83,7 @@ namespace PoeSuite.ViewModels
             {
                 HotkeysManager.Get.IsEnabled = true;
                 MessengerInstance.Send(new GameActiveStatusChanged { IsInForeground = true });
+                Game.Settings.Update(hwnd);
             }
             else
             {

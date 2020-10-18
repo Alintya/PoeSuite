@@ -14,5 +14,8 @@
     <Setting Name="MouseScroll" Type="LowLevelInput.Hooks.VirtualKeyCode" Scope="User">
       <Value Profile="(Default)">Scroll</Value>
     </Setting>
+    <Setting Name="MouseMove" Type="LowLevelInput.Hooks.VirtualKeyCode" Scope="User">
+      <Value Profile="(Default)">Invalid</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -70,5 +70,17 @@ namespace PoeSuite.Properties {
                 this["MouseScroll"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Invalid")]
+        public global::LowLevelInput.Hooks.VirtualKeyCode MouseMove {
+            get {
+                return ((global::LowLevelInput.Hooks.VirtualKeyCode)(this["MouseMove"]));
+            }
+            set {
+                this["MouseMove"] = value;
+            }
+        }
     }
 }
