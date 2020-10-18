@@ -41,7 +41,7 @@ namespace PoeSuite.Utilities
 
             lock (_lockObject)
             {
-                if (!Kernel32.AttachConsole(-1) && !Kernel32.AllocConsole())
+                if (!Kernel32.AttachConsole(0xFFFFFFFF) && !Kernel32.AllocConsole())
                     throw new Win32Exception();
 
                 Console.SetOut(new StreamWriter(Console.OpenStandardOutput(), Console.OutputEncoding)

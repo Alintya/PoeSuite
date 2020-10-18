@@ -16,7 +16,7 @@ namespace PoeSuite.Imports
         );
 
         [DllImport("Kernel32.dll", SetLastError = true)]
-        public static extern bool AttachConsole(int dwProcessId);
+        public static extern bool AttachConsole(uint dwProcessId);
 
         [DllImport("Kernel32.dll", SetLastError = true)]
         public static extern bool AllocConsole();

@@ -43,6 +43,8 @@ namespace PoeSuite
         //public IntPtr WindowHandle => _proc.MainWindowHandle;
         public LogListener Listener;
 
+        public static GameSettings Settings = new GameSettings();
+
         public Game(Process proc)
         {
             _proc = proc;
