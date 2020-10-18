@@ -163,7 +163,7 @@ namespace PoeSuite
         {
             //Logger.Get.Debug($"MouseEvent {key} [{state}]");
 
-            if (!IsEnabled || key == VirtualKeyCode.Invalid)
+            if (!IsEnabled/* || key == VirtualKeyCode.Invalid*/)
                 return;
             
             var hotkey = _hotkeys.FirstOrDefault(x => x.Value.KeyCode == key);

@@ -76,8 +76,10 @@
     <Compile Include="DataTypes\HotkeyCommand.cs" />
     <Compile Include="DataTypes\Interfaces\IGame.cs" />
     <Compile Include="DataTypes\Interfaces\IOService.cs" />
+    <Compile Include="Features\Misc.cs" />
     <Compile Include="Features\Pricechecker.cs" />
     <Compile Include="Features\TradeHelper.cs" />
+    <Compile Include="Imports\Kernel32.cs" />
     <Compile Include="Messages\GameActiveStatusChanged.cs" />
     <Compile Include="Messages\PlayerJoinedAreaMessage.cs" />
     <Compile Include="Messages\ShowTooltipMessage.cs" />

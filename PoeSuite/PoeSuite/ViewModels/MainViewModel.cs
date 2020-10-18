@@ -10,6 +10,7 @@ using GalaSoft.MvvmLight;
 using System;
 using System.Linq;
 using System.Timers;
+using PoeSuite.Features;
 
 namespace PoeSuite.ViewModels
 {
@@ -18,6 +19,8 @@ namespace PoeSuite.ViewModels
         public string WindowTitle { get; }
         public RelayCommand OpenFileDialogCommand { get; }
         public Game Poe;
+
+        private Misc t;
 
         private readonly Timer _timer;
         private User32.WinEventDelegate _winEventCallback;
@@ -49,12 +52,14 @@ namespace PoeSuite.ViewModels
                 _timer.Start();
             }
 
+            t = new Misc(Game.Settings);
+
             HotkeysManager.Get.AddCallback("Logout", () =>
             {
                 Poe?.CloseTcpConnections();
-                Logger.Get.Info("logoutCommand called");
+                Logger.Get.Debug("logoutCommand called");
             });
-            //HotkeysManager.Get.AddModifier("Logout", LowLevelInput.Hooks.VirtualKeyCode.Lshift);
+
 
             _winEventCallback = new User32.WinEventDelegate(WinEventProc);
             IntPtr m_hhook = User32.SetWinEventHook(User32.EVENT_SYSTEM_FOREGROUND, User32.EVENT_SYSTEM_FOREGROUND,
